@@ -1,0 +1,11 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP UMS05
+D Reed relay 5V DC coil
+$ENDCMP
+#
+$CMP UMS05-1A80-75D
+D Reed relay 5V DC coil
+$ENDCMP
+#
+#End Doc Library
