@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A3 16535 11693
 encoding utf-8
-Sheet 6 12
+Sheet 12 13
 Title ""
 Date ""
 Rev ""
@@ -856,18 +856,6 @@ Wire Wire Line
 	2850 6500 2900 6500
 Wire Wire Line
 	2900 6300 2850 6300
-Text HLabel 2850 2000 0    50   Output ~ 0
-DC_DAC_~CLR
-Text HLabel 2850 2100 0    50   Output ~ 0
-DC_DAC_~LDAC
-Text HLabel 2850 2400 0    50   Input ~ 0
-DC_DAC_SDO
-Text HLabel 2850 2200 0    50   Output ~ 0
-DC_DAC_~SYNC
-Text HLabel 2850 2300 0    50   Output ~ 0
-DC_DAC_SCLK
-Text HLabel 2850 2500 0    50   Output ~ 0
-DC_DAC_SDIN
 Wire Wire Line
 	2850 2300 2900 2300
 Wire Wire Line
@@ -892,16 +880,6 @@ Wire Wire Line
 	2900 2000 2850 2000
 Wire Wire Line
 	2850 2100 2900 2100
-Text HLabel 2850 3900 0    50   Input ~ 0
-ADC_SDOA
-Text HLabel 2850 5400 0    50   Output ~ 0
-ADC_RD
-Text HLabel 2850 4000 0    50   Output ~ 0
-ADC_SDI
-Text HLabel 2850 5500 0    50   Input ~ 0
-ADC_BUSY
-Text HLabel 2850 3800 0    50   Output ~ 0
-ADC_CLOCK
 Wire Wire Line
 	2850 3800 2900 3800
 Wire Wire Line
@@ -957,14 +935,6 @@ Wire Wire Line
 	15700 8400 15200 8400
 Text Label 15700 8400 2    50   ~ 0
 MCU_NRST
-Text HLabel 14350 7900 2    50   Output ~ 0
-ADC_MUX_DIN
-Text HLabel 14350 7600 2    50   Output ~ 0
-ADC_MUX_~SYNC
-Text HLabel 14350 7400 2    50   Output ~ 0
-ADC_MUX_SCLK
-Text HLabel 14350 7800 2    50   Input ~ 0
-ADC_MUX_SDO
 Wire Wire Line
 	14350 7600 14300 7600
 Wire Wire Line
@@ -998,58 +968,8 @@ Wire Wire Line
 	14300 2300 14350 2300
 Wire Wire Line
 	14300 3700 14350 3700
-Text HLabel 2850 6200 0    50   Output ~ 0
-DAC_SDIN
-Text HLabel 2850 6000 0    50   Output ~ 0
-DAC_SCLK
-Text HLabel 2850 4800 0    50   Output ~ 0
-DAC_~SYNC
 Wire Wire Line
 	1500 1400 2900 1400
-Text HLabel 14350 3800 2    50   Output ~ 0
-PMU_STANDBY
-Text HLabel 14350 3900 2    50   Output ~ 0
-PMU_~STB
-Text HLabel 14350 4000 2    50   Output ~ 0
-PMU_CPCK
-Text HLabel 14350 4100 2    50   Output ~ 0
-PMU_~MOE
-Text HLabel 14350 4200 2    50   Output ~ 0
-PMU_~CS
-Text HLabel 14350 4300 2    50   Output ~ 0
-PMU_AM0
-Text HLabel 14350 4400 2    50   Output ~ 0
-PMU_AM1
-Text HLabel 14350 4500 2    50   Output ~ 0
-PMU_AM2
-Text HLabel 14350 5400 2    50   Output ~ 0
-PMU_CPSEL
-Text HLabel 14350 5500 2    50   Output ~ 0
-PMU_MSEL
-Text HLabel 14350 5600 2    50   Output ~ 0
-PMU_AC0
-Text HLabel 14350 5700 2    50   Output ~ 0
-PMU_AC1
-Text HLabel 14350 5800 2    50   Input ~ 0
-PMU_CPOH
-Text HLabel 14350 5900 2    50   Input ~ 0
-PMU_CPOL
-Text HLabel 14350 6000 2    50   Input ~ 0
-PMU_CLHDETECT
-Text HLabel 14350 6100 2    50   Input ~ 0
-PMU_CLLDETECT
-Text HLabel 14350 1900 2    50   Output ~ 0
-R_MEASIL
-Text HLabel 14350 2000 2    50   Output ~ 0
-R_MEASVL
-Text HLabel 14350 2100 2    50   Output ~ 0
-R_GUARD
-Text HLabel 14350 1600 2    50   Output ~ 0
-R_MEASHV
-Text HLabel 14350 1700 2    50   Output ~ 0
-R_GUARDIN
-Text HLabel 14350 1800 2    50   Output ~ 0
-R_GND
 Wire Wire Line
 	14350 3800 14300 3800
 Wire Wire Line
@@ -1096,8 +1016,6 @@ Wire Wire Line
 	14300 1600 14350 1600
 NoConn ~ 11200 10450
 NoConn ~ 11200 10550
-Text HLabel 14350 6200 2    50   Output ~ 0
-FOURCE_SELECT
 Wire Wire Line
 	14350 6200 14300 6200
 Wire Wire Line
@@ -1115,10 +1033,6 @@ NoConn ~ 2900 3500
 NoConn ~ 2900 3600
 NoConn ~ 2900 4100
 NoConn ~ 2900 4200
-NoConn ~ 2900 5000
-NoConn ~ 2900 5100
-NoConn ~ 2900 5200
-NoConn ~ 2900 5300
 NoConn ~ 2900 5600
 NoConn ~ 2900 5700
 NoConn ~ 2900 5800
@@ -1158,24 +1072,14 @@ F 3 "" H 15200 8750 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 NoConn ~ 14300 7300
-Text HLabel 2850 4500 0    50   Output ~ 0
-DAC_~RESET
-Text HLabel 2850 4400 0    50   Output ~ 0
-DAC_~LDAC
 Wire Wire Line
 	2850 3700 2900 3700
-Text HLabel 2850 3700 0    50   Output ~ 0
-ADC_~CS
-Text HLabel 2850 6100 0    50   Input ~ 0
-DAC_SDO
 Wire Wire Line
 	2850 6100 2900 6100
 Wire Wire Line
 	2850 4500 2900 4500
 Wire Wire Line
 	2850 4400 2900 4400
-Text HLabel 2850 4300 0    50   Output ~ 0
-DAC_RSTSEL
 Wire Wire Line
 	2850 4300 2900 4300
 Text HLabel 14350 2300 2    50   Output ~ 0
@@ -1277,9 +1181,23 @@ F 3 "" H 2850 8600 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	2850 8600 2900 8600
-Text HLabel 14350 6400 2    50   Output ~ 0
-ADC_CONVST
 Wire Wire Line
 	14350 6400 14300 6400
 NoConn ~ 14300 6500
+Text HLabel 2850 5100 0    50   Output ~ 0
+SR1KCTR
+Text HLabel 2850 5000 0    50   Output ~ 0
+SR10KCTR
+Text HLabel 2850 5300 0    50   Output ~ 0
+SR10CTR
+Text HLabel 2850 5200 0    50   Output ~ 0
+SR100CTR
+Wire Wire Line
+	2850 5300 2900 5300
+Wire Wire Line
+	2900 5200 2850 5200
+Wire Wire Line
+	2850 5100 2900 5100
+Wire Wire Line
+	2900 5000 2850 5000
 $EndSCHEMATC

@@ -1,0 +1,269 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 13 13
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Device:R R?
+U 1 1 5E254517
+P 1250 3450
+F 0 "R?" H 1320 3496 50  0000 L CNN
+F 1 "1k/10W" H 1320 3405 50  0000 L CNN
+F 2 "" V 1180 3450 50  0001 C CNN
+F 3 "~" H 1250 3450 50  0001 C CNN
+	1    1250 3450
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5E256242
+P 1750 3250
+F 0 "R?" H 1820 3296 50  0000 L CNN
+F 1 "21R5" H 1820 3205 50  0000 L CNN
+F 2 "" V 1680 3250 50  0001 C CNN
+F 3 "~" H 1750 3250 50  0001 C CNN
+	1    1750 3250
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5E258709
+P 1750 3650
+F 0 "R?" H 1820 3696 50  0000 L CNN
+F 1 "21R5" H 1820 3605 50  0000 L CNN
+F 2 "" V 1680 3650 50  0001 C CNN
+F 3 "~" H 1750 3650 50  0001 C CNN
+	1    1750 3650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1750 3100 1750 3050
+Wire Wire Line
+	1750 3800 1750 3850
+Connection ~ 1750 3850
+Connection ~ 1750 3050
+Text Notes 1450 2650 0    50   ~ 0
+Protection circuit
+$Comp
+L Device:D_Small D?
+U 1 1 5E25D927
+P 1750 2900
+F 0 "D?" V 1704 2968 50  0000 L CNN
+F 1 "D_Small" V 1795 2968 50  0000 L CNN
+F 2 "" V 1750 2900 50  0001 C CNN
+F 3 "~" V 1750 2900 50  0001 C CNN
+	1    1750 2900
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	1750 3050 2250 3050
+Wire Wire Line
+	1750 3850 2250 3850
+Wire Wire Line
+	2250 3850 2250 3800
+Wire Wire Line
+	2250 3050 2250 3100
+Connection ~ 1750 3450
+Wire Wire Line
+	1750 3450 1750 3400
+Wire Wire Line
+	1750 3500 1750 3450
+Connection ~ 2250 3450
+Wire Wire Line
+	2250 3500 2250 3450
+Wire Wire Line
+	2250 3450 2250 3400
+Wire Wire Line
+	1750 3450 2250 3450
+$Comp
+L Device:C C?
+U 1 1 5E25A434
+P 2250 3650
+F 0 "C?" H 2365 3696 50  0000 L CNN
+F 1 "100n" H 2365 3605 50  0000 L CNN
+F 2 "" H 2288 3500 50  0001 C CNN
+F 3 "~" H 2250 3650 50  0001 C CNN
+	1    2250 3650
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 5E25658B
+P 2250 3250
+F 0 "C?" H 2365 3296 50  0000 L CNN
+F 1 "100n" H 2365 3205 50  0000 L CNN
+F 2 "" H 2288 3100 50  0001 C CNN
+F 3 "~" H 2250 3250 50  0001 C CNN
+	1    2250 3250
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:D_Small D?
+U 1 1 5E261949
+P 2250 2900
+F 0 "D?" V 2296 2832 50  0000 R CNN
+F 1 "D_Small" V 2205 2832 50  0000 R CNN
+F 2 "" V 2250 2900 50  0001 C CNN
+F 3 "~" V 2250 2900 50  0001 C CNN
+	1    2250 2900
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	1750 3050 1750 3000
+Wire Wire Line
+	1750 2750 2250 2750
+Wire Wire Line
+	2250 2750 2250 2800
+Wire Wire Line
+	1750 2800 1750 2750
+Wire Wire Line
+	2250 3000 2250 3050
+Connection ~ 2250 3050
+$Comp
+L Device:D_Small D?
+U 1 1 5E263E00
+P 1750 4000
+F 0 "D?" V 1704 4068 50  0000 L CNN
+F 1 "D_Small" V 1795 4068 50  0000 L CNN
+F 2 "" V 1750 4000 50  0001 C CNN
+F 3 "~" V 1750 4000 50  0001 C CNN
+	1    1750 4000
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:D_Small D?
+U 1 1 5E2647F8
+P 2250 4000
+F 0 "D?" V 2296 3932 50  0000 R CNN
+F 1 "D_Small" V 2205 3932 50  0000 R CNN
+F 2 "" V 2250 4000 50  0001 C CNN
+F 3 "~" V 2250 4000 50  0001 C CNN
+	1    2250 4000
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	1750 3850 1750 3900
+Wire Wire Line
+	1750 4150 2250 4150
+Wire Wire Line
+	2250 4150 2250 4100
+Wire Wire Line
+	1750 4100 1750 4150
+Wire Wire Line
+	2250 3900 2250 3850
+Connection ~ 2250 3850
+$Comp
+L ETH1CLCR1:AGNDF #PWR?
+U 1 1 5E26B6A2
+P 2300 3450
+F 0 "#PWR?" H 2300 3200 50  0001 C CNN
+F 1 "AGNDF" V 2305 3322 50  0000 R CNN
+F 2 "" H 2300 3450 50  0001 C CNN
+F 3 "" H 2300 3450 50  0001 C CNN
+	1    2300 3450
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	2300 3450 2250 3450
+Wire Wire Line
+	1750 2750 1250 2750
+Wire Wire Line
+	1250 2750 1250 3300
+Connection ~ 1750 2750
+Wire Wire Line
+	1750 4150 1250 4150
+Wire Wire Line
+	1250 3600 1250 4150
+Connection ~ 1750 4150
+Wire Wire Line
+	2250 4150 2850 4150
+Connection ~ 2250 4150
+$Comp
+L Device:R R?
+U 1 1 5E2727D2
+P 3000 4150
+F 0 "R?" V 2793 4150 50  0000 C CNN
+F 1 "R" V 2884 4150 50  0000 C CNN
+F 2 "" V 2930 4150 50  0001 C CNN
+F 3 "~" H 3000 4150 50  0001 C CNN
+	1    3000 4150
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:D_Small D?
+U 1 1 5E274495
+P 3250 4350
+F 0 "D?" V 3204 4418 50  0000 L CNN
+F 1 "D_Small" V 3295 4418 50  0000 L CNN
+F 2 "" V 3250 4350 50  0001 C CNN
+F 3 "~" V 3250 4350 50  0001 C CNN
+	1    3250 4350
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3150 4150 3250 4150
+Wire Wire Line
+	3250 4150 3250 4250
+$Comp
+L Device:D_Small D?
+U 1 1 5E275451
+P 3800 4350
+F 0 "D?" V 3846 4282 50  0000 R CNN
+F 1 "D_Small" V 3755 4282 50  0000 R CNN
+F 2 "" V 3800 4350 50  0001 C CNN
+F 3 "~" V 3800 4350 50  0001 C CNN
+	1    3800 4350
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	3250 4450 3250 4550
+Wire Wire Line
+	3250 4550 3550 4550
+Wire Wire Line
+	3800 4550 3800 4450
+Wire Wire Line
+	3800 4250 3800 4150
+Wire Wire Line
+	3800 4150 3250 4150
+Connection ~ 3250 4150
+$Comp
+L ETH1CLCR1:AGNDF #PWR?
+U 1 1 5E27769F
+P 3550 4600
+F 0 "#PWR?" H 3550 4350 50  0001 C CNN
+F 1 "AGNDF" H 3555 4427 50  0000 C CNN
+F 2 "" H 3550 4600 50  0001 C CNN
+F 3 "" H 3550 4600 50  0001 C CNN
+	1    3550 4600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3550 4600 3550 4550
+Connection ~ 3550 4550
+Wire Wire Line
+	3550 4550 3800 4550
+$Comp
+L Device:R R?
+U 1 1 5E27A034
+P 3800 3950
+F 0 "R?" H 3870 3996 50  0000 L CNN
+F 1 "10M" H 3870 3905 50  0000 L CNN
+F 2 "" V 3730 3950 50  0001 C CNN
+F 3 "~" H 3800 3950 50  0001 C CNN
+	1    3800 3950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3800 4150 3800 4100
+Connection ~ 3800 4150
+$EndSCHEMATC
