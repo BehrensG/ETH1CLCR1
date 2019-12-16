@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A3 16535 11693
 encoding utf-8
-Sheet 1 13
+Sheet 1 14
 Title ""
 Date ""
 Rev ""
@@ -320,9 +320,29 @@ Wire Wire Line
 Wire Wire Line
 	7700 6700 7800 6700
 $Sheet
-S 3800 6000 1250 3400
+S 3200 6000 1250 3400
 U 5E252C19
 F0 "Range Resistors" 50
 F1 "RangeResistor.sch" 50
+F2 "R1KCRT" I R 4450 6350 50 
+F3 "R10KCRT" I R 4450 6450 50 
+F4 "R100CRT" I R 4450 6250 50 
+F5 "R10CRT" I R 4450 6150 50 
+F6 "R100KCRT" I R 4450 6550 50 
+F7 "Err" O L 3200 6150 50 
+$EndSheet
+Wire Wire Line
+	9100 6700 9200 6700
+Wire Wire Line
+	9200 6800 9100 6800
+Wire Wire Line
+	9100 6900 9200 6900
+Wire Wire Line
+	9200 7000 9100 7000
+$Sheet
+S 1850 5900 1000 2200
+U 5EB3D8D6
+F0 "Process Amplifier" 50
+F1 "ProcessAmplifier.sch" 50
 $EndSheet
 $EndSCHEMATC

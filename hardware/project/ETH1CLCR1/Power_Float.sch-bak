@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 8 13
+Sheet 6 14
 Title ""
 Date ""
 Rev ""
@@ -498,17 +498,6 @@ $EndComp
 Wire Wire Line
 	650  3100 650  3250
 Connection ~ 650  3250
-$Comp
-L Regulator_Linear:L7815 U703
-U 1 1 5DD99E27
-P 5400 3250
-F 0 "U703" H 5400 3492 50  0000 C CNN
-F 1 "MC7815BD2TG" H 5400 3401 50  0000 C CNN
-F 2 "Package_TO_SOT_SMD:TO-263-2" H 5425 3100 50  0001 L CIN
-F 3 "http://www.st.com/content/ccc/resource/technical/document/datasheet/41/4f/b3/b0/12/d4/47/88/CD00000444.pdf/files/CD00000444.pdf/jcr:content/translations/en.CD00000444.pdf" H 5400 3200 50  0001 C CNN
-	1    5400 3250
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	5100 3250 4900 3250
 Connection ~ 4900 3250
@@ -894,17 +883,6 @@ Connection ~ 3450 5400
 Wire Wire Line
 	3450 6850 4300 6850
 Connection ~ 3450 6850
-$Comp
-L Regulator_Linear:L7915 U707
-U 1 1 5DE83B07
-P 5400 5400
-F 0 "U707" H 5400 5158 50  0000 C CNN
-F 1 "MC7915BD2TG" H 5400 5249 50  0000 C CNN
-F 2 "Package_TO_SOT_SMD:TO-263-2" H 5400 5200 50  0001 C CIN
-F 3 "http://www.st.com/content/ccc/resource/technical/document/datasheet/c9/16/86/41/c7/2b/45/f2/CD00000450.pdf/files/CD00000450.pdf/jcr:content/translations/en.CD00000450.pdf" H 5400 5400 50  0001 C CNN
-	1    5400 5400
-	1    0    0    1   
-$EndComp
 Wire Wire Line
 	10500 5400 10700 5400
 Wire Wire Line
@@ -1630,4 +1608,26 @@ Wire Wire Line
 	5750 3250 5950 3250
 Wire Wire Line
 	5750 5400 5950 5400
+$Comp
+L Regulator_Linear:L7815 U?
+U 1 1 5E3D3561
+P 5400 3250
+F 0 "U?" H 5400 3492 50  0000 C CNN
+F 1 "L7815" H 5400 3401 50  0000 C CNN
+F 2 "" H 5425 3100 50  0001 L CIN
+F 3 "http://www.st.com/content/ccc/resource/technical/document/datasheet/41/4f/b3/b0/12/d4/47/88/CD00000444.pdf/files/CD00000444.pdf/jcr:content/translations/en.CD00000444.pdf" H 5400 3200 50  0001 C CNN
+	1    5400 3250
+	1    0    0    -1  
+$EndComp
+$Comp
+L Regulator_Linear:L7915 U?
+U 1 1 5E3D6FD5
+P 5400 5400
+F 0 "U?" H 5400 5158 50  0000 C CNN
+F 1 "L7915" H 5400 5249 50  0000 C CNN
+F 2 "" H 5400 5200 50  0001 C CIN
+F 3 "http://www.st.com/content/ccc/resource/technical/document/datasheet/c9/16/86/41/c7/2b/45/f2/CD00000450.pdf/files/CD00000450.pdf/jcr:content/translations/en.CD00000450.pdf" H 5400 5400 50  0001 C CNN
+	1    5400 5400
+	1    0    0    1   
+$EndComp
 $EndSCHEMATC
