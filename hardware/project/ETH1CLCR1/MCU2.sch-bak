@@ -1001,14 +1001,6 @@ Wire Wire Line
 	2850 4400 2900 4400
 Wire Wire Line
 	2850 4300 2900 4300
-Text HLabel 14350 2300 2    50   Output ~ 0
-MCU3_NSS
-Text HLabel 14350 2400 2    50   Output ~ 0
-MCU3_SCLK
-Text HLabel 14350 2200 2    50   Input ~ 0
-MCU3_MISO
-Text HLabel 14350 3700 2    50   Output ~ 0
-MCU3_MOSI
 NoConn ~ 14300 3000
 NoConn ~ 14300 3100
 Wire Wire Line
@@ -1301,4 +1293,15 @@ Text HLabel 1050 8800 0    50   Input ~ 0
 FB_RDY
 Text HLabel 1050 8900 0    50   Output ~ 0
 FB_~RST
+$Comp
+L power:+3.3VP #PWR0130
+U 1 1 5E157C4F
+P 3400 10400
+F 0 "#PWR0130" H 3550 10350 50  0001 C CNN
+F 1 "+3.3VP" H 3420 10543 50  0000 C CNN
+F 2 "" H 3400 10400 50  0001 C CNN
+F 3 "" H 3400 10400 50  0001 C CNN
+	1    3400 10400
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
