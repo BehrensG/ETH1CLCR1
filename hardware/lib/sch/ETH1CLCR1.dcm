@@ -4,6 +4,10 @@ $CMP DAC7564
 D 12-Bit, Quad Channel, Ultra-Low Glitch, Voltage Output DIGITAL-TO-ANALOG CONVERTER with 2.5V,2ppm/°C Internal Reference
 $ENDCMP
 #
+$CMP DAC7568ICPWR
+D DAC7568, DAC8168, DAC8568 12-/14-/16-Bit, Octal-Channel, Ultralow Glitch, Voltage Output, Digital-to-Analog Converter swith 2.5-V 2-ppm/°C Internal Reference
+$ENDCMP
+#
 $CMP HA3-2525-5Z
 D 20MHz, High Slew Rate, Uncompensated, High Input Impedance, Operational Amplifiers
 $ENDCMP

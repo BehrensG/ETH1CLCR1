@@ -1,7 +1,19 @@
 EESchema-DOCLIB  Version 2.0
 #
+$CMP DAC7564
+D 12-Bit, Quad Channel, Ultra-Low Glitch, Voltage Output DIGITAL-TO-ANALOG CONVERTER with 2.5V,2ppm/°C Internal Reference
+$ENDCMP
+#
 $CMP HA3-2525-5Z
 D 20MHz, High Slew Rate, Uncompensated, High Input Impedance, Operational Amplifiers
+$ENDCMP
+#
+$CMP OPA602
+D High-Speed Precision Difet OPERATIONAL AMPLIFIER
+$ENDCMP
+#
+$CMP PGA103
+D PGA Programmable  Gain Amplifier G=1, 10, 100 V/V
 $ENDCMP
 #
 $CMP UMS05
