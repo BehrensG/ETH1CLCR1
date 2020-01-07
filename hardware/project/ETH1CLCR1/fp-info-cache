@@ -1,4 +1,4 @@
-16923708464543390
+16964694909126005
 Battery
 BatteryHolder_Bulgin_BX0036_1xC
 Bulgin Battery Holder, BX0036, Battery Type C (https://www.bulgin.com/products/pub/media/bulgin/data/Battery_holders.pdf)
@@ -46087,6 +46087,188 @@ One digit LED 7 segment SA39-11 SC39-11 SA39-12 SC39-12
 0
 10
 10
+ETH1CLCR1
+7448013501
+WE-CMBNC Common Mode PowerLine Choke Nanocrystalline
+
+0
+4
+4
+ETH1CLCR1
+744031004
+WE-TPC SMD Shielded Tiny Power Inductor
+
+0
+2
+2
+ETH1CLCR1
+744053220
+WE-TPC SMD Shielded Tiny Power Inductor
+
+0
+2
+2
+ETH1CLCR1
+744233121
+ Filter, Line, Common Mode, WE-CNSW Series, 120 ohm, 280 mA, 2mm x 1.2mm x 1.2mm 
+
+0
+4
+4
+ETH1CLCR1
+749010012A
+Transformer, LAN, 1 Port, 10/100 Base-T, 1500VAC, 350µH, 1:1 Turn Ratio
+
+0
+16
+16
+ETH1CLCR1
+74489440068
+COUPLED INDUCTOR  WE-TDC 8038
+
+0
+4
+4
+ETH1CLCR1
+AQY212GS
+GU (General Use) Type SOP Series 1-Channel (Form A) High Capacity 4-Pin Type
+
+0
+4
+4
+ETH1CLCR1
+CW252016
+CW252016 Series - High Q Chip Inductors
+
+0
+2
+2
+ETH1CLCR1
+DO_214AA_REV
+
+
+0
+2
+2
+ETH1CLCR1
+ECS
+
+
+0
+4
+4
+ETH1CLCR1
+Fuse_SMD2920
+MF-LSMFSeries-PTCResettableFuses
+Fuse SMD2920
+0
+2
+2
+ETH1CLCR1
+HE360_x-5050462-8
+HE3600 Miniature Single In-line Reed Relay
+
+0
+4
+4
+ETH1CLCR1
+NX3225GD
+ A small surface-mount type crystal unit, ideal for an engine control CPU clock
+
+0
+2
+2
+ETH1CLCR1
+NX5032GA
+Crystal
+
+0
+2
+2
+ETH1CLCR1
+OKI-T3-W40
+Adjustable Output 3-Amp DOSA-SMT DC/DC Converters
+
+0
+5
+5
+ETH1CLCR1
+PowerPAD
+
+
+0
+49
+21
+ETH1CLCR1
+SA
+LOW-PROFILE SURFACE-MOUNT RELAY
+
+0
+10
+10
+ETH1CLCR1
+SO8E
+module CMS SOJ 8 pins etroit
+CMS SOJ
+0
+8
+8
+ETH1CLCR1
+SO8N
+Module CMS SOJ 8 pins large
+CMS SOJ
+0
+8
+8
+ETH1CLCR1
+Socket_DIN41612-CaseC1-AC-Male-64Pin-2rows
+
+
+0
+66
+65
+ETH1CLCR1
+TCK-141
+Inductor
+
+0
+2
+2
+ETH1CLCR1
+THL15
+THL 15WI Series, 15 Watt
+
+0
+6
+6
+ETH1CLCR1
+TO-252-2_Rectifier
+TO-252-2
+TO-252-2 Rectifier
+0
+3
+3
+ETH1CLCR1
+TQFP-144_20x20mm_P0.5mm
+TQFP, 144 Pin (http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095), generated with kicad-footprint-generator ipc_qfp_generator.py
+TQFP QFP
+0
+144
+144
+ETH1CLCR1
+TSR1
+DC/DC Converter TSR 1 Series, 1 A
+
+0
+3
+3
+ETH1CLCR1
+TSR2
+DC/DC Converter TSR 2 Series, 2 A
+
+0
+3
+3
 Ferrite_THT
 LairdTech_28C0236-0JW-10
 Ferrite, vertical, LairdTech 28C0236-0JW-10, https://assets.lairdtech.com/home/brandworld/files/28C0236-0JW-10.pdf, JW Miller core https://www.bourns.com/products/magnetic-products/j.w.-miller-through-hole-ferrite-beads-emi-filters
