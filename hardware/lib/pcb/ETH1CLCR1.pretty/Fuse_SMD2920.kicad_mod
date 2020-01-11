@@ -1,4 +1,4 @@
-(module Fuse_SMD2920 (layer F.Cu) (tedit 5DD9A1A9)
+(module Fuse_SMD2920 (layer F.Cu) (tedit 5E19A856)
   (descr MF-LSMFSeries-PTCResettableFuses)
   (tags "Fuse SMD2920")
   (attr smd)
@@ -18,7 +18,7 @@
     (zone_connect 1) (thermal_width 2.032) (thermal_gap 0.127))
   (pad 1 smd rect (at -3.7 0 90) (size 5.6 2.3) (layers F.Cu F.Paste F.Mask)
     (zone_connect 1) (thermal_width 2.032) (thermal_gap 0.127))
-  (model /home/grzegorz/git/ETH1CPMU1/hardware/lib/3d/MF-LSMF300.wrl
+  (model ${ETH1CLCR1}/MF-LSMF300.wrl
     (at (xyz 0 0 0))
     (scale (xyz 0.3937 0.3937 0.3937))
     (rotate (xyz -90 0 90))
