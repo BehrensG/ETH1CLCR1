@@ -451,7 +451,7 @@ AR Path="/5DF35BC8/5E262AC9" Ref="C?"  Part="1"
 AR Path="/5DEACD0F/5E262AC9" Ref="C1106"  Part="1" 
 F 0 "C1106" H 2965 9096 50  0000 L CNN
 F 1 "1u" H 2965 9005 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 2888 8900 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 2888 8900 50  0001 C CNN
 F 3 "~" H 2850 9050 50  0001 C CNN
 	1    2850 9050
 	1    0    0    -1  
@@ -463,17 +463,6 @@ Wire Wire Line
 Connection ~ 2850 8800
 Wire Wire Line
 	2850 8800 2900 8800
-$Comp
-L ETH1CLCR1:+3.3VF #PWR01107
-U 1 1 5E2661C9
-P 2800 8800
-F 0 "#PWR01107" H 2800 8650 50  0001 C CNN
-F 1 "+3.3VF" V 2800 8950 50  0000 L CNN
-F 2 "" H 2800 8800 50  0001 C CNN
-F 3 "" H 2800 8800 50  0001 C CNN
-	1    2800 8800
-	0    -1   -1   0   
-$EndComp
 $Comp
 L Device:C C1108
 U 1 1 5DFC30F8
@@ -795,8 +784,6 @@ Wire Wire Line
 Wire Wire Line
 	2850 2500 2900 2500
 Wire Wire Line
-	2900 2400 2850 2400
-Wire Wire Line
 	2850 2200 2900 2200
 Wire Wire Line
 	2900 3100 2250 3100
@@ -820,10 +807,6 @@ Wire Wire Line
 	2850 3900 2900 3900
 Wire Wire Line
 	2850 4000 2900 4000
-Wire Wire Line
-	2850 5500 2900 5500
-Wire Wire Line
-	2900 5400 2850 5400
 Wire Wire Line
 	2900 4600 2450 4600
 Text Label 2450 4600 0    50   ~ 0
@@ -874,16 +857,6 @@ Wire Wire Line
 Wire Wire Line
 	14350 7400 14300 7400
 Wire Wire Line
-	14350 7800 14300 7800
-Wire Wire Line
-	14350 7900 14300 7900
-Wire Wire Line
-	2850 6000 2900 6000
-Wire Wire Line
-	2850 6200 2900 6200
-Wire Wire Line
-	2850 4800 2900 4800
-Wire Wire Line
 	14300 2400 14350 2400
 Wire Wire Line
 	14300 2200 14350 2200
@@ -893,8 +866,6 @@ Wire Wire Line
 	14300 3700 14350 3700
 Wire Wire Line
 	1500 1400 2900 1400
-Wire Wire Line
-	14350 3800 14300 3800
 Wire Wire Line
 	14350 3900 14300 3900
 Wire Wire Line
@@ -927,16 +898,6 @@ Wire Wire Line
 	14300 5400 14350 5400
 Wire Wire Line
 	14350 2100 14300 2100
-Wire Wire Line
-	14300 2000 14350 2000
-Wire Wire Line
-	14350 1900 14300 1900
-Wire Wire Line
-	14300 1800 14350 1800
-Wire Wire Line
-	14350 1700 14300 1700
-Wire Wire Line
-	14300 1600 14350 1600
 NoConn ~ 11200 10450
 NoConn ~ 11200 10550
 Wire Wire Line
@@ -947,36 +908,18 @@ NoConn ~ 2900 2600
 NoConn ~ 2900 2700
 NoConn ~ 2900 2800
 NoConn ~ 2900 3300
-NoConn ~ 2900 3400
-NoConn ~ 2900 3500
-NoConn ~ 2900 3600
 NoConn ~ 2900 4100
 NoConn ~ 2900 4200
 NoConn ~ 2900 5600
 NoConn ~ 2900 5700
-NoConn ~ 2900 5800
-NoConn ~ 2900 5900
 NoConn ~ 14300 1300
 NoConn ~ 14300 1400
-NoConn ~ 14300 1500
-NoConn ~ 14300 2500
-NoConn ~ 14300 2600
-NoConn ~ 14300 2700
 NoConn ~ 14300 2800
 NoConn ~ 14300 3200
 NoConn ~ 14300 3300
-NoConn ~ 14300 3400
-NoConn ~ 14300 3500
-NoConn ~ 14300 3600
 NoConn ~ 14300 4700
 NoConn ~ 14300 4800
-NoConn ~ 14300 6600
 NoConn ~ 14300 6700
-NoConn ~ 14300 6800
-NoConn ~ 14300 6900
-NoConn ~ 14300 7000
-NoConn ~ 14300 7100
-NoConn ~ 14300 7200
 NoConn ~ 14300 7500
 NoConn ~ 14300 7700
 $Comp
@@ -990,17 +933,8 @@ F 3 "" H 15200 8750 50  0001 C CNN
 	1    15200 8750
 	1    0    0    -1  
 $EndComp
-NoConn ~ 14300 7300
 Wire Wire Line
 	2850 3700 2900 3700
-Wire Wire Line
-	2850 6100 2900 6100
-Wire Wire Line
-	2850 4500 2900 4500
-Wire Wire Line
-	2850 4400 2900 4400
-Wire Wire Line
-	2850 4300 2900 4300
 NoConn ~ 14300 3000
 NoConn ~ 14300 3100
 Wire Wire Line
@@ -1037,7 +971,7 @@ AR Path="/5DF35BC8/5E2DFE17" Ref="C?"  Part="1"
 AR Path="/5DEACD0F/5E2DFE17" Ref="C1107"  Part="1" 
 F 0 "C1107" H 7365 10646 50  0000 L CNN
 F 1 "1u" H 7365 10555 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 7288 10450 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 7288 10450 50  0001 C CNN
 F 3 "~" H 7250 10600 50  0001 C CNN
 	1    7250 10600
 	1    0    0    -1  
@@ -1081,16 +1015,14 @@ F 3 "" H 2850 8600 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	2850 8600 2900 8600
-Wire Wire Line
-	14350 6400 14300 6400
 NoConn ~ 14300 6500
-Text HLabel 2850 5100 0    50   Output ~ 0
+Text HLabel 14350 3500 2    50   Output ~ 0
 SR1KCTR
-Text HLabel 2850 5000 0    50   Output ~ 0
+Text HLabel 14350 3400 2    50   Output ~ 0
 SR10KCTR
-Text HLabel 2850 5300 0    50   Output ~ 0
+Text HLabel 14350 3700 2    50   Output ~ 0
 SR10CTR
-Text HLabel 2850 5200 0    50   Output ~ 0
+Text HLabel 14350 3600 2    50   Output ~ 0
 SR100CTR
 Wire Wire Line
 	2850 5300 2900 5300
@@ -1166,118 +1098,93 @@ F 3 "" H 10550 10150 50  0001 C CNN
 	1    10550 10150
 	1    0    0    -1  
 $EndComp
-$Comp
-L ETH1CLCR1:STM32H743ZI U1101
-U 1 1 5DD1F48B
-P 8600 5050
-F 0 "U1101" H 3150 8950 50  0000 C CNN
-F 1 "STM32H743ZI" H 13850 8950 50  0000 C CNN
-F 2 "ETH1CLCR1:TQFP-144_20x20mm_P0.5mm" H 24500 6550 50  0001 C CNN
-F 3 "" H 24500 6550 50  0001 C CNN
-	1    8600 5050
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	2900 1900 2850 1900
-Wire Wire Line
-	2850 1800 2900 1800
-Wire Wire Line
-	2900 1700 2850 1700
-Wire Wire Line
-	2850 1600 2900 1600
-Text HLabel 2850 1600 0    50   Output ~ 0
-CXN_RELA
-Text HLabel 2850 1700 0    50   Output ~ 0
-CXN_RELB
-Text HLabel 2850 1800 0    50   Output ~ 0
-CXN_RELC
-Text HLabel 2850 1900 0    50   Output ~ 0
-CXN_RELD
-Text HLabel 2850 2000 0    50   Output ~ 0
-CXN_RELE
-Text HLabel 2850 2100 0    50   Output ~ 0
-CXN_RELF
-Text HLabel 1050 3450 0    50   Output ~ 0
+Text HLabel 14350 1500 2    50   Output ~ 0
+CXN_REL1
+Text HLabel 14350 1600 2    50   Output ~ 0
+CXN_REL2
+Text HLabel 14350 1700 2    50   Output ~ 0
+CXN_REL3
+Text HLabel 14350 4000 2    50   Output ~ 0
 R100CRT
-Text HLabel 1050 3350 0    50   Output ~ 0
+Text HLabel 14350 3900 2    50   Output ~ 0
 R10CRT
-Text HLabel 1050 3550 0    50   Output ~ 0
+Text HLabel 14350 4100 2    50   Output ~ 0
 R1KCRT
-Text HLabel 1050 3650 0    50   Output ~ 0
+Text HLabel 14350 4200 2    50   Output ~ 0
 R10KCRT
-Text HLabel 1050 3750 0    50   Output ~ 0
+Text HLabel 14350 4300 2    50   Output ~ 0
 R100KCRT
-Text HLabel 1050 3850 0    50   Output ~ 0
+Text HLabel 14350 4400 2    50   Output ~ 0
 RELAY_CTR
-Text HLabel 1050 3950 0    50   Output ~ 0
+Text HLabel 14350 4500 2    50   Output ~ 0
 HA3-COMP
-Text HLabel 1050 4250 0    50   Output ~ 0
+Text HLabel 14350 5400 2    50   Output ~ 0
 PA_NULL
-Text HLabel 1050 4350 0    50   Output ~ 0
+Text HLabel 14350 5500 2    50   Output ~ 0
 PA_EM
-Text HLabel 1050 4450 0    50   Output ~ 0
+Text HLabel 14350 5600 2    50   Output ~ 0
 PA_50MV
-Text HLabel 1050 4550 0    50   Output ~ 0
+Text HLabel 14350 5700 2    50   Output ~ 0
 PA_MOS1
-Text HLabel 1050 4650 0    50   Output ~ 0
+Text HLabel 14350 5800 2    50   Output ~ 0
 PA_MOS2
-Text HLabel 1050 4750 0    50   Output ~ 0
+Text HLabel 14350 5900 2    50   Output ~ 0
 PA_MOS3
-Text HLabel 1050 4850 0    50   Output ~ 0
+Text HLabel 14350 6000 2    50   Output ~ 0
 PA_MOS4
-Text HLabel 1050 4950 0    50   Output ~ 0
+Text HLabel 14350 6100 2    50   Output ~ 0
 PA_MOS5
-Text HLabel 1050 5050 0    50   Output ~ 0
+Text HLabel 14350 6200 2    50   Output ~ 0
 PA_MOS6
-Text HLabel 1050 6050 0    50   Output ~ 0
+Text HLabel 14350 6800 2    50   Output ~ 0
 G1A1_CTR
-Text HLabel 1050 6150 0    50   Output ~ 0
+Text HLabel 14350 6900 2    50   Output ~ 0
 G1A0_CTR
-Text HLabel 1050 6250 0    50   Output ~ 0
+Text HLabel 14350 7000 2    50   Output ~ 0
 G2A1_CTR
-Text HLabel 1050 6350 0    50   Output ~ 0
+Text HLabel 14350 7100 2    50   Output ~ 0
 G2A0_CTR
-Text HLabel 1050 6600 0    50   Output ~ 0
+Text HLabel 14350 7200 2    50   Output ~ 0
 ADC_NULL2
-Text HLabel 1050 6700 0    50   Output ~ 0
+Text HLabel 14350 7300 2    50   Output ~ 0
 ADC_NULL1
-Text HLabel 1050 7500 0    50   Output ~ 0
+Text HLabel 2850 3400 0    50   Output ~ 0
 ADC_CONVST
-Text HLabel 1050 6900 0    50   Output ~ 0
+Text HLabel 2850 3700 0    50   Output ~ 0
 ADC_~CS
-Text HLabel 1050 7000 0    50   Output ~ 0
+Text HLabel 2850 3800 0    50   Output ~ 0
 ADC_CLOCK
-Text HLabel 1050 7100 0    50   Input ~ 0
+Text HLabel 2850 3600 0    50   Input ~ 0
 ADC_BUSY
-Text HLabel 1050 7200 0    50   Output ~ 0
+Text HLabel 2850 4000 0    50   Output ~ 0
 ADC_SDI
-Text HLabel 1050 7300 0    50   Output ~ 0
+Text HLabel 2850 3500 0    50   Output ~ 0
 ADC_RD
-Text HLabel 1050 7400 0    50   Input ~ 0
+Text HLabel 2850 3900 0    50   Input ~ 0
 ADC_SDOA
-Text HLabel 1050 7700 0    50   Output ~ 0
+Text HLabel 2850 5100 0    50   Output ~ 0
 RR_SDI
-Text HLabel 1050 7800 0    50   Input ~ 0
+Text HLabel 2850 5200 0    50   Input ~ 0
 RR_SDO
-Text HLabel 1050 7900 0    50   Output ~ 0
+Text HLabel 14350 7400 2    50   Output ~ 0
 RR_CLK
-Text HLabel 1050 8000 0    50   Output ~ 0
+Text HLabel 14350 7600 2    50   Output ~ 0
 RR_~CS
-Text HLabel 1050 8100 0    50   Input ~ 0
+Text HLabel 2850 5000 0    50   Input ~ 0
 RR_RDY
-Text HLabel 1050 8200 0    50   Output ~ 0
+Text HLabel 2850 5300 0    50   Output ~ 0
 RR_~RST
-Text HLabel 1050 8400 0    50   Output ~ 0
+Text HLabel 14350 2700 2    50   Output ~ 0
 FB_SDI
-Text HLabel 1050 8500 0    50   Input ~ 0
+Text HLabel 14350 2500 2    50   Input ~ 0
 FB_SDO
-Text HLabel 1050 8600 0    50   Output ~ 0
+Text HLabel 14350 2600 2    50   Output ~ 0
 FB_CLK
-Text HLabel 1050 8700 0    50   Output ~ 0
+Text HLabel 14350 2100 2    50   Output ~ 0
 FB_~CS
-Text HLabel 1050 8800 0    50   Input ~ 0
+Text HLabel 14350 2300 2    50   Input ~ 0
 FB_RDY
-Text HLabel 1050 8900 0    50   Output ~ 0
+Text HLabel 14350 2400 2    50   Output ~ 0
 FB_~RST
 $Comp
 L power:+3.3VP #PWR01115
@@ -1290,16 +1197,119 @@ F 3 "" H 3400 10400 50  0001 C CNN
 	1    3400 10400
 	1    0    0    -1  
 $EndComp
-Text HLabel 1050 5250 0    50   Output ~ 0
+Text HLabel 2850 2100 0    50   Output ~ 0
 DAC_~LDAC
-Text HLabel 1050 5350 0    50   Output ~ 0
+Text HLabel 2850 2200 0    50   Output ~ 0
 DAC_~SYNC
-Text HLabel 1050 5450 0    50   Output ~ 0
+Text HLabel 2850 2000 0    50   Output ~ 0
 DAC_~CLR
-Text HLabel 1050 5550 0    50   Output ~ 0
+Text HLabel 2850 2500 0    50   Output ~ 0
 DAC_DIN
-Text HLabel 1050 5650 0    50   Output ~ 0
+Text HLabel 2850 2300 0    50   Output ~ 0
 DAC_SCLK
-Text HLabel 1000 5800 0    50   Output ~ 0
+Text HLabel 14350 2200 2    50   Output ~ 0
 FB_CAP
+Wire Wire Line
+	2850 3600 2900 3600
+Wire Wire Line
+	2850 3500 2900 3500
+Wire Wire Line
+	2850 3400 2900 3400
+NoConn ~ 2900 2400
+Wire Wire Line
+	14350 2600 14300 2600
+Wire Wire Line
+	14350 2700 14300 2700
+Wire Wire Line
+	14350 2500 14300 2500
+NoConn ~ 14300 3800
+Wire Wire Line
+	14300 3600 14350 3600
+Wire Wire Line
+	14300 3500 14350 3500
+Wire Wire Line
+	14300 3400 14350 3400
+Wire Wire Line
+	14300 6800 14350 6800
+Wire Wire Line
+	14300 6900 14350 6900
+Wire Wire Line
+	14300 7000 14350 7000
+Wire Wire Line
+	14300 7100 14350 7100
+Wire Wire Line
+	14300 7200 14350 7200
+Wire Wire Line
+	14300 7300 14350 7300
+NoConn ~ 14300 6400
+NoConn ~ 14300 7900
+NoConn ~ 14300 7800
+NoConn ~ 2900 6200
+NoConn ~ 2900 5400
+NoConn ~ 2900 5500
+NoConn ~ 2900 4300
+NoConn ~ 2900 4400
+NoConn ~ 2900 4500
+NoConn ~ 2900 1900
+Wire Wire Line
+	2900 6100 2850 6100
+Wire Wire Line
+	2900 6000 2850 6000
+Wire Wire Line
+	2900 4800 2850 4800
+Wire Wire Line
+	14300 6600 14350 6600
+Text HLabel 2850 6000 0    50   Output ~ 0
+MCU3_SCLK
+Text HLabel 2850 6100 0    50   Input ~ 0
+MCU3_MISO
+Text HLabel 14350 6600 2    50   Output ~ 0
+MCU3_MOSI
+Text HLabel 2850 4800 0    50   Output ~ 0
+MCU3_NSS
+Text HLabel 14350 1800 2    50   Output ~ 0
+CXN_REL4
+Text HLabel 14350 1900 2    50   Output ~ 0
+CXN_REL5
+Text HLabel 14350 2000 2    50   Output ~ 0
+CXN_REL6
+NoConn ~ 2900 1800
+NoConn ~ 2900 1700
+NoConn ~ 2900 1600
+NoConn ~ 2900 5800
+NoConn ~ 2900 5900
+$Comp
+L ETH1CLCR1:STM32H743ZI U1101
+U 1 1 5DD1F48B
+P 8600 5050
+F 0 "U1101" H 3150 8950 50  0000 C CNN
+F 1 "STM32H743ZI" H 13850 8950 50  0000 C CNN
+F 2 "ETH1CLCR1:TQFP-144_20x20mm_P0.5mm" H 24500 6550 50  0001 C CNN
+F 3 "" H 24500 6550 50  0001 C CNN
+	1    8600 5050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	14300 1500 14350 1500
+Wire Wire Line
+	14300 1600 14350 1600
+Wire Wire Line
+	14300 1700 14350 1700
+Wire Wire Line
+	14300 1800 14350 1800
+Wire Wire Line
+	14300 1900 14350 1900
+Wire Wire Line
+	14300 2000 14350 2000
+$Comp
+L power:+3.3VP #PWR0105
+U 1 1 5E2B38E5
+P 2800 8800
+F 0 "#PWR0105" H 2950 8750 50  0001 C CNN
+F 1 "+3.3VP" V 2800 8900 50  0000 L CNN
+F 2 "" H 2800 8800 50  0001 C CNN
+F 3 "" H 2800 8800 50  0001 C CNN
+	1    2800 8800
+	0    -1   -1   0   
+$EndComp
 $EndSCHEMATC

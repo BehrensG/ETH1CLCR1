@@ -1,5 +1,9 @@
 EESchema-DOCLIB  Version 2.0
 #
+$CMP 9012
+D Miniature Molded SIP Reed Relay
+$ENDCMP
+#
 $CMP DAC7564
 D 12-Bit, Quad Channel, Ultra-Low Glitch, Voltage Output DIGITAL-TO-ANALOG CONVERTER with 2.5V,2ppm/°C Internal Reference
 $ENDCMP
@@ -25,6 +29,10 @@ D Reed relay 5V DC coil
 $ENDCMP
 #
 $CMP UMS05-1A80-75D
+D Reed relay 5V DC coil
+$ENDCMP
+#
+$CMP UMS05-1A80-75D_copy
 D Reed relay 5V DC coil
 $ENDCMP
 #

@@ -1,4 +1,4 @@
-(module Socket_DIN41612-CaseC1-AC-Male-64Pin-2rows (layer F.Cu) (tedit 5DD9053A)
+(module Socket_DIN41612-CaseC1-AC-Male-64Pin-2rows (layer F.Cu) (tedit 5E19A8B7)
   (fp_text reference J801 (at 46.622 1.859) (layer F.SilkS) hide
     (effects (font (size 0.6 0.6) (thickness 0.12)))
   )
@@ -81,7 +81,7 @@
   (pad C4 thru_hole circle (at 31.75 2.54 180) (size 1.50114 1.50114) (drill 0.8001) (layers *.Cu *.Mask))
   (pad C2 thru_hole circle (at 36.83 2.54 180) (size 1.50114 1.50114) (drill 0.8001) (layers *.Cu *.Mask))
   (pad C1 thru_hole circle (at 39.37 2.54 180) (size 1.50114 1.50114) (drill 0.8001) (layers *.Cu *.Mask))
-  (model /home/grzegorz/git/ETH1CPMU1/hardware/lib/3d/DIN41612_64ac_male_ra.wrl
+  (model ${ETH1CLCR1}/DIN41612_64ac_male_ra.wrl
     (offset (xyz 0 -15.5 4.1))
     (scale (xyz 0.3937 0.3937 0.3937))
     (rotate (xyz 90 0 180))

@@ -522,10 +522,6 @@ Wire Wire Line
 	1900 6050 1850 6050
 Text HLabel 1850 6050 0    50   Input ~ 0
 MCU3_SCLK
-Text HLabel 1850 6150 0    50   Output ~ 0
-MCU3_MISO
-Text HLabel 1850 6250 0    50   Input ~ 0
-MCU3_MOSI
 Wire Wire Line
 	1900 3750 1850 3750
 Text HLabel 1850 3750 0    50   Input ~ 0
@@ -830,4 +826,8 @@ F 3 "" H 7550 3050 50  0001 C CNN
 	1    7550 3050
 	1    0    0    -1  
 $EndComp
+Text HLabel 1850 6150 0    50   Output ~ 0
+MCU3_MISO
+Text HLabel 1850 6250 0    50   Input ~ 0
+MCU3_MOSI
 $EndSCHEMATC
