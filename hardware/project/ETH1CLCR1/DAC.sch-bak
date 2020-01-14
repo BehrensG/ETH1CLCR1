@@ -799,7 +799,7 @@ AR Path="/5DEEF70B/5E37730A" Ref="C?"  Part="1"
 AR Path="/5E087FDC/5E37730A" Ref="C1406"  Part="1" 
 F 0 "C1406" H 3465 3146 50  0000 L CNN
 F 1 "1u" H 3465 3055 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 3388 2950 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 3388 2950 50  0001 C CNN
 F 3 "~" H 3350 3100 50  0001 C CNN
 	1    3350 3100
 	1    0    0    -1  
