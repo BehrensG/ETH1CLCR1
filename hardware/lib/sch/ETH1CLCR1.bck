@@ -4,6 +4,10 @@ $CMP 9012
 D Miniature Molded SIP Reed Relay
 $ENDCMP
 #
+$CMP AD7380
+D Dual, Simultaneous Sampling, 16-Bit/14-Bit, 4 MSPS SAR ADCs, Differential Inputs
+$ENDCMP
+#
 $CMP AD8605
 D Precision, Low Noise, CMOS, Rail-to-Rail, Input/Output Operational Amplifiers
 $ENDCMP
@@ -22,6 +26,10 @@ $ENDCMP
 #
 $CMP HA3-2525-5Z
 D 20MHz, High Slew Rate, Uncompensated, High Input Impedance, Operational Amplifiers
+$ENDCMP
+#
+$CMP LT6350
+D Low Noise Single-Ended to Differential Converter/ADC Driver
 $ENDCMP
 #
 $CMP OPA602
