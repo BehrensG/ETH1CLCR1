@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A3 16535 11693
 encoding utf-8
-Sheet 3 16
+Sheet 3 15
 Title ""
 Date ""
 Rev ""
@@ -988,7 +988,7 @@ Wire Wire Line
 Wire Wire Line
 	3000 2350 3050 2350
 Text HLabel 3000 2050 0    50   Output ~ 0
-MCU1_~MSS
+MCU1_~SS
 Text HLabel 3000 2250 0    50   Input ~ 0
 MCU1_MISO
 Text HLabel 3000 2350 0    50   Output ~ 0
@@ -1338,4 +1338,68 @@ F 3 "" H 2050 6250 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	2050 6250 2100 6250
+$Comp
+L Sensor_Humidity:HDC1080 U?
+U 1 1 5EF9C579
+P 1400 3450
+F 0 "U?" H 1650 3800 50  0000 R CNN
+F 1 "HDC1080" H 1800 3700 50  0000 R CNN
+F 2 "Package_SON:Texas_PWSON-N6" H 1350 3200 50  0001 L CNN
+F 3 "http://www.ti.com/lit/ds/symlink/hdc1080.pdf" H 1000 3700 50  0001 C CNN
+	1    1400 3450
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR?
+U 1 1 5EF9D455
+P 1300 3050
+F 0 "#PWR?" H 1300 2900 50  0001 C CNN
+F 1 "+3.3V" H 1315 3223 50  0000 C CNN
+F 2 "" H 1300 3050 50  0001 C CNN
+F 3 "" H 1300 3050 50  0001 C CNN
+	1    1300 3050
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5EF9F2A6
+P 1300 3750
+F 0 "#PWR?" H 1300 3500 50  0001 C CNN
+F 1 "GND" H 1305 3577 50  0000 C CNN
+F 2 "" H 1300 3750 50  0001 C CNN
+F 3 "" H 1300 3750 50  0001 C CNN
+	1    1300 3750
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 5EFA260C
+P 700 3300
+F 0 "C?" H 815 3346 50  0000 L CNN
+F 1 "100n" H 815 3255 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 738 3150 50  0001 C CNN
+F 3 "~" H 700 3300 50  0001 C CNN
+	1    700  3300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1300 3150 1300 3100
+Wire Wire Line
+	700  3150 700  3100
+Wire Wire Line
+	700  3100 1300 3100
+Connection ~ 1300 3100
+Wire Wire Line
+	1300 3100 1300 3050
+$Comp
+L power:GND #PWR?
+U 1 1 5EFC3E57
+P 700 3450
+F 0 "#PWR?" H 700 3200 50  0001 C CNN
+F 1 "GND" H 705 3277 50  0000 C CNN
+F 2 "" H 700 3450 50  0001 C CNN
+F 3 "" H 700 3450 50  0001 C CNN
+	1    700  3450
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC

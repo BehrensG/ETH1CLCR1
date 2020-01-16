@@ -28,6 +28,10 @@ $CMP HA3-2525-5Z
 D 20MHz, High Slew Rate, Uncompensated, High Input Impedance, Operational Amplifiers
 $ENDCMP
 #
+$CMP LT6350
+D Low Noise Single-Ended to Differential Converter/ADC Driver
+$ENDCMP
+#
 $CMP OPA602
 D High-Speed Precision Difet OPERATIONAL AMPLIFIER
 $ENDCMP
