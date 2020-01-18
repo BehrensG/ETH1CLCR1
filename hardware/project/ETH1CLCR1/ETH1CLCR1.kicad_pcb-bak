@@ -4287,7 +4287,7 @@
   )
 
   (module Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder (layer Signal_bottom) (tedit 5B301BBE) (tstamp 5E2589CC)
-    (at 170.942 46.228)
+    (at 169.799 46.228)
     (descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. (Body size source: http://www.tortai-tech.com/upload/download/2011102023233369053.pdf), generated with kicad-footprint-generator")
     (tags "capacitor handsolder")
     (path /5E252C19/5E58CDD7)
@@ -14549,7 +14549,7 @@
   )
 
   (module Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder (layer Signal_bottom) (tedit 5B301BBD) (tstamp 5E18F354)
-    (at 170.942 51.181)
+    (at 169.799 51.181)
     (descr "Resistor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. (Body size source: http://www.tortai-tech.com/upload/download/2011102023233369053.pdf), generated with kicad-footprint-generator")
     (tags "resistor handsolder")
     (path /5E252C19/5E7C3E07)
