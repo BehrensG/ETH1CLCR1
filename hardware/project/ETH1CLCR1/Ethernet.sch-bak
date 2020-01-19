@@ -5,7 +5,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 2 15
 Title "Ethernet"
-Date ""
+Date "2020-01-19"
 Rev "1.0"
 Comp ""
 Comment1 ""

@@ -1,5 +1,9 @@
 EESchema-DOCLIB  Version 2.0
 #
+$CMP 60817-096
+D PCB HANDLE A
+$ENDCMP
+#
 $CMP 9012
 D Miniature Molded SIP Reed Relay
 $ENDCMP
@@ -21,6 +25,26 @@ D 12-Bit, Quad Channel, Ultra-Low Glitch, Voltage Output DIGITAL-TO-ANALOG CONVE
 $ENDCMP
 #
 $CMP DAC7568ICPWR
+D DAC7568, DAC8168, DAC8568 12-/14-/16-Bit, Octal-Channel, Ultralow Glitch, Voltage Output, Digital-to-Analog Converter swith 2.5-V 2-ppm/°C Internal Reference
+$ENDCMP
+#
+$CMP DAC7568IxPWR
+D DAC7568, DAC8168, DAC8568 12-/14-/16-Bit, Octal-Channel, Ultralow Glitch, Voltage Output, Digital-to-Analog Converter swith 2.5-V 2-ppm/°C Internal Reference
+$ENDCMP
+#
+$CMP DAC8186ICPWR
+D DAC7568, DAC8168, DAC8568 12-/14-/16-Bit, Octal-Channel, Ultralow Glitch, Voltage Output, Digital-to-Analog Converter swith 2.5-V 2-ppm/°C Internal Reference
+$ENDCMP
+#
+$CMP DAC8186IxPWR
+D DAC7568, DAC8168, DAC8568 12-/14-/16-Bit, Octal-Channel, Ultralow Glitch, Voltage Output, Digital-to-Analog Converter swith 2.5-V 2-ppm/°C Internal Reference
+$ENDCMP
+#
+$CMP DAC8568ICPWR
+D DAC7568, DAC8168, DAC8568 12-/14-/16-Bit, Octal-Channel, Ultralow Glitch, Voltage Output, Digital-to-Analog Converter swith 2.5-V 2-ppm/°C Internal Reference
+$ENDCMP
+#
+$CMP DAC8568IxPWR
 D DAC7568, DAC8168, DAC8568 12-/14-/16-Bit, Octal-Channel, Ultralow Glitch, Voltage Output, Digital-to-Analog Converter swith 2.5-V 2-ppm/°C Internal Reference
 $ENDCMP
 #
