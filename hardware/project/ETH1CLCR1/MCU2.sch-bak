@@ -1119,7 +1119,7 @@ RR_RELAYCTR
 Text HLabel 14350 4500 2    50   Output ~ 0
 RR_HA3-COMP
 Text HLabel 14350 5400 2    50   Output ~ 0
-PA_NULL
+PA_ER
 Text HLabel 14350 5500 2    50   Output ~ 0
 PA_EM
 Text HLabel 14350 5600 2    50   Output ~ 0
