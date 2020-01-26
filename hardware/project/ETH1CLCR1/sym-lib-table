@@ -1,3 +1,4 @@
 (sym_lib_table
   (lib (name ETH1CLCR1)(type Legacy)(uri /home/grzegorz/git/ETH1CLCR1/hardware/lib/sch/ETH1CLCR1.lib)(options "")(descr ""))
+  (lib (name ETH1CLCR1-rescue)(type Legacy)(uri ${KIPRJMOD}/ETH1CLCR1-rescue.lib)(options "")(descr ""))
 )
