@@ -1,4 +1,4 @@
-update=Sun Jan 26 23:04:40 2020
+update=Mon Jan 27 21:42:23 2020
 version=1
 last_client=kicad
 [general]
@@ -48,8 +48,6 @@ ViaDiameter2=0.7
 ViaDrill2=0.3
 ViaDiameter3=0.9
 ViaDrill3=0.4
-ViaDiameter4=1
-ViaDrill4=0.5
 dPairWidth1=0.2
 dPairGap1=0.25
 dPairViaGap1=0.25
@@ -94,12 +92,12 @@ Name=Power_B
 Type=1
 Enabled=1
 [pcbnew/Layer.In4.Cu]
-Name=Mixed
-Type=2
-Enabled=1
-[pcbnew/Layer.In5.Cu]
 Name=Power_C
 Type=1
+Enabled=1
+[pcbnew/Layer.In5.Cu]
+Name=Signal_inter
+Type=0
 Enabled=1
 [pcbnew/Layer.In6.Cu]
 Name=GNB_B
