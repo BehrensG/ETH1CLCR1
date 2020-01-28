@@ -20,6 +20,14 @@ $CMP AD8606-2-MSOP
 D Precision, Low Noise, CMOS, Rail-to-Rail, Input/Output Operational Amplifiers
 $ENDCMP
 #
+$CMP ADR4525BRZ
+D 2.5V Ultralow Noise, High Accuracy
+$ENDCMP
+#
+$CMP ADR45xx
+D Ultralow Noise, High Accuracy
+$ENDCMP
+#
 $CMP DAC7564
 D 12-Bit, Quad Channel, Ultra-Low Glitch, Voltage Output DIGITAL-TO-ANALOG CONVERTER with 2.5V,2ppm/°C Internal Reference
 $ENDCMP
