@@ -1,6 +1,6 @@
-update=Tue Jan 28 18:29:42 2020
+update=30.01.2020 09:54:51
 version=1
-last_client=kicad
+last_client=pcbnew
 [general]
 version=1
 RootSch=
@@ -257,6 +257,17 @@ dPairWidth=0.2
 dPairGap=0.25
 dPairViaGap=0.25
 [pcbnew/Netclasses/1]
+Name=+24V
+Clearance=0.508
+TrackWidth=0.127
+ViaDiameter=0.5
+ViaDrill=0.2
+uViaDiameter=0.3
+uViaDrill=0.1
+dPairWidth=0.2
+dPairGap=0.25
+dPairViaGap=0.25
+[pcbnew/Netclasses/2]
 Name=Connector
 Clearance=0.508
 TrackWidth=0.127
