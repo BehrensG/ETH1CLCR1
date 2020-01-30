@@ -58,6 +58,22 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define MCU1_GPIO_OUT1_Pin GPIO_PIN_10
+#define MCU1_GPIO_OUT1_GPIO_Port GPIOF
+#define MCU1_GPIO_OUT2_Pin GPIO_PIN_0
+#define MCU1_GPIO_OUT2_GPIO_Port GPIOC
+#define MCU1_STATUS_IN_Pin GPIO_PIN_2
+#define MCU1_STATUS_IN_GPIO_Port GPIOC
+#define I2C_WP_Pin GPIO_PIN_13
+#define I2C_WP_GPIO_Port GPIOF
+#define TRIG_EN_Pin GPIO_PIN_13
+#define TRIG_EN_GPIO_Port GPIOB
+#define TRIG_OUT_Pin GPIO_PIN_14
+#define TRIG_OUT_GPIO_Port GPIOB
+#define TRIG_IN_Pin GPIO_PIN_15
+#define TRIG_IN_GPIO_Port GPIOB
+#define MCU_DEFAULT_Pin GPIO_PIN_12
+#define MCU_DEFAULT_GPIO_Port GPIOA
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
