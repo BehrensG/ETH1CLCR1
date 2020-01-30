@@ -953,47 +953,47 @@ Wire Wire Line
 	650  10100 650  10000
 Wire Wire Line
 	650  9700 650  9600
-Text HLabel 14600 7600 2    50   Output ~ 0
+Text HLabel 14600 5000 2    50   Output ~ 0
 TRIG_EN
-Text HLabel 14600 7700 2    50   Output ~ 0
+Text HLabel 14600 4900 2    50   Output ~ 0
 TRIG_OUT
-Text HLabel 14600 7800 2    50   Input ~ 0
+Text HLabel 14600 4800 2    50   Input ~ 0
 TRIG_IN
 Wire Wire Line
 	14550 8300 15200 8300
 Wire Wire Line
-	14600 7600 14550 7600
+	14600 4800 14550 4800
 Wire Wire Line
-	14600 7700 14550 7700
+	14600 4900 14550 4900
 Wire Wire Line
-	14550 7800 14600 7800
-Text HLabel 3100 5100 0    50   Input ~ 0
-MCU1_STATUS_IN
-Text HLabel 3100 4900 0    50   Output ~ 0
+	14550 5000 14600 5000
+Text HLabel 14600 5400 2    50   Input ~ 0
+MCU1_STATUS_IN1
+Text HLabel 14600 5500 2    50   Output ~ 0
 MCU1_GPIO_OUT2
-Text HLabel 3100 2500 0    50   Output ~ 0
+Text HLabel 14600 5600 2    50   Output ~ 0
 MCU1_GPIO_OUT1
 Wire Wire Line
-	3100 2500 3150 2500
+	14600 5500 14550 5500
 Wire Wire Line
-	3150 4900 3100 4900
+	14550 5600 14600 5600
 Wire Wire Line
-	3100 5100 3150 5100
+	14600 5400 14550 5400
 Wire Wire Line
-	3150 2100 3100 2100
+	14550 5700 14600 5700
 Wire Wire Line
-	3100 2200 3150 2200
+	14600 5800 14550 5800
 Wire Wire Line
-	3150 2300 3100 2300
+	14550 5900 14600 5900
 Wire Wire Line
-	3100 2400 3150 2400
-Text HLabel 3100 2100 0    50   Output ~ 0
+	14600 6000 14550 6000
+Text HLabel 14600 5700 2    50   Output ~ 0
 MCU1_~SS
-Text HLabel 3100 2300 0    50   Input ~ 0
+Text HLabel 14600 5900 2    50   Input ~ 0
 MCU1_MISO
-Text HLabel 3100 2400 0    50   Output ~ 0
+Text HLabel 14600 6000 2    50   Output ~ 0
 MCU1_MOSI
-Text HLabel 3100 2200 0    50   Output ~ 0
+Text HLabel 14600 5800 2    50   Output ~ 0
 MCU1_MCLK
 Wire Wire Line
 	1750 1300 3150 1300
@@ -1051,19 +1051,8 @@ NoConn ~ 14550 4300
 NoConn ~ 14550 4400
 NoConn ~ 14550 4600
 NoConn ~ 14550 4700
-NoConn ~ 14550 4800
-NoConn ~ 14550 4900
-NoConn ~ 14550 5000
 NoConn ~ 14550 5100
 NoConn ~ 14550 5200
-NoConn ~ 14550 5300
-NoConn ~ 14550 5400
-NoConn ~ 14550 5500
-NoConn ~ 14550 5600
-NoConn ~ 14550 5700
-NoConn ~ 14550 5800
-NoConn ~ 14550 5900
-NoConn ~ 14550 6000
 NoConn ~ 14550 6100
 NoConn ~ 14550 6300
 NoConn ~ 14550 6400
@@ -1478,4 +1467,18 @@ Text Label 2700 1500 0    50   ~ 0
 SENS_SDA
 Wire Wire Line
 	1100 10100 1100 10000
+NoConn ~ 3150 2100
+NoConn ~ 3150 2200
+NoConn ~ 3150 2300
+NoConn ~ 3150 2400
+NoConn ~ 3150 2500
+NoConn ~ 3150 4900
+NoConn ~ 3150 5100
+Text HLabel 14600 5300 2    50   Input ~ 0
+MCU1_STATUS_IN2
+Wire Wire Line
+	14600 5300 14550 5300
+NoConn ~ 14550 7600
+NoConn ~ 14550 7700
+NoConn ~ 14550 7800
 $EndSCHEMATC

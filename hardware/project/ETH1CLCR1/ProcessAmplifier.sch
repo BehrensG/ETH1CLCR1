@@ -1846,17 +1846,17 @@ F 3 "" H 15050 9600 50  0001 C CNN
 	1    15050 9600
 	1    0    0    -1  
 $EndComp
-Text HLabel 14650 8800 0    50   Input ~ 0
-PA_MOS1
 Text HLabel 14650 8900 0    50   Input ~ 0
+PA_MOS1
+Text HLabel 14650 8800 0    50   Input ~ 0
 PA_MOS2
-Text HLabel 14650 9000 0    50   Input ~ 0
-PA_MOS3
 Text HLabel 14650 9100 0    50   Input ~ 0
+PA_MOS3
+Text HLabel 14650 9000 0    50   Input ~ 0
 PA_MOS4
-Text HLabel 14650 9200 0    50   Input ~ 0
-PA_MOS5
 Text HLabel 14650 9300 0    50   Input ~ 0
+PA_MOS5
+Text HLabel 14650 9200 0    50   Input ~ 0
 PA_MOS6
 $Comp
 L ETH1CLCR1:+5VF #PWR0930
@@ -1870,30 +1870,30 @@ F 3 "" H 15450 8600 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 Wire Wire Line
-	15450 8800 15800 8800
-Wire Wire Line
 	15450 8900 15800 8900
 Wire Wire Line
-	15450 9000 15800 9000
+	15450 8800 15800 8800
 Wire Wire Line
 	15450 9100 15800 9100
 Wire Wire Line
-	15450 9200 15800 9200
+	15450 9000 15800 9000
 Wire Wire Line
 	15450 9300 15800 9300
+Wire Wire Line
+	15450 9200 15800 9200
 NoConn ~ 14650 9400
 NoConn ~ 15450 9400
-Text Label 15800 8800 2    50   ~ 0
-MOS1
 Text Label 15800 8900 2    50   ~ 0
+MOS1
+Text Label 15800 8800 2    50   ~ 0
 MOS2
-Text Label 15800 9000 2    50   ~ 0
-MOS3
 Text Label 15800 9100 2    50   ~ 0
+MOS3
+Text Label 15800 9000 2    50   ~ 0
 MOS4
-Text Label 15800 9200 2    50   ~ 0
-MOS5
 Text Label 15800 9300 2    50   ~ 0
+MOS5
+Text Label 15800 9200 2    50   ~ 0
 MOS6
 Text Label 7700 2800 0    50   ~ 0
 MOS1
