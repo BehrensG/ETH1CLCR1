@@ -1747,17 +1747,6 @@ Wire Wire Line
 	3500 6950 3500 6900
 Wire Wire Line
 	2450 6950 2450 7350
-$Comp
-L Analog_DAC:AD5689BRUZ U1404
-U 1 1 5DEB7D4C
-P 3500 7550
-F 0 "U1404" H 4050 8200 50  0000 C CNN
-F 1 "AD5689BRUZ" H 4050 8100 50  0000 C CNN
-F 2 "Package_SO:TSSOP-16_4.4x5mm_P0.65mm" H 3500 7550 50  0001 C CNN
-F 3 "https://www.analog.com/media/en/technical-documentation/data-sheets/AD5689_5687.pdf" H 3500 7550 50  0001 C CNN
-	1    3500 7550
-	1    0    0    -1  
-$EndComp
 Text HLabel 2350 7250 0    50   Input ~ 0
 DDS_DAC_SDIN
 Text HLabel 2350 7150 0    50   Input ~ 0
@@ -2536,6 +2525,17 @@ F 1 "+3.3VF" H 865 10173 50  0000 C CNN
 F 2 "" H 850 10000 50  0001 C CNN
 F 3 "" H 850 10000 50  0001 C CNN
 	1    850  10000
+	1    0    0    -1  
+$EndComp
+$Comp
+L Analog_DAC:AD5689BRUZ U1404
+U 1 1 5DEB7D4C
+P 3500 7550
+F 0 "U1404" H 4050 8200 50  0000 C CNN
+F 1 "AD5689BRUZ" H 4050 8100 50  0000 C CNN
+F 2 "Package_SO:TSSOP-16_4.4x5mm_P0.65mm" H 3500 7550 50  0001 C CNN
+F 3 "https://www.analog.com/media/en/technical-documentation/data-sheets/AD5689_5687.pdf" H 3500 7550 50  0001 C CNN
+	1    3500 7550
 	1    0    0    -1  
 $EndComp
 $EndSCHEMATC

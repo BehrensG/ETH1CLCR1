@@ -452,48 +452,34 @@ F 3 "" H 14150 6300 50  0001 C CNN
 	1    14150 6300
 	1    0    0    -1  
 $EndComp
-$Comp
-L ETH1CLCR1:STM32F413RGT6Tx U601
-U 1 1 5DD8B08C
-P 7550 5000
-F 0 "U601" H 2050 6800 50  0000 C CNN
-F 1 "STM32F413RGT6Tx" H 12750 6800 50  0000 C CNN
-F 2 "Package_QFP:LQFP-64_10x10mm_P0.5mm" H 850 4400 50  0001 C CNN
-F 3 "" H 850 4400 50  0001 C CNN
-	1    7550 5000
-	1    0    0    -1  
-$EndComp
-Text HLabel 13250 3450 2    50   Output ~ 0
+Text HLabel 1850 3750 0    50   Output ~ 0
 DDS_FGEN_~FSYNC
-Text HLabel 1850 4350 0    50   Output ~ 0
+Text HLabel 1850 4050 0    50   Output ~ 0
 DDS_FGEN_SDATA
-Text HLabel 13250 3350 2    50   Output ~ 0
+Text HLabel 1850 3850 0    50   Output ~ 0
 DDS_FGEN_SCLK
 Wire Wire Line
 	13250 3350 13200 3350
 Wire Wire Line
 	1850 4350 1900 4350
-NoConn ~ 1900 4550
 Text HLabel 13250 4450 2    50   Output ~ 0
 DDS_MDAC_~SYNC
 Text HLabel 13250 4550 2    50   Output ~ 0
 DDS_MDAC_SCLK
-Text HLabel 1850 3450 0    50   Output ~ 0
+Text HLabel 13250 4750 2    50   Output ~ 0
 DDS_MDAC_DIN
 Wire Wire Line
 	13250 4550 13200 4550
 Wire Wire Line
-	1850 3450 1900 3450
+	1850 5450 1900 5450
 Wire Wire Line
 	13250 4450 13200 4450
 Wire Wire Line
 	13250 3450 13200 3450
-Text HLabel 1850 4850 0    50   Output ~ 0
+Text HLabel 13250 3450 2    50   Output ~ 0
 DDS_DAC_~SYNC
-Text HLabel 1850 3850 0    50   Output ~ 0
+Text HLabel 13250 3350 2    50   Output ~ 0
 DDS_DAC_SCLK
-Text HLabel 1850 4050 0    50   Output ~ 0
-DDS_DAC_SDIN
 Wire Wire Line
 	1850 3850 1900 3850
 Wire Wire Line
@@ -505,52 +491,35 @@ Wire Wire Line
 	1900 6250 1850 6250
 Wire Wire Line
 	1900 6050 1850 6050
-Text HLabel 1850 6050 0    50   Input ~ 0
-MCU3_SCLK
 Wire Wire Line
-	1900 3750 1850 3750
-Text HLabel 1850 3750 0    50   Input ~ 0
-MCU3_NSS
-Text HLabel 1850 3650 0    50   Output ~ 0
+	1900 4850 1850 4850
+Text HLabel 1850 4250 0    50   Output ~ 0
 DDS_DAC_~RESET
-Text HLabel 1850 3550 0    50   Output ~ 0
+Text HLabel 13250 3550 2    50   Output ~ 0
 DDS_DAC_~LDAC
-Text HLabel 1850 3350 0    50   Output ~ 0
+Text HLabel 1850 4150 0    50   Output ~ 0
 DDS_DAC_RSTSEL
 Wire Wire Line
-	1850 4850 1900 4850
+	1850 3750 1900 3750
 Wire Wire Line
 	1850 3650 1900 3650
 Wire Wire Line
-	1850 3550 1900 3550
-Wire Wire Line
-	1850 3350 1900 3350
-NoConn ~ 1900 4450
-Text HLabel 1850 4150 0    50   Output ~ 0
+	1850 5550 1900 5550
+Text HLabel 1850 5450 0    50   Output ~ 0
 DDS_FGEN_PSEL0
-Text HLabel 1850 4250 0    50   Output ~ 0
+Text HLabel 1850 5550 0    50   Output ~ 0
 DDS_FGEN_PSEL1
-Text HLabel 1850 3950 0    50   Input ~ 0
+Text HLabel 1850 4550 0    50   Input ~ 0
 DDS_DAC_SDO
-Wire Wire Line
-	1850 3950 1900 3950
-Wire Wire Line
-	1850 4250 1900 4250
-Wire Wire Line
-	1900 4150 1850 4150
-Text HLabel 13250 3550 2    50   Output ~ 0
+Text HLabel 1850 3650 0    50   Output ~ 0
 DDS_FGEN_FSELECT
 Wire Wire Line
 	13250 3550 13200 3550
 NoConn ~ 13200 3650
 NoConn ~ 13200 3750
 NoConn ~ 13200 4150
-NoConn ~ 13200 4650
-NoConn ~ 13200 4750
 NoConn ~ 1900 6350
 NoConn ~ 1900 6550
-NoConn ~ 1900 5550
-NoConn ~ 1900 5450
 NoConn ~ 1900 5150
 NoConn ~ 1900 5050
 $Comp
@@ -708,10 +677,10 @@ Wire Wire Line
 	4500 10750 4500 10650
 Wire Wire Line
 	4500 10250 4500 10350
-Text HLabel 1850 5650 0    50   Output ~ 0
+Text HLabel 1850 5950 0    50   Output ~ 0
 ANALOG_SWITCH
 Wire Wire Line
-	1850 5650 1900 5650
+	1850 5950 1900 5950
 $Comp
 L ETH1CLCR1:+3.3VF #PWR0601
 U 1 1 5E94700D
@@ -789,13 +758,7 @@ F 3 "" H 7550 3050 50  0001 C CNN
 	1    7550 3050
 	1    0    0    -1  
 $EndComp
-Text HLabel 1850 6150 0    50   Output ~ 0
-MCU3_MISO
-Text HLabel 1850 6250 0    50   Input ~ 0
-MCU3_MOSI
-NoConn ~ 1900 5750
 NoConn ~ 1900 5850
-NoConn ~ 1900 5950
 NoConn ~ 1900 5350
 NoConn ~ 13200 4350
 NoConn ~ 13200 4250
@@ -895,4 +858,55 @@ Text Label 7800 2900 3    50   ~ 0
 VDDA
 Text Label 5150 10300 0    50   ~ 0
 VDDA
+Text HLabel 1850 4850 0    50   Input ~ 0
+MCU3_NSS
+Text HLabel 1850 6050 0    50   Input ~ 0
+MCU3_SCLK
+Text HLabel 1850 6150 0    50   Output ~ 0
+MCU3_MISO
+Text HLabel 1850 6250 0    50   Input ~ 0
+MCU3_MOSI
+Text Notes 1100 6200 0    50   ~ 0
+SPI3
+Text Notes 1100 4900 0    50   ~ 0
+SPI3
+NoConn ~ 1900 3950
+Text Notes 900  3950 0    50   ~ 0
+SPI1
+NoConn ~ 1900 3450
+NoConn ~ 1900 3550
+Wire Wire Line
+	13250 4750 13200 4750
+Text Notes 14050 4600 0    50   ~ 0
+SPI2
+Text HLabel 1850 4350 0    50   Output ~ 0
+DDS_DAC_SDIN
+Wire Wire Line
+	1850 4550 1900 4550
+Text Notes 13950 3400 0    50   ~ 0
+SPI5
+Text Notes 1050 4600 0    50   ~ 0
+SPI5
+Text Notes 1000 4350 0    50   ~ 0
+SPI5
+Wire Wire Line
+	1850 4250 1900 4250
+NoConn ~ 1900 5650
+NoConn ~ 1900 3350
+NoConn ~ 1900 4450
+Wire Wire Line
+	1900 4150 1850 4150
+$Comp
+L ETH1CLCR1:STM32F413RGT6Tx U601
+U 1 1 5DD8B08C
+P 7550 5000
+F 0 "U601" H 2050 6800 50  0000 C CNN
+F 1 "STM32F413RGT6Tx" H 12750 6800 50  0000 C CNN
+F 2 "Package_QFP:LQFP-64_10x10mm_P0.5mm" H 850 4400 50  0001 C CNN
+F 3 "" H 850 4400 50  0001 C CNN
+	1    7550 5000
+	1    0    0    -1  
+$EndComp
+NoConn ~ 13200 4650
+NoConn ~ 1900 5750
 $EndSCHEMATC
