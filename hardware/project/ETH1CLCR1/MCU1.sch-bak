@@ -1038,7 +1038,6 @@ NoConn ~ 14550 3000
 NoConn ~ 14550 3100
 NoConn ~ 14550 3200
 NoConn ~ 14550 3300
-NoConn ~ 14550 3400
 NoConn ~ 14550 3500
 NoConn ~ 14550 3600
 NoConn ~ 14550 3700
@@ -1094,8 +1093,8 @@ Wire Wire Line
 Wire Wire Line
 	3650 10900 4150 10900
 Wire Wire Line
-	3150 4400 2600 4400
-Text Label 2600 4400 0    50   ~ 0
+	14550 3400 15100 3400
+Text Label 15100 3400 2    50   ~ 0
 MCU_DEFAULT
 Connection ~ 11400 9950
 Wire Wire Line
@@ -1481,4 +1480,5 @@ Wire Wire Line
 NoConn ~ 14550 7600
 NoConn ~ 14550 7700
 NoConn ~ 14550 7800
+NoConn ~ 3150 4400
 $EndSCHEMATC

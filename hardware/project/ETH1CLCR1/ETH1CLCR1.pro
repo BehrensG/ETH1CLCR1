@@ -1,6 +1,6 @@
-update=30.01.2020 09:54:51
+update=Sat Feb  1 23:52:57 2020
 version=1
-last_client=pcbnew
+last_client=kicad
 [general]
 version=1
 RootSch=
@@ -32,7 +32,7 @@ AllowMicroVias=0
 AllowBlindVias=0
 RequireCourtyardDefinitions=0
 ProhibitOverlappingCourtyards=1
-MinTrackWidth=0.09999999999999999
+MinTrackWidth=0.127
 MinViaDiameter=0.4
 MinViaDrill=0.2
 MinMicroViaDiameter=0.2
