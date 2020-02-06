@@ -20,27 +20,23 @@ $CMP AD8606-2-MSOP
 D Precision, Low Noise, CMOS, Rail-to-Rail, Input/Output Operational Amplifiers
 $ENDCMP
 #
-$CMP DAC7564
-D 12-Bit, Quad Channel, Ultra-Low Glitch, Voltage Output DIGITAL-TO-ANALOG CONVERTER with 2.5V,2ppm/°C Internal Reference
+$CMP ADR4525BRZ
+D 2.5V Ultralow Noise, High Accuracy
 $ENDCMP
 #
-$CMP DAC7568ICPWR
-D DAC7568, DAC8168, DAC8568 12-/14-/16-Bit, Octal-Channel, Ultralow Glitch, Voltage Output, Digital-to-Analog Converter swith 2.5-V 2-ppm/°C Internal Reference
+$CMP ADR45xx
+D Ultralow Noise, High Accuracy
+$ENDCMP
+#
+$CMP DAC7564
+D 12-Bit, Quad Channel, Ultra-Low Glitch, Voltage Output DIGITAL-TO-ANALOG CONVERTER with 2.5V,2ppm/°C Internal Reference
 $ENDCMP
 #
 $CMP DAC7568IxPWR
 D DAC7568, DAC8168, DAC8568 12-/14-/16-Bit, Octal-Channel, Ultralow Glitch, Voltage Output, Digital-to-Analog Converter swith 2.5-V 2-ppm/°C Internal Reference
 $ENDCMP
 #
-$CMP DAC8186ICPWR
-D DAC7568, DAC8168, DAC8568 12-/14-/16-Bit, Octal-Channel, Ultralow Glitch, Voltage Output, Digital-to-Analog Converter swith 2.5-V 2-ppm/°C Internal Reference
-$ENDCMP
-#
 $CMP DAC8186IxPWR
-D DAC7568, DAC8168, DAC8568 12-/14-/16-Bit, Octal-Channel, Ultralow Glitch, Voltage Output, Digital-to-Analog Converter swith 2.5-V 2-ppm/°C Internal Reference
-$ENDCMP
-#
-$CMP DAC8568ICPWR
 D DAC7568, DAC8168, DAC8568 12-/14-/16-Bit, Octal-Channel, Ultralow Glitch, Voltage Output, Digital-to-Analog Converter swith 2.5-V 2-ppm/°C Internal Reference
 $ENDCMP
 #
