@@ -1,4 +1,4 @@
-16957665880777332
+16923708464543390
 Battery
 BatteryHolder_Bulgin_BX0036_1xC
 Bulgin Battery Holder, BX0036, Battery Type C (https://www.bulgin.com/products/pub/media/bulgin/data/Battery_holders.pdf)
@@ -42398,6 +42398,69 @@ connector
 0
 4
 4
+Connector_Wuerth
+Wuerth_WR-WTB_64800211622_1x02_P1.50mm_Vertical
+Wuerth WR-WTB series connector, 64800211622 (https://katalog.we-online.com/em/datasheet/6480xx11622.pdf), generated with kicad-footprint-generator
+connector Wuerth WR-WTB vertical
+0
+2
+2
+Connector_Wuerth
+Wuerth_WR-WTB_64800311622_1x03_P1.50mm_Vertical
+Wuerth WR-WTB series connector, 64800311622 (https://katalog.we-online.com/em/datasheet/6480xx11622.pdf), generated with kicad-footprint-generator
+connector Wuerth WR-WTB vertical
+0
+3
+3
+Connector_Wuerth
+Wuerth_WR-WTB_64800411622_1x04_P1.50mm_Vertical
+Wuerth WR-WTB series connector, 64800411622 (https://katalog.we-online.com/em/datasheet/6480xx11622.pdf), generated with kicad-footprint-generator
+connector Wuerth WR-WTB vertical
+0
+4
+4
+Connector_Wuerth
+Wuerth_WR-WTB_64800511622_1x05_P1.50mm_Vertical
+Wuerth WR-WTB series connector, 64800511622 (https://katalog.we-online.com/em/datasheet/6480xx11622.pdf), generated with kicad-footprint-generator
+connector Wuerth WR-WTB vertical
+0
+5
+5
+Connector_Wuerth
+Wuerth_WR-WTB_64800611622_1x06_P1.50mm_Vertical
+Wuerth WR-WTB series connector, 64800611622 (https://katalog.we-online.com/em/datasheet/6480xx11622.pdf), generated with kicad-footprint-generator
+connector Wuerth WR-WTB vertical
+0
+6
+6
+Connector_Wuerth
+Wuerth_WR-WTB_64800711622_1x07_P1.50mm_Vertical
+Wuerth WR-WTB series connector, 64800711622 (https://katalog.we-online.com/em/datasheet/6480xx11622.pdf), generated with kicad-footprint-generator
+connector Wuerth WR-WTB vertical
+0
+7
+7
+Connector_Wuerth
+Wuerth_WR-WTB_64800811622_1x08_P1.50mm_Vertical
+Wuerth WR-WTB series connector, 64800811622 (https://katalog.we-online.com/em/datasheet/6480xx11622.pdf), generated with kicad-footprint-generator
+connector Wuerth WR-WTB vertical
+0
+8
+8
+Connector_Wuerth
+Wuerth_WR-WTB_64800911622_1x09_P1.50mm_Vertical
+Wuerth WR-WTB series connector, 64800911622 (https://katalog.we-online.com/em/datasheet/6480xx11622.pdf), generated with kicad-footprint-generator
+connector Wuerth WR-WTB vertical
+0
+9
+9
+Connector_Wuerth
+Wuerth_WR-WTB_64801011622_1x10_P1.50mm_Vertical
+Wuerth WR-WTB series connector, 64801011622 (https://katalog.we-online.com/em/datasheet/6480xx11622.pdf), generated with kicad-footprint-generator
+connector Wuerth WR-WTB vertical
+0
+10
+10
 Converter_ACDC
 Converter_ACDC_CUI_PBO-3-Sxx_THT_Vertical
 ACDC-Converter, 3W, CUI PBO-3, THT https://www.cui.com/product/resource/pbo-3.pdf
@@ -46024,216 +46087,6 @@ One digit LED 7 segment SA39-11 SC39-11 SA39-12 SC39-12
 0
 10
 10
-ETH1CLCR1
-7448013501
-WE-CMBNC Common Mode PowerLine Choke Nanocrystalline
-
-0
-4
-4
-ETH1CLCR1
-9012
-COTO Miniature Molded SIP Reed Relay
-
-0
-4
-4
-ETH1CLCR1
-60817-096
-
-
-0
-1
-1
-ETH1CLCR1
-744031004
-WE-TPC SMD Shielded Tiny Power Inductor
-
-0
-2
-2
-ETH1CLCR1
-744053220
-WE-TPC SMD Shielded Tiny Power Inductor
-
-0
-2
-2
-ETH1CLCR1
-744233121
- Filter, Line, Common Mode, WE-CNSW Series, 120 ohm, 280 mA, 2mm x 1.2mm x 1.2mm 
-
-0
-4
-4
-ETH1CLCR1
-749010012A
-Transformer, LAN, 1 Port, 10/100 Base-T, 1500VAC, 350µH, 1:1 Turn Ratio
-
-0
-16
-16
-ETH1CLCR1
-74489440068
-COUPLED INDUCTOR  WE-TDC 8038
-
-0
-4
-4
-ETH1CLCR1
-AQY212GS
-Load current greatly increased using next-generation MOSFET High Capacity 4-pin Type
-
-0
-4
-4
-ETH1CLCR1
-BFC2
-Film Dielectric Trimmers
-
-0
-4
-2
-ETH1CLCR1
-CW252016
-CW252016 Series - High Q Chip Inductors
-
-0
-2
-2
-ETH1CLCR1
-DO_214AA_REV
-
-
-0
-2
-2
-ETH1CLCR1
-ECS
-
-
-0
-4
-4
-ETH1CLCR1
-Fuse_SMD2920
-MF-LSMFSeries-PTCResettableFuses
-Fuse SMD2920
-0
-2
-2
-ETH1CLCR1
-HE360_x-5050462-8
-HE3600 Miniature Single In-line Reed Relay
-
-0
-4
-4
-ETH1CLCR1
-JZ
-J Series Outperforms All Other Similar Trimmers
-
-0
-2
-2
-ETH1CLCR1
-NX3225GD
- A small surface-mount type crystal unit, ideal for an engine control CPU clock
-
-0
-2
-2
-ETH1CLCR1
-NX5032GA
-Crystal
-
-0
-2
-2
-ETH1CLCR1
-OKI-T3-W40
-Adjustable Output 3-Amp DOSA-SMT DC/DC Converters
-
-0
-5
-5
-ETH1CLCR1
-PowerPAD
-
-
-0
-49
-21
-ETH1CLCR1
-SA
-LOW-PROFILE SURFACE-MOUNT RELAY
-
-0
-10
-10
-ETH1CLCR1
-SO8E
-module CMS SOJ 8 pins etroit
-CMS SOJ
-0
-8
-8
-ETH1CLCR1
-SO8N
-Module CMS SOJ 8 pins large
-CMS SOJ
-0
-8
-8
-ETH1CLCR1
-Socket_DIN41612-CaseC1-AC-Male-64Pin-2rows
-
-
-0
-66
-65
-ETH1CLCR1
-TCK-141
-Inductor
-
-0
-2
-2
-ETH1CLCR1
-THL15
-THL 15WI Series, 15 Watt
-
-0
-6
-6
-ETH1CLCR1
-TO-252-2_Rectifier
-TO-252-2
-TO-252-2 Rectifier
-0
-3
-3
-ETH1CLCR1
-TQFP-144_20x20mm_P0.5mm
-TQFP, 144 Pin (http://www.microsemi.com/index.php?option=com_docman&task=doc_download&gid=131095), generated with kicad-footprint-generator ipc_qfp_generator.py
-TQFP QFP
-0
-144
-144
-ETH1CLCR1
-TSR1
-DC/DC Converter TSR 1 Series, 1 A
-
-0
-3
-3
-ETH1CLCR1
-TSR2
-DC/DC Converter TSR 2 Series, 2 A
-
-0
-3
-3
 Ferrite_THT
 LairdTech_28C0236-0JW-10
 Ferrite, vertical, LairdTech 28C0236-0JW-10, https://assets.lairdtech.com/home/brandworld/files/28C0236-0JW-10.pdf, JW Miller core https://www.bourns.com/products/magnetic-products/j.w.-miller-through-hole-ferrite-beads-emi-filters
