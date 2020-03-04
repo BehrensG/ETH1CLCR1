@@ -58,22 +58,42 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define TRIG_IN_Pin GPIO_PIN_2
+#define TRIG_IN_GPIO_Port GPIOE
+#define TRIG_OUT_Pin GPIO_PIN_3
+#define TRIG_OUT_GPIO_Port GPIOE
+#define TRIG_EN_Pin GPIO_PIN_4
+#define TRIG_EN_GPIO_Port GPIOE
+#define SENS_SDA_Pin GPIO_PIN_0
+#define SENS_SDA_GPIO_Port GPIOF
+#define SENS_SCL_Pin GPIO_PIN_1
+#define SENS_SCL_GPIO_Port GPIOF
+#define I2C4_WP_Pin GPIO_PIN_13
+#define I2C4_WP_GPIO_Port GPIOF
+#define MCU1_STATUS_IN2_Pin GPIO_PIN_7
+#define MCU1_STATUS_IN2_GPIO_Port GPIOE
+#define MCU1_STATUS_IN1_Pin GPIO_PIN_8
+#define MCU1_STATUS_IN1_GPIO_Port GPIOE
+#define MCU1_GPIO_OUT2_Pin GPIO_PIN_9
+#define MCU1_GPIO_OUT2_GPIO_Port GPIOE
 #define MCU1_GPIO_OUT1_Pin GPIO_PIN_10
-#define MCU1_GPIO_OUT1_GPIO_Port GPIOF
-#define MCU1_GPIO_OUT2_Pin GPIO_PIN_0
-#define MCU1_GPIO_OUT2_GPIO_Port GPIOC
-#define MCU1_STATUS_IN_Pin GPIO_PIN_2
-#define MCU1_STATUS_IN_GPIO_Port GPIOC
-#define I2C_WP_Pin GPIO_PIN_13
-#define I2C_WP_GPIO_Port GPIOF
-#define TRIG_EN_Pin GPIO_PIN_13
-#define TRIG_EN_GPIO_Port GPIOB
-#define TRIG_OUT_Pin GPIO_PIN_14
-#define TRIG_OUT_GPIO_Port GPIOB
-#define TRIG_IN_Pin GPIO_PIN_15
-#define TRIG_IN_GPIO_Port GPIOB
-#define MCU_DEFAULT_Pin GPIO_PIN_12
-#define MCU_DEFAULT_GPIO_Port GPIOA
+#define MCU1_GPIO_OUT1_GPIO_Port GPIOE
+#define MCU1_nSS_Pin GPIO_PIN_11
+#define MCU1_nSS_GPIO_Port GPIOE
+#define MCU1_MCLK_Pin GPIO_PIN_12
+#define MCU1_MCLK_GPIO_Port GPIOE
+#define MCU1_MISO_Pin GPIO_PIN_13
+#define MCU1_MISO_GPIO_Port GPIOE
+#define MCU1_MOSI_Pin GPIO_PIN_14
+#define MCU1_MOSI_GPIO_Port GPIOE
+#define LED_RED_Pin GPIO_PIN_10
+#define LED_RED_GPIO_Port GPIOC
+#define LED_GREEN_Pin GPIO_PIN_11
+#define LED_GREEN_GPIO_Port GPIOC
+#define LED_BLUE_Pin GPIO_PIN_12
+#define LED_BLUE_GPIO_Port GPIOC
+#define MCU_DEFAULT_Pin GPIO_PIN_5
+#define MCU_DEFAULT_GPIO_Port GPIOD
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
