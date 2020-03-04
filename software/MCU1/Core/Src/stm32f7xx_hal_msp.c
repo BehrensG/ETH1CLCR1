@@ -71,6 +71,8 @@ void HAL_MspInit(void)
   __HAL_RCC_SYSCFG_CLK_ENABLE();
 
   /* System interrupt init*/
+  /* PendSV_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(PendSV_IRQn, 15, 0);
 
   /* USER CODE BEGIN MspInit 1 */
 
@@ -97,7 +99,7 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef* hi2c)
     PF0     ------> I2C2_SDA
     PF1     ------> I2C2_SCL 
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
+    GPIO_InitStruct.Pin = SENS_SDA_Pin|SENS_SCL_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
     GPIO_InitStruct.Pull = GPIO_PULLUP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
@@ -157,7 +159,7 @@ void HAL_I2C_MspDeInit(I2C_HandleTypeDef* hi2c)
     PF0     ------> I2C2_SDA
     PF1     ------> I2C2_SCL 
     */
-    HAL_GPIO_DeInit(GPIOF, GPIO_PIN_0|GPIO_PIN_1);
+    HAL_GPIO_DeInit(GPIOF, SENS_SDA_Pin|SENS_SCL_Pin);
 
   /* USER CODE BEGIN I2C2_MspDeInit 1 */
 
@@ -208,7 +210,7 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi)
     PE13     ------> SPI4_MISO
     PE14     ------> SPI4_MOSI 
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14;
+    GPIO_InitStruct.Pin = MCU1_nSS_Pin|MCU1_MCLK_Pin|MCU1_MISO_Pin|MCU1_MOSI_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
@@ -244,7 +246,7 @@ void HAL_SPI_MspDeInit(SPI_HandleTypeDef* hspi)
     PE13     ------> SPI4_MISO
     PE14     ------> SPI4_MOSI 
     */
-    HAL_GPIO_DeInit(GPIOE, GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14);
+    HAL_GPIO_DeInit(GPIOE, MCU1_nSS_Pin|MCU1_MCLK_Pin|MCU1_MISO_Pin|MCU1_MOSI_Pin);
 
   /* USER CODE BEGIN SPI4_MspDeInit 1 */
 
