@@ -79,7 +79,7 @@ HAL_StatusTypeDef HDC1080_measure_temperature(I2C_HandleTypeDef *hi2c, double *t
 	if (error != HAL_OK) return error;
 
 	tmp = (double)readout;
-	tmp = (tmp / 65536.0F) * 165.0F - 40.0F;
+	tmp = (tmp / 65536.0) * 165.0 - 40.0;
 	*temperature = tmp;  // °C
 
 	return HAL_OK;
@@ -96,9 +96,9 @@ HAL_StatusTypeDef HDC1080_measure_humidity(I2C_HandleTypeDef *hi2c, double *humi
 	if (error != HAL_OK) return error;
 
 	tmp = (double)readout;
-	tmp = (tmp / 65536.0f) * 100.0f;
-	if (tmp>100.0) tmp = 100.0f;
-	if (tmp<0) tmp = 0.0f;
+	tmp = (tmp / 65536.0) * 100.0;
+	if (tmp>100.0) tmp = 100.0;
+	if (tmp<0) tmp = 0.0;
 	*humidity = tmp;
 
 	return HAL_OK;

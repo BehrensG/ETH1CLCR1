@@ -19,10 +19,11 @@
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
+
+#include "board.h"
 #include "main.h"
 #include "cmsis_os.h"
 #include "lwip.h"
-#include "board_def.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
