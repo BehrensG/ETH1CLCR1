@@ -28,4 +28,10 @@ scpi_result_t  SCPI_SystemTemperatureUnitQ(scpi_t * context);
 scpi_result_t SCPI_SystemHumidityQ(scpi_t * context);
 scpi_result_t SCPI_SystemServiceEEPROM(scpi_t * context);
 
+#define CURRENT 0
+#define STATIC 1
+#define NET_STR_WRONG_FORMAT 1
+#define NET_STR_WRONG_NUMBER 2
+#define NET_STR_OK 0
+
 #endif /* INC_SCPI_COMMANDS_SYSTEM_H_ */

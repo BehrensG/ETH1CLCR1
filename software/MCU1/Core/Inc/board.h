@@ -5,8 +5,10 @@
  *      Author: grzegorz
  */
 
-#ifndef INC_BOARD_DEF_H_
-#define INC_BOARD_DEF_H_
+#ifndef INC_BOARD_H_
+#define INC_BOARD_H_
+
+#include "stm32f7xx_hal.h"
 
 #define IP_ADDRESS_0 192
 #define IP_ADDRESS_1 168
@@ -30,6 +32,13 @@
 #define MAC_4 0x00
 #define MAC_5 0x00
 
+#define TCPIP_PORT 2000
+
+#define MCU_DEFAULT_OFF 0
+#define MCU_DEFAULT_ON 1
+
+#define MCU_SERVICE_SECURITY_OFF 0
+#define MCU_SERVICE_SECURITY_ON 1
 
 struct brd_scpi_info
 {
@@ -45,7 +54,7 @@ struct brd_dhcp
 	uint8_t status;
 };
 
-typedef brd_dhcp brd_dhcp_t;
+typedef struct brd_dhcp brd_dhcp_t;
 
 struct brd_ip4_lan
 {
@@ -59,14 +68,14 @@ struct brd_ip4_lan
 
 struct brd_security
 {
-	uint8_t state;
+	uint8_t status;
 	int8_t* password;
 };
 
 struct brd_average
 {
 	uint16_t count;
-	uint8_t state;
+	uint8_t status;
 };
 
 typedef struct brd_average brd_average_t;
@@ -85,30 +94,45 @@ struct brd_offset
 	uint8_t status;
 };
 
+typedef struct brd_offset brd_offset_t;
+
 struct brd_source
 {
 	uint32_t frequency;
 	double ampltidue;
-	brd_offset offset;
+	brd_offset_t offset;
+};
+
+struct brd_temperature
+{
+	uint8_t unit;
 };
 
 typedef struct brd_ip4_lan brd_ip4_lan_t;
 typedef struct brd_spi_module brd_spi_module_t;
 typedef struct brd_scpi_info brd_scpi_info_t;
 typedef struct brd_security brd_security_t;
-typedef struct brd_source brd_source_t
+typedef struct brd_source brd_source_t;
+typedef struct brd_temperature brd_temperature_t;
 
-struct brd_data
+struct brd_system
 {
 	brd_dhcp_t dhcp;
 	brd_ip4_lan_t ip4_current;
 	brd_ip4_lan_t ip4_static;
-	brd_scpi_info_t scpi_info;
-	brd_spi_module_t module;
 	brd_security_t security;
+	brd_temperature_t temperature;
+};
+
+typedef struct brd_system brd_system_t;
+
+struct brd_data
+{
+	brd_system_t system;
+	brd_scpi_info_t info;
 	brd_source_t source;
 	uint8_t default_cfg;
 
 }board, default_board;
 
-#endif /* INC_BOARD_DEF_H_ */
+#endif /* INC_BOARD_H_ */

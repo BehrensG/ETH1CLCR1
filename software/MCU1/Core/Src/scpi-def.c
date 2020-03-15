@@ -40,6 +40,8 @@
 #include "scpi/scpi.h"
 #include "scpi-def.h"
 
+#include "board.h"
+
 #include "scpi_commands_calibration.h"
 #include "scpi_commands_measure.h"
 #include "scpi_commands_misc.h"
