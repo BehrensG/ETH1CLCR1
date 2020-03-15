@@ -22,6 +22,7 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "lwip.h"
+#include "board_def.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -117,7 +118,7 @@ int main(void)
   MX_SPI4_Init();
   MX_LWIP_Init();
   /* USER CODE BEGIN 2 */
-
+  BOARD_DetectDefaultConfig();
   /* USER CODE END 2 */
   /* Init scheduler */
   osKernelInitialize();
@@ -143,9 +144,9 @@ int main(void)
  // defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
-  /* add threads, ... */
-  /* USER CODE END RTOS_THREADS */
   scpi_server_init();
+  /* USER CODE END RTOS_THREADS */
+
   /* Start scheduler */
   osKernelStart();
 
