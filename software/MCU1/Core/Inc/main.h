@@ -96,6 +96,7 @@ void Error_Handler(void);
 #define MCU_DEFAULT_GPIO_Port GPIOD
 /* USER CODE BEGIN Private defines */
 
+
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus
