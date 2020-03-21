@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "types.h"
+
 #include "scpi/scpi.h"
 #include "scpi-def.h"
 #include "hdc1080.h"
@@ -15,6 +17,7 @@
 #include "eeprom.h"
 #include "scpi_commands_system.h"
 
+extern I2C_HandleTypeDef hi2c2;
 
 scpi_choice_def_t LAN_state_select[] =
 {
@@ -25,9 +28,23 @@ scpi_choice_def_t LAN_state_select[] =
 
 scpi_choice_def_t temperature_unit[] =
 {
-    {"C", 1},
-    {"F", 2},
-    {"K", 3},
+    {"C", 0},
+    {"F", 1},
+    {"K", 2},
+    SCPI_CHOICE_LIST_END
+};
+
+scpi_choice_def_t security_state_select[] =
+{
+    {"OFF", 0},
+    {"ON", 1},
+    SCPI_CHOICE_LIST_END
+};
+
+scpi_choice_def_t EEPROM_state_select[] =
+{
+    {"RESET", 0},
+    {"DEFault", 1},
     SCPI_CHOICE_LIST_END
 };
 
@@ -101,12 +118,21 @@ static uint8_t SCPI_StringToMACArray(const uint8_t* MAC_string, uint8_t* MAC_arr
 
 scpi_result_t SCPI_SystemCommunicateLANDHCP(scpi_t * context)
 {
+	scpi_bool_t  enable = FALSE;
+	if (!SCPI_ParamBool(context, &enable, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	board.system.dhcp.enable = (uint8_t)enable;
 
 	return SCPI_RES_OK;
 }
 
 scpi_result_t SCPI_SystemCommunicateLANDHCPQ(scpi_t * context)
 {
+
+	SCPI_ResultBool(context, (scpi_bool_t)board.system.dhcp.enable);
 
 	return SCPI_RES_OK;
 }
@@ -144,7 +170,7 @@ scpi_result_t SCPI_SystemCommunicateLANIPAddress(scpi_t * context)
 
 scpi_result_t SCPI_SystemCommunicateLANIPAddressQ(scpi_t * context)
 {
-	int32_t value;
+	int32_t value = 0;
 	uint8_t str[16] = {0};
 
 	if(!SCPI_ParamChoice(context, LAN_state_select, &value, TRUE))
@@ -196,7 +222,7 @@ scpi_result_t SCPI_SystemCommunicateLANIPSmask(scpi_t * context)
 
 scpi_result_t SCPI_SystemCommunicateLANIPSmaskQ(scpi_t * context)
 {
-	int32_t value;
+	int32_t value = 0;
 	uint8_t str[16] = {0};
 
 	if(!SCPI_ParamChoice(context, LAN_state_select, &value, TRUE))
@@ -214,6 +240,7 @@ scpi_result_t SCPI_SystemCommunicateLANIPSmaskQ(scpi_t * context)
 									board.system.ip4_static.netmask[2], board.system.ip4_static.netmask[3]);
 	}
 	SCPI_ResultMnemonic(context, (char*)str);
+
 	return SCPI_RES_OK;
 }
 
@@ -250,7 +277,7 @@ scpi_result_t SCPI_SystemCommunicateLANGateway(scpi_t * context)
 
 scpi_result_t SCPI_SystemCommunicateLANGatewayQ(scpi_t * context)
 {
-	int32_t value;
+	int32_t value = 0;
 	uint8_t str[16] = {0};
 
 	if(!SCPI_ParamChoice(context, LAN_state_select, &value, TRUE))
@@ -268,22 +295,145 @@ scpi_result_t SCPI_SystemCommunicateLANGatewayQ(scpi_t * context)
 									board.system.ip4_static.gateway[2], board.system.ip4_static.gateway[3]);
 	}
 	SCPI_ResultMnemonic(context, (char*)str);
+
 	return SCPI_RES_OK;
 }
 
 scpi_result_t SCPI_SystemCommunicateLANMAC(scpi_t * context)
 {
+	uint8_t str[18] = {0};
+	uint8_t numb[6] = {0};
+	size_t len = 0;
+	uint8_t conv_result = 0;
+
+	if(board.system.security.status)
+	{
+		SCPI_ErrorPush(context, SCPI_ERROR_SERVICE_MODE_SECURE);
+		return SCPI_RES_ERR;
+	}
+
+	if(!SCPI_ParamCopyText(context,(char*)str, 18, &len, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	conv_result = SCPI_StringToMACArray(str, numb);
+
+	switch(conv_result)
+	{
+	case NET_STR_OK:
+	{
+		board.system.ip4_current.MAC[0] = numb[0];
+		board.system.ip4_current.MAC[1] = numb[1];
+		board.system.ip4_current.MAC[2] = numb[2];
+		board.system.ip4_current.MAC[3] = numb[3];
+		board.system.ip4_current.MAC[4] = numb[4];
+		board.system.ip4_current.MAC[5] = numb[5];
+	}break;
+	case NET_STR_WRONG_FORMAT: SCPI_ErrorPush(context, SCPI_ERROR_DATA_TYPE_ERROR); break;
+	case NET_STR_WRONG_NUMBER: SCPI_ErrorPush(context, SCPI_ERROR_NUMERIC_DATA_NOT_ALLOWED); break;
+	default: return SCPI_RES_ERR; break;
+	}
 
 	return SCPI_RES_OK;
 }
+
 scpi_result_t SCPI_SystemCommunicateLANMACQ(scpi_t * context)
 {
+	uint8_t str[18] = {0};
 
+	if(!board.default_cfg)
+	{
+		sprintf(str, "%02x:%02x:%02x:%02x:%02x:%02x", board.system.ip4_current.MAC[0], board.system.ip4_current.MAC[1],
+														board.system.ip4_current.MAC[2], board.system.ip4_current.MAC[3],
+														board.system.ip4_current.MAC[4], board.system.ip4_current.MAC[5]);
+	}
+	else
+	{
+		sprintf(str, "%02x:%02x:%02x:%02x:%02x:%02x", board.system.ip4_static.MAC[0], board.system.ip4_static.MAC[1],
+														board.system.ip4_static.MAC[2], board.system.ip4_static.MAC[3],
+														board.system.ip4_static.MAC[4], board.system.ip4_static.MAC[5]);
+	}
+
+	SCPI_ResultMnemonic(context, (char*)str);
+
+	return SCPI_RES_OK;
+}
+
+scpi_result_t SCPI_SystemCommunicateLANPort(scpi_t * context)
+{
+    uint32_t port = 0;
+
+    if(!SCPI_ParamUInt32(context, &port, TRUE))
+    {
+        return SCPI_RES_ERR;
+    }
+
+    if (port > ETH_PORT_MAX_VAL)
+    {
+        SCPI_ErrorPush(context, SCPI_ERROR_TOO_MANY_DIGITS);
+        return SCPI_RES_OK;
+    }
+
+    board.system.ip4_current.port = (uint16_t)port;
+
+	return SCPI_RES_OK;
+}
+
+scpi_result_t SCPI_SystemCommunicateLANPortQ(scpi_t * context)
+{
+	int32_t value = 0;
+	uint8_t str[16] = {0};
+
+	if(!SCPI_ParamChoice(context, LAN_state_select, &value, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	if(CURRENT == value)
+	{
+		SCPI_ResultUInt16(context,board.system.ip4_current.port);
+	}
+	else if(STATIC == value)
+	{
+		SCPI_ResultUInt16(context,board.system.ip4_static.port);
+	}
+
+	return SCPI_RES_OK;
+}
+
+scpi_result_t SCPI_SystemCommunicationLanUpdate(scpi_t * context)
+{
 	return SCPI_RES_OK;
 }
 
 scpi_result_t SCPI_SystemSecureState(scpi_t * context)
 {
+	int32_t state = 0;
+	int8_t password_read[PASSWORD_LENGTH] = {0};
+	size_t length = 0;
+	int8_t* password_reference = board.system.security.password;
+
+	if(!SCPI_ParamChoice(context, security_state_select, &state, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	if(!SCPI_ParamCopyText(context, (char*)password_read, PASSWORD_LENGTH, &length, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	if(!strcmp((const char*)password_read, (const char*)password_reference))
+	{
+		board.system.security.status = SECURITY_OFF;
+		return SCPI_RES_ERR;
+	}
+	else
+	{
+		SCPI_ErrorPush(context, SCPI_ERROR_SERVICE_INVALID_PASSWORD);
+		return SCPI_RES_ERR;
+	}
 
 	return SCPI_RES_OK;
 }
@@ -291,21 +441,20 @@ scpi_result_t SCPI_SystemSecureState(scpi_t * context)
 scpi_result_t SCPI_SystemSecureStateQ(scpi_t * context)
 {
 	SCPI_ResultUInt8(context, board.system.security.status);
-
 	return SCPI_RES_OK;
 }
 
 scpi_result_t SCPI_SystemTemperatureQ(scpi_t * context)
 {
-	double temperature;
+	double temperature = 0.0;
 
-	HDC1080_measure_temperature(I2C2, &temperature);
+	HDC1080_measure_temperature(&hi2c2, &temperature);
 
 	switch(board.system.temperature.unit)
 	{
-		case 1:;break;
-		case 2: temperature = (temperature*1.8)+32;break;
-		case 3: temperature += 273.15;break;
+		case 0:;break;
+		case 1: temperature = (temperature*1.8)+32;break;
+		case 2: temperature += 273.15;break;
 	}
 
 	SCPI_ResultDouble(context, temperature);
@@ -331,9 +480,9 @@ scpi_result_t SCPI_SystemTemperatureUnitQ(scpi_t * context)
 {
 	switch(board.system.temperature.unit)
 	{
-		case 1: SCPI_ResultText(context, "C");break;
-		case 2: SCPI_ResultText(context, "F");break;
-		case 3: SCPI_ResultText(context, "K");break;
+		case 0: SCPI_ResultText(context, "C");break;
+		case 1: SCPI_ResultText(context, "F");break;
+		case 2: SCPI_ResultText(context, "K");break;
 	}
 
 	return SCPI_RES_OK;
@@ -343,14 +492,30 @@ scpi_result_t SCPI_SystemHumidityQ(scpi_t * context)
 {
 	double humidity = 0.0;
 
-	HDC1080_measure_humidity(I2C2, &humidity);
-	SCPI_ResultDouble(context, humidity);
+	HDC1080_measure_humidity(&hi2c2, &humidity);
+	SCPI_ResultUInt8(context,(uint8_t)humidity);
 
 	return SCPI_RES_OK;
 }
 
 scpi_result_t SCPI_SystemServiceEEPROM(scpi_t * context)
 {
+	int32_t param = 0;
+	if(!SCPI_ParamChoice(context, EEPROM_state_select, &param, TRUE))
+	{
+        return SCPI_RES_ERR;
+	}
+
+	if(board.system.security.status)
+	{
+		return SCPI_ERROR_SERVICE_MODE_SECURE;
+	}
+
+	switch(param)
+	{
+		case 0:EEPROM_Reset();break;
+		case 1:;break;
+	}
 
 	return SCPI_RES_OK;
 }

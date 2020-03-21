@@ -42,7 +42,8 @@
  * See http://www.freertos.org/a00110.html
  *----------------------------------------------------------*/
 
-/* USER CODE BEGIN Includes */   	      
+/* USER CODE BEGIN Includes */
+ #define configUSE_NEWLIB_REENTRANT 1
 /* Section where include file can be added */
 /* USER CODE END Includes */ 
 

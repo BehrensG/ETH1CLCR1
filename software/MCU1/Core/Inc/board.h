@@ -10,6 +10,14 @@
 
 #include "stm32f7xx_hal.h"
 
+#define SCPI_MANUFACTURER_STRING_LENGTH 65
+#define SCPI_DEVICE_STRING_LENGTH 65
+#define SCPI_SERIALNUMBER_STRING_LENGTH 65
+#define SCPI_SOFTWAREVERSION_STRING_LENGTH 65
+#define HOSTNAME_LENGTH 20
+#define PASSWORD_LENGTH 65
+#define PASSWORD "ETH1CLCR1"
+
 #define IP_ADDRESS_0 192
 #define IP_ADDRESS_1 168
 #define IP_ADDRESS_2 0
@@ -32,7 +40,9 @@
 #define MAC_4 0x00
 #define MAC_5 0x00
 
-#define TCPIP_PORT 2000
+#define HOSTNAME "ETH1CLCR1"
+
+#define TCPIP_DEFAULT_PORT 2000
 
 #define MCU_DEFAULT_OFF 0
 #define MCU_DEFAULT_ON 1
@@ -42,16 +52,16 @@
 
 struct brd_scpi_info
 {
-	int8_t* manufacturer;
-	int8_t* device;
-	int8_t* serial_number;
-	int8_t* software_version;
+	int8_t manufacturer[SCPI_MANUFACTURER_STRING_LENGTH];
+	int8_t device[SCPI_DEVICE_STRING_LENGTH];
+	int8_t serial_number[SCPI_SERIALNUMBER_STRING_LENGTH];
+	int8_t software_version[SCPI_SOFTWAREVERSION_STRING_LENGTH];
 
 };
 
 struct brd_dhcp
 {
-	uint8_t status;
+	uint8_t enable;
 };
 
 typedef struct brd_dhcp brd_dhcp_t;
@@ -62,14 +72,14 @@ struct brd_ip4_lan
 	uint8_t netmask[4];
 	uint8_t gateway[4];
 	uint8_t MAC[6];
-	int8_t* hostname;
+	int8_t hostname[HOSTNAME_LENGTH];
 	uint16_t port;
 };
 
 struct brd_security
 {
 	uint8_t status;
-	int8_t* password;
+	int8_t password[PASSWORD_LENGTH];
 };
 
 struct brd_average
@@ -90,7 +100,7 @@ struct brd_sense
 
 struct brd_offset
 {
-	double offset;
+	double value;
 	uint8_t status;
 };
 
@@ -133,6 +143,6 @@ struct brd_data
 	brd_source_t source;
 	uint8_t default_cfg;
 
-}board, default_board;
+}__attribute__((packed, aligned(1))) board, default_board;
 
 #endif /* INC_BOARD_H_ */

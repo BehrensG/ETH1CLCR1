@@ -120,6 +120,7 @@ int main(void)
   MX_LWIP_Init();
   /* USER CODE BEGIN 2 */
   BOARD_DetectDefaultConfig();
+  BOARD_CreateDefaultData();
   /* USER CODE END 2 */
   /* Init scheduler */
   osKernelInitialize();
