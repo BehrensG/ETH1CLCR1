@@ -40,3 +40,15 @@ scpi_result_t SCPI_TriggerSourceQ(scpi_t * context)
 
 	return SCPI_RES_OK;
 }
+
+scpi_result_t SCPI_TriggerOutput(scpi_t * context)
+{
+
+	return SCPI_RES_OK;
+}
+
+scpi_result_t SCPI_TriggerOutputQ(scpi_t * context)
+{
+
+	return SCPI_RES_OK;
+}

@@ -7,8 +7,8 @@
 #define SCPI_ERROR_QUEUE_SIZE 17
 #define SCPI_IDN1 "GB"
 #define SCPI_IDN2 "ETH1CLCR1"
-#define SCPI_IDN3 NULL
-#define SCPI_IDN4 "01-02"
+#define SCPI_IDN3 "0.01"
+#define SCPI_IDN4 "GB000000000001"
 
 extern const scpi_command_t scpi_commands[];
 extern scpi_interface_t scpi_interface;

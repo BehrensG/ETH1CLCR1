@@ -121,6 +121,9 @@ const scpi_command_t scpi_commands[] = {
 	{.pattern = "SYSTem:COMMunicate:LAN:GATEway?", .callback = SCPI_SystemCommunicateLANGatewayQ,}, // Read default gateway
 	{.pattern = "SYSTem:COMMunicate:LAN:MAC", .callback = SCPI_SystemCommunicateLANMAC,}, // "<MAC address>"
 	{.pattern = "SYSTem:COMMunicate:LAN:MAC?", .callback = SCPI_SystemCommunicateLANMACQ,}, // Read MAC device
+	{.pattern = "SYSTem:COMMunicate:LAN:PORT", .callback = SCPI_SystemCommunicateLANPort,},
+	{.pattern = "SYSTem:COMMunicate:LAN:PORT?", .callback = SCPI_SystemCommunicateLANPortQ,},
+	{.pattern = "SYSTem:COMMunication:LAN:UPDate", .callback = SCPI_SystemCommunicationLanUpdate,},
 	{.pattern = "SYSTem:SERVice:EEPROM", .callback = SCPI_SystemServiceEEPROM,}, // {RESET|DEFault}
 
 	{.pattern = "SYSTem:SECure:STATe", .callback = SCPI_SystemSecureState,}, // {OFF|ON|0|1} <code>
@@ -185,10 +188,12 @@ const scpi_command_t scpi_commands[] = {
 	{.pattern = "TRIGger:DELay", .callback = SCPI_TriggerDelay,}, // <numeric_value> [MS|S] Set the trigger delay
 	{.pattern = "TRIGger:DELay?", .callback = SCPI_TriggerDelayQ,}, // Read the trigger delay
 	{.pattern = "TRIGger[:IMMediate]", .callback = SCPI_TriggerImmediate,},
-	{.pattern = "TRIGger:SOURce", .callback = SCPI_TriggerSource,}, // {EXTernal|INTernal|MANual}
+	{.pattern = "TRIGger:SOURce", .callback = SCPI_TriggerSource,}, // {IMMediate|EXTernal|BUS}
 	{.pattern = "TRIGger:SOURce?", .callback = SCPI_TriggerSourceQ,},
+	{.pattern = "TRIGger:OUTPut", .callback = SCPI_TriggerOutput,}, // {OFF|ON}
+	{.pattern = "TRIGger:OUTPut?", .callback = SCPI_TriggerOutputQ,},
 
-    SCPI_CMD_LIST_END
+	SCPI_CMD_LIST_END
 };
 
 scpi_interface_t scpi_interface = {
