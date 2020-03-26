@@ -41,6 +41,7 @@
 #include "scpi-def.h"
 
 #include "board.h"
+#include "main.h"
 
 #include "scpi_commands_calibration.h"
 #include "scpi_commands_measure.h"
@@ -50,17 +51,16 @@
 #include "scpi_commands_system.h"
 #include "scpi_commands_trigger.h"
 
-static scpi_result_t TEST_TSQ(scpi_t * context) {
+#include "eeprom.h"
 
+extern I2C_HandleTypeDef hi2c4;
+
+static scpi_result_t TEST_TSQ(scpi_t * context)
+{
+	EEPROM_WriteDefaultValues();
 	return SCPI_RES_OK;
 }
 
-
-struct _scpi_channel_value_t {
-    int32_t row;
-    int32_t col;
-};
-typedef struct _scpi_channel_value_t scpi_channel_value_t;
 
 /**
  * @brief
