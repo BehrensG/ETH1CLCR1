@@ -49,6 +49,9 @@
 
 #define MCU_SERVICE_SECURITY_OFF 0
 #define MCU_SERVICE_SECURITY_ON 1
+#define STRUCT_SIZE 430
+
+#pragma pack(push, 1)
 
 struct brd_scpi_info
 {
@@ -136,13 +139,19 @@ struct brd_system
 
 typedef struct brd_system brd_system_t;
 
-struct brd_data
+union brd_data
 {
-	brd_system_t system;
-	brd_scpi_info_t info;
-	brd_source_t source;
-	uint8_t default_cfg;
+	struct data
+	{
+		brd_system_t system;
+		brd_scpi_info_t info;
+		brd_source_t source;
+		uint8_t default_cfg;
 
-}__attribute__((packed, aligned(1))) board, default_board;
+	}structure;
+	uint8_t bytes[STRUCT_SIZE];
+}board, default_board;
+
+#pragma pack(pop)
 
 #endif /* INC_BOARD_H_ */
