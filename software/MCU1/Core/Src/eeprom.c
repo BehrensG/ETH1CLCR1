@@ -15,10 +15,6 @@
 
 extern I2C_HandleTypeDef hi2c4;
 
-static HAL_StatusTypeDef EEPROM_WritePage(uint8_t* data, uint16_t size)
-{
-
-}
 
 HAL_StatusTypeDef EEPROM_WriteDefaultValues()
 {
