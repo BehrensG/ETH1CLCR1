@@ -9,20 +9,20 @@
 #define INC_EEPROM_H_
 
 #include "stm32f7xx_hal.h"
+#include "board.h"
 
-#define EEPROM_ADDRESS 0xA0
-#define EEPROM_SIZE 0x3FF
-#define EEPROM_WRITE_STATE 0x44
+#define EEPROM_ADDRESS 0xA0U
+#define EEPROM_SIZE 0x3FFU
+#define EEPROM_WRITE_STATE 0x44U
 
-#define EEPROM_B0 0x02
-#define EEPROM_B1 0x04
-#define EEPROM_BLOCK_COUNT 4
-#define EEPROM_BLOCK_SIZE 256
+#define EEPROM_B0 0x02U
+#define EEPROM_B1 0x04U
+#define EEPROM_BLOCK_COUNT 4U
+#define EEPROM_BLOCK_SIZE 256U
 
+BRD_StatusTypeDef EEPROM_Reset(void);
+BRD_StatusTypeDef EEPROM_WriteDefaultValues(void);
+BRD_StatusTypeDef EEPROM_WritetValues(void);
+BRD_StatusTypeDef EEPROM_Read(union brd_data *union_data, uint16_t size);
 
-HAL_StatusTypeDef EEPROM_Reset(void);
-HAL_StatusTypeDef EEPROM_WriteDefaultValues(void);
-
-void EEPROM_write_reg(uint16_t reg_addr, uint8_t value);
-uint8_t  EEPROM_read_reg(uint16_t addr);
 #endif /* INC_EEPROM_H_ */
