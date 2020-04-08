@@ -125,6 +125,8 @@ const scpi_command_t scpi_commands[] = {
 	{.pattern = "SYSTem:COMMunicate:LAN:PORT?", .callback = SCPI_SystemCommunicateLANPortQ,},
 	{.pattern = "SYSTem:COMMunication:LAN:UPDate", .callback = SCPI_SystemCommunicationLanUpdate,},
 	{.pattern = "SYSTem:SERVice:EEPROM", .callback = SCPI_SystemServiceEEPROM,}, // {RESET|DEFault}
+	{.pattern = "SYSTem:SERVice:ID", .callback = SCPI_SystemServiceID,}, // manufacturer model SW serial
+
 
 	{.pattern = "SYSTem:SECure:STATe", .callback = SCPI_SystemSecureState,}, // {OFF|ON|0|1} <code>
 	{.pattern = "SYSTem:SECure:STATe?", .callback = SCPI_SystemSecureStateQ,},

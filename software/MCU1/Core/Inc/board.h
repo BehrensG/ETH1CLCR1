@@ -10,12 +10,12 @@
 
 #include "stm32f7xx_hal.h"
 
-#define SCPI_MANUFACTURER_STRING_LENGTH 65
-#define SCPI_DEVICE_STRING_LENGTH 65
-#define SCPI_SERIALNUMBER_STRING_LENGTH 65
-#define SCPI_SOFTWAREVERSION_STRING_LENGTH 65
+#define SCPI_MANUFACTURER_STRING_LENGTH 49
+#define SCPI_DEVICE_STRING_LENGTH 49
+#define SCPI_SERIALNUMBER_STRING_LENGTH 49
+#define SCPI_SOFTWAREVERSION_STRING_LENGTH 49
 #define HOSTNAME_LENGTH 20
-#define PASSWORD_LENGTH 65
+#define PASSWORD_LENGTH 49
 #define PASSWORD "ETH1CLCR1"
 
 #define IP_ADDRESS_0 192
@@ -49,7 +49,7 @@
 
 #define MCU_SERVICE_SECURITY_OFF 0
 #define MCU_SERVICE_SECURITY_ON 1
-#define STRUCT_SIZE 430
+#define STRUCT_SIZE 350
 
 #pragma pack(push, 1)
 
@@ -153,5 +153,16 @@ union brd_data
 }board, default_board;
 
 #pragma pack(pop)
+
+typedef enum
+{
+  BRD_OK       = 0x00U,
+  BRD_ERROR    = 0x01U,
+  BRD_BUSY = 0x02U,
+  BRD_TIMEOUT  = 0x03U,
+  BRD_EEPROM_EMPTY = 0x04U,
+  BRD_EEPROM_MAX_SIZE = 0x05U
+} BRD_StatusTypeDef;
+
 
 #endif /* INC_BOARD_H_ */

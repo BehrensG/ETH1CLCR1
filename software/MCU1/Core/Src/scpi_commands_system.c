@@ -404,6 +404,14 @@ scpi_result_t SCPI_SystemCommunicateLANPortQ(scpi_t * context)
 
 scpi_result_t SCPI_SystemCommunicationLanUpdate(scpi_t * context)
 {
+
+	if(board.structure.system.security.status)
+	{
+		return SCPI_ERROR_SERVICE_MODE_SECURE;
+	}
+
+	EEPROM_WriteValues();
+
 	return SCPI_RES_OK;
 }
 
@@ -520,3 +528,7 @@ scpi_result_t SCPI_SystemServiceEEPROM(scpi_t * context)
 	return SCPI_RES_OK;
 }
 
+scpi_result_t SCPI_SystemServiceID(scpi_t * context)
+{
+	if(!SCPI_ParamCopyText(context, buffer, buffer_len, copy_len, TRUE))
+}
