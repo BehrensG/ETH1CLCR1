@@ -143,8 +143,8 @@ union brd_data
 {
 	struct data
 	{
-		brd_system_t system;
 		brd_scpi_info_t info;
+		brd_system_t system;
 		brd_source_t source;
 		uint8_t default_cfg;
 

@@ -530,5 +530,36 @@ scpi_result_t SCPI_SystemServiceEEPROM(scpi_t * context)
 
 scpi_result_t SCPI_SystemServiceID(scpi_t * context)
 {
-	if(!SCPI_ParamCopyText(context, buffer, buffer_len, copy_len, TRUE))
+	uint8_t buffer[256];
+	size_t len;
+
+	if(!SCPI_ParamCopyText(context, buffer, SCPI_MANUFACTURER_STRING_LENGTH, len, TRUE))
+	{
+		buffer[0]='\0';
+		return SCPI_RES_ERR;
+	}
+	strncpy(board.structure.info.manufacturer,buffer,SCPI_MANUFACTURER_STRING_LENGTH);
+
+	if(!SCPI_ParamCopyText(context, buffer, SCPI_DEVICE_STRING_LENGTH, len, TRUE))
+	{
+		buffer[0]='\0';
+		return SCPI_RES_ERR;
+	}
+	strncpy(board.structure.info.device,buffer,SCPI_DEVICE_STRING_LENGTH);
+
+	if(!SCPI_ParamCopyText(context, buffer, SCPI_SOFTWAREVERSION_STRING_LENGTH, len, TRUE))
+	{
+		buffer[0]='\0';
+		return SCPI_RES_ERR;
+	}
+	strncpy(board.structure.info.software_version,buffer,SCPI_SOFTWAREVERSION_STRING_LENGTH);
+
+	if(!SCPI_ParamCopyText(context, buffer, SCPI_SERIALNUMBER_STRING_LENGTH, len, TRUE))
+	{
+		buffer[0]='\0';
+		return SCPI_RES_ERR;
+	}
+	strncpy(board.structure.info.serial_number,buffer,SCPI_SERIALNUMBER_STRING_LENGTH);
+
+
 }

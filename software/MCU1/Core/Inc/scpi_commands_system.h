@@ -39,5 +39,6 @@ scpi_result_t SCPI_SystemTemperatureUnit(scpi_t * context);
 scpi_result_t  SCPI_SystemTemperatureUnitQ(scpi_t * context);
 scpi_result_t SCPI_SystemHumidityQ(scpi_t * context);
 scpi_result_t SCPI_SystemServiceEEPROM(scpi_t * context);
+scpi_result_t SCPI_SystemServiceID(scpi_t * context);
 
 #endif /* INC_SCPI_COMMANDS_SYSTEM_H_ */
