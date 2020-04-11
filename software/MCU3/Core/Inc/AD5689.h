@@ -1,0 +1,31 @@
+/*
+ * AD5689.h
+ *
+ *  Created on: Apr 9, 2020
+ *      Author: grzegorz
+ */
+
+#ifndef INC_AD5689_H_
+#define INC_AD5689_H_
+
+#include "main.h"
+
+#define AD5689_CMD_WRITE_TO_INPUT_REG			0x01U	//dependent on LDAC input
+#define AD5689_CMD_UPDATE_DAC_WITH_INPUT_REG	0x02U
+#define AD5689_CMD_WRITE_AND_UPDATE_DAC			0x03U
+#define AD5689_CMD_POWER_UP_DOWN_DAC			0x04U
+#define AD5689_CMD_HARDWARE_LDAC_MASK			0x05U
+#define AD5689_CMD_SOFWARE_RESET				0x06U
+#define AD5689_CMD_DAISY_CHAIN_ENABLE			0x08U
+#define AD5689_CMD_READBACK_ENABLE				0x09U
+#define AD5689_ADDR_DAC_A						0x01U
+#define AD5689_ADDR_DAC_B						0x08U
+#define AD5689_ADDR_DAC_AB						0x09U
+#define AD5689_VOLT_CONV_CONST					0.00003814697265625
+#define AD5689_VOUTA							0U
+#define AD5689_VOUTB							1U
+#define AD5689_VOUTB_GAIN						4U
+#define AD5698_INTERNAL 0U
+#define AD5698_EXTERNAL 1U
+
+#endif /* INC_AD5689_H_ */
