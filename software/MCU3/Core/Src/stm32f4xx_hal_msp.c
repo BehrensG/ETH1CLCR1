@@ -161,12 +161,11 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi)
   
     __HAL_RCC_GPIOA_CLK_ENABLE();
     /**SPI1 GPIO Configuration    
-    PA4     ------> SPI1_NSS
     PA5     ------> SPI1_SCK
     PA6     ------> SPI1_MISO
     PA7     ------> SPI1_MOSI 
     */
-    GPIO_InitStruct.Pin = DDS_FGEN_nFSYNC_Pin|DDS_FGEN_SCLK_Pin|GPIO_PIN_6|DDS_FGEN_SDATA_Pin;
+    GPIO_InitStruct.Pin = DDS_FGEN_SCLK_Pin|GPIO_PIN_6|DDS_FGEN_SDATA_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
@@ -187,12 +186,11 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi)
   
     __HAL_RCC_GPIOB_CLK_ENABLE();
     /**SPI2 GPIO Configuration    
-    PB12     ------> SPI2_NSS
     PB13     ------> SPI2_SCK
     PB14     ------> SPI2_MISO
     PB15     ------> SPI2_MOSI 
     */
-    GPIO_InitStruct.Pin = DDS_MDAC_nSYNC_Pin|DDS_MDAC_SCLK_Pin|GPIO_PIN_14|DDS_MDAC_DIN_Pin;
+    GPIO_InitStruct.Pin = DDS_MDAC_SCLK_Pin|GPIO_PIN_14|DDS_MDAC_DIN_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
@@ -249,16 +247,15 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi)
     __HAL_RCC_GPIOA_CLK_ENABLE();
     /**SPI5 GPIO Configuration    
     PB0     ------> SPI5_SCK
-    PB1     ------> SPI5_NSS
     PA10     ------> SPI5_MOSI
     PA12     ------> SPI5_MISO 
     */
-    GPIO_InitStruct.Pin = DDS_DAC_SCLK_Pin|DDS_DAC_nSYNC_Pin;
+    GPIO_InitStruct.Pin = DDS_DAC_SCLK_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF6_SPI5;
-    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+    HAL_GPIO_Init(DDS_DAC_SCLK_GPIO_Port, &GPIO_InitStruct);
 
     GPIO_InitStruct.Pin = DDS_DAC_SDIN_Pin|DDS_DAC_SDO_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
@@ -291,12 +288,11 @@ void HAL_SPI_MspDeInit(SPI_HandleTypeDef* hspi)
     __HAL_RCC_SPI1_CLK_DISABLE();
   
     /**SPI1 GPIO Configuration    
-    PA4     ------> SPI1_NSS
     PA5     ------> SPI1_SCK
     PA6     ------> SPI1_MISO
     PA7     ------> SPI1_MOSI 
     */
-    HAL_GPIO_DeInit(GPIOA, DDS_FGEN_nFSYNC_Pin|DDS_FGEN_SCLK_Pin|GPIO_PIN_6|DDS_FGEN_SDATA_Pin);
+    HAL_GPIO_DeInit(GPIOA, DDS_FGEN_SCLK_Pin|GPIO_PIN_6|DDS_FGEN_SDATA_Pin);
 
   /* USER CODE BEGIN SPI1_MspDeInit 1 */
 
@@ -311,12 +307,11 @@ void HAL_SPI_MspDeInit(SPI_HandleTypeDef* hspi)
     __HAL_RCC_SPI2_CLK_DISABLE();
   
     /**SPI2 GPIO Configuration    
-    PB12     ------> SPI2_NSS
     PB13     ------> SPI2_SCK
     PB14     ------> SPI2_MISO
     PB15     ------> SPI2_MOSI 
     */
-    HAL_GPIO_DeInit(GPIOB, DDS_MDAC_nSYNC_Pin|DDS_MDAC_SCLK_Pin|GPIO_PIN_14|DDS_MDAC_DIN_Pin);
+    HAL_GPIO_DeInit(GPIOB, DDS_MDAC_SCLK_Pin|GPIO_PIN_14|DDS_MDAC_DIN_Pin);
 
   /* USER CODE BEGIN SPI2_MspDeInit 1 */
 
@@ -354,11 +349,10 @@ void HAL_SPI_MspDeInit(SPI_HandleTypeDef* hspi)
   
     /**SPI5 GPIO Configuration    
     PB0     ------> SPI5_SCK
-    PB1     ------> SPI5_NSS
     PA10     ------> SPI5_MOSI
     PA12     ------> SPI5_MISO 
     */
-    HAL_GPIO_DeInit(GPIOB, DDS_DAC_SCLK_Pin|DDS_DAC_nSYNC_Pin);
+    HAL_GPIO_DeInit(DDS_DAC_SCLK_GPIO_Port, DDS_DAC_SCLK_Pin);
 
     HAL_GPIO_DeInit(GPIOA, DDS_DAC_SDIN_Pin|DDS_DAC_SDO_Pin);
 
