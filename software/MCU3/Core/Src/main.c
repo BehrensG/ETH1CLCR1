@@ -25,6 +25,7 @@
 /* USER CODE BEGIN Includes */
 #include "DG419.h"
 #include "AD9835.h"
+#include "AD5453.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -107,6 +108,9 @@ int main(void)
 
   AD9835_Init();
   AD5689_Init();
+
+  AD9835_Test();
+  AD5453_SetVoltage(0.5);
 
   /* USER CODE END 2 */
 
