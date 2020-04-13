@@ -35,7 +35,7 @@ static uint32_t AD9835_ConvertFequencyToRegister(uint32_t freq)
 
 void AD9835_Test()
 {
-	AD9835_FrequencyRegister(AD9835_FREQ0, 1000);
+	AD9835_FrequencyRegister(AD9835_FREQ0, 100);
 	AD9835_FrequencyRegisterSelect(AD9835_FREQ0);
 	AD9835_Output(AD9835_ON);
 }
