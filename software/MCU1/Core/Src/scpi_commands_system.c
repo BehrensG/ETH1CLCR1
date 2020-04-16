@@ -5,13 +5,13 @@
  *      Author: grzegorz
  */
 
+#include <scpi_def.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "types.h"
 
 #include "scpi/scpi.h"
-#include "scpi-def.h"
 #include "hdc1080.h"
 #include "board.h"
 #include "eeprom.h"

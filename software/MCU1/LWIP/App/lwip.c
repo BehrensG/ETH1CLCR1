@@ -71,8 +71,6 @@ void MX_LWIP_Init(void)
   
   /* Initilialize the LwIP stack with RTOS */
   tcpip_init( NULL, NULL );
-  #define INTERFACE_THREAD_STACK_SIZE ( 350 )
-  osThreadAttr_t attributes;
 
   /* IP addresses initialization without DHCP (IPv4) */
   IP4_ADDR(&ipaddr, IP_ADDRESS[0], IP_ADDRESS[1], IP_ADDRESS[2], IP_ADDRESS[3]);

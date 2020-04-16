@@ -5,9 +5,9 @@
  *      Author: grzegorz
  */
 
+#include <scpi_def.h>
 #include "board.h"
 #include "main.h"
-#include "scpi-def.h"
 #include "eeprom.h"
 #include "types.h"
 
