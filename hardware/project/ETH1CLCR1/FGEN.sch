@@ -2529,5 +2529,5 @@ F 3 "~" H 11500 2150 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 Text Notes 12350 1400 0    50   ~ 0
-2k4 tmp
+5k05 tmp
 $EndSCHEMATC

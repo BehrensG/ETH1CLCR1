@@ -19,15 +19,13 @@
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
-
-#include "board.h"
 #include "main.h"
 #include "cmsis_os.h"
 #include "lwip.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "board.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -56,7 +54,7 @@ osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = {
   .name = "defaultTask",
   .priority = (osPriority_t) osPriorityNormal,
-  .stack_size = 128
+  .stack_size = 128 * 4
 };
 /* USER CODE BEGIN PV */
 
@@ -88,7 +86,6 @@ int main(void)
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
-  
 
   /* Enable I-Cache---------------------------------------------------------*/
   SCB_EnableICache();
@@ -117,11 +114,13 @@ int main(void)
   MX_I2C2_Init();
   MX_I2C4_Init();
   MX_SPI4_Init();
-  MX_LWIP_Init();
   /* USER CODE BEGIN 2 */
+  MX_LWIP_Init();
+
   BOARD_DetectDefaultConfig();
   BOARD_CreateDefaultData();
   /* USER CODE END 2 */
+
   /* Init scheduler */
   osKernelInitialize();
 
@@ -143,7 +142,7 @@ int main(void)
 
   /* Create the thread(s) */
   /* creation of defaultTask */
- // defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+  //defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   scpi_server_init();
@@ -151,9 +150,8 @@ int main(void)
 
   /* Start scheduler */
   osKernelStart();
-
+ 
   /* We should never get here as control is now taken by the scheduler */
-
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
@@ -387,8 +385,15 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : TRIG_OUT_Pin TRIG_EN_Pin MCU1_GPIO_OUT2_Pin MCU1_GPIO_OUT1_Pin */
-  GPIO_InitStruct.Pin = TRIG_OUT_Pin|TRIG_EN_Pin|MCU1_GPIO_OUT2_Pin|MCU1_GPIO_OUT1_Pin;
+  /*Configure GPIO pin : TRIG_OUT_Pin */
+  GPIO_InitStruct.Pin = TRIG_OUT_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  HAL_GPIO_Init(TRIG_OUT_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : TRIG_EN_Pin MCU1_GPIO_OUT2_Pin MCU1_GPIO_OUT1_Pin */
+  GPIO_InitStruct.Pin = TRIG_EN_Pin|MCU1_GPIO_OUT2_Pin|MCU1_GPIO_OUT1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -429,8 +434,10 @@ static void MX_GPIO_Init(void)
 /* USER CODE END Header_StartDefaultTask */
 void StartDefaultTask(void *argument)
 {
+  /* init code for LWIP */
+  MX_LWIP_Init();
   /* USER CODE BEGIN 5 */
-	 scpi_server_init();
+
   /* Infinite loop */
   for(;;)
   {
@@ -439,7 +446,7 @@ void StartDefaultTask(void *argument)
   /* USER CODE END 5 */ 
 }
 
-/**
+ /**
   * @brief  Period elapsed callback in non blocking mode
   * @note   This function is called  when TIM1 interrupt took place, inside
   * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment

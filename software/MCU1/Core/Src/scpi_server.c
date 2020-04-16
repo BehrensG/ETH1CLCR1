@@ -42,14 +42,13 @@
  *
  */
 
+#include <scpi_def.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 
 #include "scpi/scpi.h"
-#include "scpi-def.h"
-
 #include "lwip/tcpip.h"
 #include "FreeRTOS.h"
 #include "task.h"

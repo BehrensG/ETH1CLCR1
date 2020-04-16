@@ -6,11 +6,11 @@
  */
 
 
+#include <scpi_def.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "scpi/scpi.h"
-#include "scpi-def.h"
 
 scpi_result_t SCPI_FetchQ(scpi_t * context)
 {
