@@ -110,7 +110,8 @@ int main(void)
   AD5689_Init();
 
   AD9835_Test();
-  AD5453_SetVoltage(0.5);
+  AD5453_SetVoltage(0.3);
+  DG419_Switch(ON);
 
   /* USER CODE END 2 */
 

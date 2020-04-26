@@ -69,6 +69,15 @@ struct brd_dhcp
 
 typedef struct brd_dhcp brd_dhcp_t;
 
+struct brd_trigger
+{
+	uint8_t output;
+	uint32_t delay;
+	uint8_t source;
+};
+
+typedef struct brd_trigger brd_trigger_t;
+
 struct brd_ip4_lan
 {
 	uint8_t ip[4];
@@ -107,6 +116,7 @@ struct brd_offset
 	uint8_t status;
 };
 
+
 typedef struct brd_offset brd_offset_t;
 
 struct brd_source
@@ -139,6 +149,13 @@ struct brd_system
 
 typedef struct brd_system brd_system_t;
 
+struct brd_format
+{
+	uint8_t data;
+};
+
+typedef struct brd_format brd_format_t;
+
 union brd_data
 {
 	struct data
@@ -147,6 +164,8 @@ union brd_data
 		brd_system_t system;
 		brd_source_t source;
 		uint8_t default_cfg;
+		brd_trigger_t trigger;
+		brd_format_t format;
 
 	}structure;
 	uint8_t bytes[STRUCT_SIZE];
@@ -163,6 +182,19 @@ typedef enum
   BRD_EEPROM_EMPTY = 0x04U,
   BRD_EEPROM_MAX_SIZE = 0x05U
 } BRD_StatusTypeDef;
+
+typedef enum
+{
+	IMM = 0,
+	EXT = 1,
+	BUS = 2
+} BRD_TriggerSrcTypeDef;
+
+typedef enum
+{
+	ASCII = 0,
+	REAL = 1
+} BRD_FormatDataSrcTypeDef;
 
 
 #endif /* INC_BOARD_H_ */

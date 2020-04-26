@@ -1746,4 +1746,6 @@ Wire Wire Line
 Connection ~ 7900 1300
 Wire Wire Line
 	7900 1300 7900 900 
+Text Notes 8900 3800 0    50   ~ 0
+DA102JC - transformer
 $EndSCHEMATC
