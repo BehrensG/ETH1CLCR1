@@ -519,7 +519,7 @@ Wire Wire Line
 	14400 4300 14400 4250
 Connection ~ 14400 4250
 Text HLabel 15300 3900 2    50   Input ~ 0
-RR_100KCRT
+RR_100KCTR
 Text HLabel 12600 7200 2    50   Input ~ 0
 RR_RELAYCTR
 Wire Wire Line
@@ -2346,13 +2346,13 @@ Connection ~ 14400 2900
 Wire Wire Line
 	14400 2350 14400 2000
 Text HLabel 13600 1200 2    50   Input ~ 0
-RR_10CRT
+RR_10CTR
 Text HLabel 15300 1200 2    50   Input ~ 0
-RR_100CRT
+RR_100CTR
 Text HLabel 13600 2550 2    50   Input ~ 0
-RR_1KCRT
+RR_1KCTR
 Text HLabel 15300 2550 2    50   Input ~ 0
-RR_10KCRT
+RR_10KCTR
 Text Label 14400 2000 3    50   ~ 0
 R10KNPN
 Text Label 14400 650  3    50   ~ 0

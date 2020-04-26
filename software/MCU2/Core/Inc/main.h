@@ -60,8 +60,8 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define MCU3_SCLK_Pin GPIO_PIN_2
 #define MCU3_SCLK_GPIO_Port GPIOE
-#define MCU3_NSS_Pin GPIO_PIN_4
-#define MCU3_NSS_GPIO_Port GPIOE
+#define MCU3_nSS_Pin GPIO_PIN_4
+#define MCU3_nSS_GPIO_Port GPIOE
 #define MCU3_MISO_Pin GPIO_PIN_5
 #define MCU3_MISO_GPIO_Port GPIOE
 #define MCU3_MISOE6_Pin GPIO_PIN_6
@@ -74,10 +74,10 @@ void Error_Handler(void);
 #define DAC_nSYNC_GPIO_Port GPIOF
 #define DAC_SCLK_Pin GPIO_PIN_7
 #define DAC_SCLK_GPIO_Port GPIOF
+#define DAC_NOT_USED_Pin GPIO_PIN_8
+#define DAC_NOT_USED_GPIO_Port GPIOF
 #define DAC_DIN_Pin GPIO_PIN_9
 #define DAC_DIN_GPIO_Port GPIOF
-#define MCU1_nSS_Pin GPIO_PIN_4
-#define MCU1_nSS_GPIO_Port GPIOA
 #define MCU1_SCLK_Pin GPIO_PIN_5
 #define MCU1_SCLK_GPIO_Port GPIOA
 #define MCU1_MISO_Pin GPIO_PIN_6
@@ -136,16 +136,18 @@ void Error_Handler(void);
 #define RR_RELAYCTR_GPIO_Port GPIOD
 #define RR_HA3_COMP_Pin GPIO_PIN_13
 #define RR_HA3_COMP_GPIO_Port GPIOD
-#define RR_10CRT_Pin GPIO_PIN_14
-#define RR_10CRT_GPIO_Port GPIOD
-#define RR_100CRT_Pin GPIO_PIN_15
-#define RR_100CRT_GPIO_Port GPIOD
-#define RR_1KCRT_Pin GPIO_PIN_2
-#define RR_1KCRT_GPIO_Port GPIOG
-#define RR_10KCRT_Pin GPIO_PIN_3
-#define RR_10KCRT_GPIO_Port GPIOG
-#define RR_100KCRT_Pin GPIO_PIN_4
-#define RR_100KCRT_GPIO_Port GPIOG
+#define RR_10CTR_Pin GPIO_PIN_14
+#define RR_10CTR_GPIO_Port GPIOD
+#define RR_100CTR_Pin GPIO_PIN_15
+#define RR_100CTR_GPIO_Port GPIOD
+#define RR_1KCTR_Pin GPIO_PIN_2
+#define RR_1KCTR_GPIO_Port GPIOG
+#define RR_10KCTR_Pin GPIO_PIN_3
+#define RR_10KCTR_GPIO_Port GPIOG
+#define RR_100KCTR_Pin GPIO_PIN_4
+#define RR_100KCTR_GPIO_Port GPIOG
+#define MCU1_nSS_Pin GPIO_PIN_8
+#define MCU1_nSS_GPIO_Port GPIOG
 #define PA_MOS2_Pin GPIO_PIN_6
 #define PA_MOS2_GPIO_Port GPIOC
 #define PA_MOS1_Pin GPIO_PIN_7
@@ -195,6 +197,17 @@ void Error_Handler(void);
 #define RR_CLK_Pin GPIO_PIN_11
 #define RR_CLK_GPIO_Port GPIOG
 /* USER CODE BEGIN Private defines */
+
+#define ON	1U
+#define OFF	0U
+
+typedef enum
+{
+  BRD_OK       = 0x00U,
+  BRD_ERROR    = 0x01U,
+  BRD_BUSY     = 0x02U,
+  BRD_TIMEOUT  = 0x03U
+} BRD_StatusTypeDef;
 
 /* USER CODE END Private defines */
 

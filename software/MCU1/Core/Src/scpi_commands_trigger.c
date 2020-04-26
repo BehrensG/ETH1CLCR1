@@ -29,6 +29,14 @@ scpi_result_t SCPI_TriggerImmediate(scpi_t * context)
 	return SCPI_RES_OK;
 }
 
+scpi_choice_def_t trigger_source_unit[] =
+{
+    {"IMM", 0},
+    {"EXT", 1},
+	{"BUS", 2},
+    SCPI_CHOICE_LIST_END
+};
+
 scpi_result_t SCPI_TriggerSource(scpi_t * context)
 {
 
@@ -40,6 +48,13 @@ scpi_result_t SCPI_TriggerSourceQ(scpi_t * context)
 
 	return SCPI_RES_OK;
 }
+
+scpi_choice_def_t trigger_output_unit[] =
+{
+    {"OFF", 0},
+    {"ON", 1},
+    SCPI_CHOICE_LIST_END
+};
 
 scpi_result_t SCPI_TriggerOutput(scpi_t * context)
 {

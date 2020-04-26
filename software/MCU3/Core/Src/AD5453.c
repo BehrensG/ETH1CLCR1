@@ -16,6 +16,10 @@ static uint16_t AD5453_ConvertAmplitudeToRegister(double amplitude)
 
 	mdac_amplitude = amplitude/AD5453_GAIN;
 	amplitude_reg = (uint16_t)(mdac_amplitude*pow(2,14)/AD5453_VREF);
+	if(amplitude_reg > 0x3FFF)
+	{
+		amplitude_reg = 0x3FFF;
+	}
 	amplitude_reg = (uint16_t)(amplitude_reg & 0x3FFF);
 	return amplitude_reg;
 }

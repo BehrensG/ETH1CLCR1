@@ -11,7 +11,7 @@
 #include "main.h"
 
 #define AD5453_LOAD_AND_UPDATE			0x0000U
-#define AD5453_GAIN						5 // Temp gain, should be 2 but no 2k resistor available.
+#define AD5453_GAIN						1
 #define AD5453_VREF						0.3
 
 union ad5453_tx_union

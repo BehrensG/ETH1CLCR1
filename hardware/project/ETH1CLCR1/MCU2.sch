@@ -1078,15 +1078,15 @@ CXN_REL5
 Text HLabel 14350 5400 2    50   Output ~ 0
 CXN_REL4
 Text HLabel 14350 4500 2    50   Output ~ 0
-RR_100CRT
+RR_100CTR
 Text HLabel 14350 4400 2    50   Output ~ 0
-RR_10CRT
+RR_10CTR
 Text HLabel 14350 1500 2    50   Output ~ 0
-RR_1KCRT
+RR_1KCTR
 Text HLabel 14350 1600 2    50   Output ~ 0
-RR_10KCRT
+RR_10KCTR
 Text HLabel 14350 1700 2    50   Output ~ 0
-RR_100KCRT
+RR_100KCTR
 Text HLabel 14350 4200 2    50   Output ~ 0
 RR_RELAYCTR
 Text HLabel 14350 4300 2    50   Output ~ 0
