@@ -7,7 +7,7 @@
 
 #include "ADC.h"
 
-extern SPI_HandleTypeDef hspi3;
+//extern SPI_HandleTypeDef hspi3;
 
 /*
 void ADC_PGA103_Gain(uint8_t channel, uint8_t gain)
@@ -72,48 +72,37 @@ void ADC_ADG419_Switch(uint8_t channel, uint8_t state)
 	volatile AD783x_reg_data rx_data;
 	rx_data.word16 = 0x1234;
 	tx_data.word16 = reg_addr;
+	uint32_t start_time = 0, stop_time = 0;
+
+	LL_SPI_StartMasterTransfer(SPI3);
+	LL_GPIO_ResetOutputPin(ADC_nCS_GPIO_Port, ADC_nCS_Pin);
 
 
-/*
-	LL_GPIO_TogglePin(ADC_nCS_GPIO_Port, ADC_nCS_Pin);
-
-	  if((SPI3->CR1 & SPI_CR1_SPE) != SPI_CR1_SPE)
-	  {
-	      // If disabled, I enable it
-	      SET_BIT(SPI3->CR1, SPI_CR1_SPE);
-	  }
-	  LL_SPI_StartMasterTransfer(SPI3);
+    while (!LL_SPI_IsActiveFlag_TXC(SPI3)) {};
+    start_time = HAL_GetTick();
 	LL_SPI_TransmitData16(SPI3, tx_data.word16);
-	CLEAR_BIT(SPI1->CR1, SPI_CR1_SPE);
-	while (!(SPI3->SR & SPI_SR_TXC));
 
-	LL_GPIO_TogglePin(ADC_nCS_GPIO_Port, ADC_nCS_Pin);
-	LL_GPIO_TogglePin(ADC_nCS_GPIO_Port, ADC_nCS_Pin);
+	LL_GPIO_SetOutputPin(ADC_nCS_GPIO_Port, ADC_nCS_Pin);
+	LL_GPIO_ResetOutputPin(ADC_nCS_GPIO_Port, ADC_nCS_Pin);
 
-	  if((SPI3->CR1 & SPI_CR1_SPE) != SPI_CR1_SPE)
-	  {
-	      // If disabled, I enable it
-	      SET_BIT(SPI3->CR1, SPI_CR1_SPE);
-	  }
-
+    while (!LL_SPI_IsActiveFlag_TXC(SPI3)) {};
 	LL_SPI_TransmitData16(SPI3, tx_data.word16);
-	CLEAR_BIT(SPI1->CR1, SPI_CR1_SPE);
-	while (!(SPI3->SR & SPI_SR_TXC));
+	while (LL_SPI_IsActiveFlag_RXWNE(SPI3))
+    {
+        stop_time = HAL_GetTick() - start_time;
+        if (stop_time > 1000)
+        {
+        	spi_status = BRD_TIMEOUT;
+            break;
+        }
+    }
+       rx_data.word16= LL_SPI_ReceiveData16(SPI3);
 
-	LL_GPIO_TogglePin(ADC_nCS_GPIO_Port, ADC_nCS_Pin);
-*/
+	LL_GPIO_SetOutputPin(ADC_nCS_GPIO_Port, ADC_nCS_Pin);
 
-HAL_GPIO_WritePin(ADC_nCS_GPIO_Port, ADC_nCS_Pin, OFF);
+	spi_status = BRD_OK;
 
-spi_status = HAL_SPI_Transmit(&hspi3, tx_data.bytes, 1, 1000);
-
-HAL_GPIO_WritePin(ADC_nCS_GPIO_Port, ADC_nCS_Pin, ON);
-HAL_GPIO_WritePin(ADC_nCS_GPIO_Port, ADC_nCS_Pin, OFF);
-
-spi_status = HAL_SPI_Receive(&hspi3, rx_data.bytes, 1, 1000);
-HAL_GPIO_WritePin(ADC_nCS_GPIO_Port, ADC_nCS_Pin, ON);
-
-	return BRD_OK;
+	return spi_status;
 }
 
  /*
