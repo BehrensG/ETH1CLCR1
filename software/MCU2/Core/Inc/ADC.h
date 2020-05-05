@@ -10,6 +10,7 @@
 
 #include "main.h"
 
+
 #define AINA		0x01
 #define AINB		0x02
 
@@ -23,6 +24,7 @@
 #define GENMASK(h, l) \
 		(((~0UL) - (1UL << (l)) + 1) & (~0UL >> (31 - (h))))
 
+#define BIT(x)	(1U << (x))
 
 typedef union
 {
@@ -40,13 +42,14 @@ typedef union
 /*
  * AD738X registers definition
  */
-#define AD738X_REG_NOP                  0x0000
-#define AD738X_REG_CONFIG1              0x1000
-#define AD738X_REG_CONFIG2              0x2000
-#define AD738X_REG_ALERT                0x3000
-#define AD738X_REG_ALERT_LOW_TH         0x4000
-#define AD738X_REG_ALERT_HIGH_TH        0x5000
+#define AD738X_REG_NOP                  0x00
+#define AD738X_REG_CONFIG1              0x01
+#define AD738X_REG_CONFIG2              0x02
+#define AD738X_REG_ALERT                0x03
+#define AD738X_REG_ALERT_LOW_TH         0x04
+#define AD738X_REG_ALERT_HIGH_TH        0x05
 
+#define AD738X_TIMEOUT_MAX				1000
 /*
  * AD738X_REG_CONFIG1
  */
@@ -93,9 +96,6 @@ typedef union
 #define AD738X_REG_WRITE(x)             ((1 << 7) | ((x & 0x7) << 4))
 /* Read from register x */
 #define AD738X_REG_READ(x)              ((x & 0x7) << 4)
-
-/* Size of an array in bytes */
-#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
 
 /*****************************************************************************/
 /*************************** Types Declarations *******************************/

@@ -197,6 +197,46 @@ void SysTick_Handler(void)
 /* please refer to the startup file (startup_stm32h7xx.s).                    */
 /******************************************************************************/
 
+/**
+  * @brief This function handles SPI6 global interrupt.
+  */
+void SPI6_IRQHandler(void)
+{
+  /* USER CODE BEGIN SPI6_IRQn 0 */
+	 /* Check OVR/UDR flag value in ISR register */
+	    if(LL_SPI_IsActiveFlag_OVR(SPI6) || LL_SPI_IsActiveFlag_UDR(SPI6))
+	    {
+	      /* Call Error function */
+	      SPI_TransferError_Callback();
+	    }
+	    /* Check RXP flag value in ISR register */
+	    if(LL_SPI_IsActiveFlag_RXP(SPI6) && LL_SPI_IsEnabledIT_RXP(SPI6))
+	    {
+	      /* Call function Reception Callback */
+	      SPI6_Rx_Callback();
+	      return;
+	    }
+	    /* Check TXP flag value in ISR register */
+	    if((LL_SPI_IsActiveFlag_TXP(SPI6) && LL_SPI_IsEnabledIT_TXP(SPI6)))
+	    {
+	      /* Call function Reception Callback */
+	      SPI6_Tx_Callback();
+	      return;
+	    }
+	    /* Check EOT flag value in ISR register */
+	    if(LL_SPI_IsActiveFlag_EOT(SPI6) && LL_SPI_IsEnabledIT_EOT(SPI6))
+	    {
+	      /* Call function Reception Callback */
+	      SPI6_EOT_Callback();
+	      return;
+	    }
+
+  /* USER CODE END SPI6_IRQn 0 */
+  /* USER CODE BEGIN SPI6_IRQn 1 */
+
+  /* USER CODE END SPI6_IRQn 1 */
+}
+
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */
