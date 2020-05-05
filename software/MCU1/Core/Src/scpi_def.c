@@ -53,10 +53,15 @@
 #include "eeprom.h"
 
 extern I2C_HandleTypeDef hi2c4;
+extern SPI_HandleTypeDef hspi4;
 
 static scpi_result_t TEST_TSQ(scpi_t * context)
 {
-	EEPROM_WriteDefaultValues();
+	BRD_StatusTypeDef status;
+	uint8_t text[]="Test";
+	uint8_t rx_data[6] ={0x00};
+	status = HAL_SPI_TransmitReceive(&hspi4, text, rx_data, 5, 1000);
+
 	return SCPI_RES_OK;
 }
 

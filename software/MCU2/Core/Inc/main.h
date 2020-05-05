@@ -44,7 +44,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "ADC.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -90,6 +90,8 @@ void Error_Handler(void);
 #define DAC_NOT_USED_GPIO_Port GPIOF
 #define DAC_DIN_Pin LL_GPIO_PIN_9
 #define DAC_DIN_GPIO_Port GPIOF
+#define MCU1_nSS_Pin LL_GPIO_PIN_4
+#define MCU1_nSS_GPIO_Port GPIOA
 #define MCU1_SCLK_Pin LL_GPIO_PIN_5
 #define MCU1_SCLK_GPIO_Port GPIOA
 #define MCU1_MISO_Pin LL_GPIO_PIN_6
@@ -158,8 +160,6 @@ void Error_Handler(void);
 #define RR_10KCTR_GPIO_Port GPIOG
 #define RR_100KCTR_Pin LL_GPIO_PIN_4
 #define RR_100KCTR_GPIO_Port GPIOG
-#define MCU1_nSS_Pin LL_GPIO_PIN_8
-#define MCU1_nSS_GPIO_Port GPIOG
 #define PA_MOS2_Pin LL_GPIO_PIN_6
 #define PA_MOS2_GPIO_Port GPIOC
 #define PA_MOS1_Pin LL_GPIO_PIN_7

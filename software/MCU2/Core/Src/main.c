@@ -44,6 +44,16 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+uint8_t    SPIx_TxBuffer[] = "1234567890ABCDEFGHIJKLMNOPRSTUWXYZ1234567890ABCDEFGHIJKLMNOPRSTUWXYZ1234567890ABCDEFGHIJKLMNOPRSTUWXYZ1234567890ABCDEFGHIJKLMNOPRSTUWXYZ";
+uint32_t   SPIx_NbDataToTransmit = ((sizeof(SPIx_TxBuffer)/ sizeof(*SPIx_TxBuffer)) - 1);
+
+uint8_t    SPI6_RxBuffer[sizeof(SPIx_TxBuffer)];
+uint32_t   SPI6_ReceiveIndex = 0;
+uint32_t   SPI6_TransmitIndex = 0;
+
+__IO uint32_t SPI6_XfrCompleteDetect = 0;
+
+__IO uint32_t SPIx_XfrErrorDetect = 0;
 
 /* USER CODE END PV */
 
@@ -73,7 +83,9 @@ static void MX_SPI6_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	volatile uint16_t rx_data;
+	volatile uint8_t rx_data;
+	uint8_t timeout = 0;
+	uint32_t start_time = 0, current_time = 0;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -107,16 +119,18 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-LL_SPI_Enable(SPI3);
+  LL_SPI_Enable(SPI3);
+
+  LL_SPI_StartMasterTransfer(SPI3);
+
   while (1)
   {
-	  ADC_AD7380_RegisterRead(AD738X_REG_ALERT_LOW_TH, &rx_data);
-	//  rx_data += 1;
-	  HAL_Delay(2);
 
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
+
   }
   /* USER CODE END 3 */
 }
@@ -580,28 +594,39 @@ static void MX_SPI6_Init(void)
   LL_APB4_GRP1_EnableClock(LL_APB4_GRP1_PERIPH_SPI6);
   
   LL_AHB4_GRP1_EnableClock(LL_AHB4_GRP1_PERIPH_GPIOA);
-  LL_AHB4_GRP1_EnableClock(LL_AHB4_GRP1_PERIPH_GPIOG);
   /**SPI6 GPIO Configuration  
+  PA4   ------> SPI6_NSS
   PA5   ------> SPI6_SCK
   PA6   ------> SPI6_MISO
-  PA7   ------> SPI6_MOSI
-  PG8   ------> SPI6_NSS 
+  PA7   ------> SPI6_MOSI 
   */
-  GPIO_InitStruct.Pin = MCU1_SCLK_Pin|MCU1_MISO_Pin|MCU1_MOSI_Pin;
-  GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
-  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
-  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-  GPIO_InitStruct.Alternate = LL_GPIO_AF_8;
-  LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
   GPIO_InitStruct.Pin = MCU1_nSS_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
   GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-  GPIO_InitStruct.Alternate = LL_GPIO_AF_5;
+  GPIO_InitStruct.Alternate = LL_GPIO_AF_8;
   LL_GPIO_Init(MCU1_nSS_GPIO_Port, &GPIO_InitStruct);
+
+  GPIO_InitStruct.Pin = MCU1_SCLK_Pin;
+  GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+  GPIO_InitStruct.Pull = LL_GPIO_PULL_DOWN;
+  GPIO_InitStruct.Alternate = LL_GPIO_AF_8;
+  LL_GPIO_Init(MCU1_SCLK_GPIO_Port, &GPIO_InitStruct);
+
+  GPIO_InitStruct.Pin = MCU1_MISO_Pin|MCU1_MOSI_Pin;
+  GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
+  GPIO_InitStruct.Alternate = LL_GPIO_AF_8;
+  LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /* SPI6 interrupt Init */
+  NVIC_SetPriority(SPI6_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),1, 0));
+  NVIC_EnableIRQ(SPI6_IRQn);
 
   /* USER CODE BEGIN SPI6_Init 1 */
 
@@ -609,7 +634,7 @@ static void MX_SPI6_Init(void)
   /* SPI6 parameter configuration*/
   SPI_InitStruct.TransferDirection = LL_SPI_FULL_DUPLEX;
   SPI_InitStruct.Mode = LL_SPI_MODE_SLAVE;
-  SPI_InitStruct.DataWidth = LL_SPI_DATAWIDTH_4BIT;
+  SPI_InitStruct.DataWidth = LL_SPI_DATAWIDTH_8BIT;
   SPI_InitStruct.ClockPolarity = LL_SPI_POLARITY_LOW;
   SPI_InitStruct.ClockPhase = LL_SPI_PHASE_1EDGE;
   SPI_InitStruct.NSS = LL_SPI_NSS_HARD_INPUT;
@@ -620,6 +645,25 @@ static void MX_SPI6_Init(void)
   LL_SPI_SetStandard(SPI6, LL_SPI_PROTOCOL_MOTOROLA);
   LL_SPI_DisableNSSPulseMgt(SPI6);
   /* USER CODE BEGIN SPI6_Init 2 */
+  /* Lock GPIO for master to avoid glitches on the clock output */
+  LL_SPI_DisableGPIOControl(SPI6);
+  LL_SPI_DisableMasterRxAutoSuspend(SPI6);
+
+  /* Set number of date to transmit */
+  LL_SPI_SetTransferSize(SPI6, SPIx_NbDataToTransmit);
+
+  /* Enable SPI6 */
+  LL_SPI_Enable(SPI6);
+
+  /* Enable RXP Interrupt */
+  LL_SPI_EnableIT_RXP(SPI6);
+ /* Enable TXP Interrupt */
+  LL_SPI_EnableIT_TXP(SPI6);
+  /* Enable SPI Errors Interrupt */
+  LL_SPI_EnableIT_CRCERR(SPI6);
+  LL_SPI_EnableIT_UDR(SPI6);
+  LL_SPI_EnableIT_OVR(SPI6);
+  LL_SPI_EnableIT_EOT(SPI6);
 
   /* USER CODE END SPI6_Init 2 */
 
@@ -805,6 +849,75 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+/**
+  * @brief  Function called from SPI6 IRQ Handler when RXP flag is set
+  *         Function is in charge of retrieving received byte from SPI lines.
+  * @param  None
+  * @retval None
+  */
+void  SPI6_Rx_Callback(void)
+{
+  /* Read character in Data register.
+   * RXP flag is cleared by reading data in RXDR register */
+  SPI6_RxBuffer[SPI6_ReceiveIndex++] = LL_SPI_ReceiveData8(SPI6);
+}
+
+/**
+  * @brief  Function called from SPI6 IRQ Handler when TXP flag is set
+  *         Function is in charge  to transmit byte on SPI lines.
+  * @param  None
+  * @retval None
+  */
+void  SPI6_Tx_Callback(void)
+{
+  /* Write character in Data register.
+   * TXP flag is cleared by filling data into TXDR register */
+  LL_SPI_TransmitData8(SPI6, SPIx_TxBuffer[SPI6_TransmitIndex++]);
+
+}
+
+/**
+  * @brief  Function called from SPI6 IRQ Handler when EOT flag is set
+  *         Function is in charge of transfer close down.
+  * @param  None
+  * @retval None
+  */
+void  SPI6_EOT_Callback(void)
+{
+  LL_SPI_Disable(SPI6);
+  LL_SPI_DisableIT_TXP(SPI6);
+  LL_SPI_DisableIT_RXP(SPI6);
+  LL_SPI_DisableIT_CRCERR(SPI6);
+  LL_SPI_DisableIT_OVR(SPI6);
+  LL_SPI_DisableIT_UDR(SPI6);
+  LL_SPI_DisableIT_EOT(SPI6);
+
+  /* Update SPI6 Transfer Complete global variable*/
+  SPI6_XfrCompleteDetect = 1;
+}
+
+/**
+  * @brief  Function called in case of error detected in SPI IT Handler
+  * @param  None
+  * @retval None
+  */
+void SPI_TransferError_Callback(void)
+{
+
+  /* Disable ALL Interrupts */
+  LL_SPI_DisableIT_TXP(SPI6);
+  LL_SPI_DisableIT_RXP(SPI6);
+  LL_SPI_DisableIT_CRCERR(SPI6);
+  LL_SPI_DisableIT_OVR(SPI6);
+  LL_SPI_DisableIT_UDR(SPI6);
+  LL_SPI_DisableIT_EOT(SPI6);
+
+  /* Disable SPI6 */
+  LL_SPI_Disable(SPI6);
+
+  /* Update Xfr Error detection global variable*/
+  SPIx_XfrErrorDetect = 1;
+}
 
 /* USER CODE END 4 */
 
