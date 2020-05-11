@@ -1,4 +1,4 @@
-16957665880777332
+16959255021348332
 Battery
 BatteryHolder_Bulgin_BX0036_1xC
 Bulgin Battery Holder, BX0036, Battery Type C (https://www.bulgin.com/products/pub/media/bulgin/data/Battery_holders.pdf)
@@ -46101,6 +46101,13 @@ CW252016 Series - High Q Chip Inductors
 0
 2
 2
+ETH1CLCR1
+DA1xxJC
+
+
+0
+0
+0
 ETH1CLCR1
 DO_214AA_REV
 

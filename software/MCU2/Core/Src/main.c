@@ -25,6 +25,13 @@
 /* USER CODE BEGIN Includes */
 #include "relay.h"
 #include "ADC.h"
+#include "scpi_def.h"
+#include "scpi/scpi.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -44,16 +51,17 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint8_t    SPIx_TxBuffer[] = "1234567890ABCDEFGHIJKLMNOPRSTUWXYZ1234567890ABCDEFGHIJKLMNOPRSTUWXYZ1234567890ABCDEFGHIJKLMNOPRSTUWXYZ1234567890ABCDEFGHIJKLMNOPRSTUWXYZ";
-uint32_t   SPIx_NbDataToTransmit = ((sizeof(SPIx_TxBuffer)/ sizeof(*SPIx_TxBuffer)) - 1);
+__IO uint8_t    SPI6_TxBuffer[SPI6_BUFFOR_SIZE] = {[0 ... SPI6_BUFFOR_SIZE -1] = 'A'};
+uint32_t   SPI6_NbDataToTransmit = 40;
+__IO uint32_t   SPI6_TransmitIndex = 0;
+uint32_t   SPI6_TransmitSize = 0;
 
-uint8_t    SPI6_RxBuffer[sizeof(SPIx_TxBuffer)];
-uint32_t   SPI6_ReceiveIndex = 0;
-uint32_t   SPI6_TransmitIndex = 0;
+__IO uint8_t    SPI6_RxBuffer[SPI6_BUFFOR_SIZE];
+__IO uint32_t   SPI6_ReceiveIndex = 0;
 
 __IO uint32_t SPI6_XfrCompleteDetect = 0;
 
-__IO uint32_t SPIx_XfrErrorDetect = 0;
+__IO uint32_t SPI6_XfrErrorDetect = 0;
 
 /* USER CODE END PV */
 
@@ -73,6 +81,41 @@ static void MX_SPI6_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+static SPI6_Status SPI6_CheckData()
+{
+	if(0 == SPI6_ReceiveIndex)
+	{
+		return SPI6_MODE_NONE;
+	}
+	else if (SPI6_ReceiveIndex > 0)
+	{
+		if('\0' == SPI6_RxBuffer[0])
+		{
+			return SPI6_MODE_TX;
+		}
+		else
+		{
+			return SPI6_MODE_RX;
+		}
+
+	}
+}
+size_t SCPI_Write(scpi_t * context, const char * data, size_t len) {
+    (void) context;
+
+    strncpy(SPI6_TxBuffer + SPI6_TransmitSize,data, len);
+    SPI6_TransmitSize += (strlen(data));
+
+    return SPI6_TransmitSize;
+}
+
+
+scpi_result_t SCPI_Reset(scpi_t * context) {
+    (void) context;
+
+    return SCPI_RES_OK;
+}
 
 /* USER CODE END 0 */
 
@@ -114,17 +157,25 @@ int main(void)
   MX_SPI5_Init();
   MX_SPI6_Init();
   /* USER CODE BEGIN 2 */
-//  RELAY_Init();
+  RELAY_Init();
+  LL_SPI_Enable(SPI3);
+  LL_SPI_StartMasterTransfer(SPI3);
+
+  SCPI_Init(&scpi_context,
+          scpi_commands,
+          &scpi_interface,
+          scpi_units_def,
+          SCPI_IDN1, SCPI_IDN2, SCPI_IDN3, SCPI_IDN4,
+          scpi_input_buffer, SCPI_INPUT_BUFFER_LENGTH,
+          scpi_error_queue_data, SCPI_ERROR_QUEUE_SIZE);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  LL_SPI_Enable(SPI3);
-
-  LL_SPI_StartMasterTransfer(SPI3);
 
   while (1)
   {
+
 
     /* USER CODE END WHILE */
 
@@ -206,7 +257,7 @@ void SystemClock_Config(void)
   PeriphClkInitStruct.Spi123ClockSelection = RCC_SPI123CLKSOURCE_PLL2;
   PeriphClkInitStruct.Spi45ClockSelection = RCC_SPI45CLKSOURCE_D2PCLK1;
   PeriphClkInitStruct.I2c4ClockSelection = RCC_I2C4CLKSOURCE_D3PCLK1;
-  PeriphClkInitStruct.Spi6ClockSelection = RCC_SPI6CLKSOURCE_D3PCLK1;
+  PeriphClkInitStruct.Spi6ClockSelection = RCC_SPI6CLKSOURCE_PLL2;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
   {
     Error_Handler();
@@ -600,23 +651,7 @@ static void MX_SPI6_Init(void)
   PA6   ------> SPI6_MISO
   PA7   ------> SPI6_MOSI 
   */
-  GPIO_InitStruct.Pin = MCU1_nSS_Pin;
-  GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
-  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
-  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-  GPIO_InitStruct.Alternate = LL_GPIO_AF_8;
-  LL_GPIO_Init(MCU1_nSS_GPIO_Port, &GPIO_InitStruct);
-
-  GPIO_InitStruct.Pin = MCU1_SCLK_Pin;
-  GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
-  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
-  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-  GPIO_InitStruct.Pull = LL_GPIO_PULL_DOWN;
-  GPIO_InitStruct.Alternate = LL_GPIO_AF_8;
-  LL_GPIO_Init(MCU1_SCLK_GPIO_Port, &GPIO_InitStruct);
-
-  GPIO_InitStruct.Pin = MCU1_MISO_Pin|MCU1_MOSI_Pin;
+  GPIO_InitStruct.Pin = MCU1_nSS_Pin|MCU1_SCLK_Pin|MCU1_MISO_Pin|MCU1_MOSI_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
   GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
@@ -650,20 +685,18 @@ static void MX_SPI6_Init(void)
   LL_SPI_DisableMasterRxAutoSuspend(SPI6);
 
   /* Set number of date to transmit */
-  LL_SPI_SetTransferSize(SPI6, SPIx_NbDataToTransmit);
+  LL_SPI_SetTransferSize(SPI6, 0);
 
   /* Enable SPI6 */
   LL_SPI_Enable(SPI6);
 
   /* Enable RXP Interrupt */
   LL_SPI_EnableIT_RXP(SPI6);
- /* Enable TXP Interrupt */
   LL_SPI_EnableIT_TXP(SPI6);
-  /* Enable SPI Errors Interrupt */
-  LL_SPI_EnableIT_CRCERR(SPI6);
   LL_SPI_EnableIT_UDR(SPI6);
-  LL_SPI_EnableIT_OVR(SPI6);
   LL_SPI_EnableIT_EOT(SPI6);
+
+ /* Enable TXP Interrupt */
 
   /* USER CODE END SPI6_Init 2 */
 
@@ -849,77 +882,7 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-/**
-  * @brief  Function called from SPI6 IRQ Handler when RXP flag is set
-  *         Function is in charge of retrieving received byte from SPI lines.
-  * @param  None
-  * @retval None
-  */
-void  SPI6_Rx_Callback(void)
-{
-  /* Read character in Data register.
-   * RXP flag is cleared by reading data in RXDR register */
-  SPI6_RxBuffer[SPI6_ReceiveIndex++] = LL_SPI_ReceiveData8(SPI6);
-}
 
-/**
-  * @brief  Function called from SPI6 IRQ Handler when TXP flag is set
-  *         Function is in charge  to transmit byte on SPI lines.
-  * @param  None
-  * @retval None
-  */
-void  SPI6_Tx_Callback(void)
-{
-  /* Write character in Data register.
-   * TXP flag is cleared by filling data into TXDR register */
-  LL_SPI_TransmitData8(SPI6, SPIx_TxBuffer[SPI6_TransmitIndex++]);
-
-}
-
-/**
-  * @brief  Function called from SPI6 IRQ Handler when EOT flag is set
-  *         Function is in charge of transfer close down.
-  * @param  None
-  * @retval None
-  */
-void  SPI6_EOT_Callback(void)
-{
-  LL_SPI_Disable(SPI6);
-  LL_SPI_DisableIT_TXP(SPI6);
-  LL_SPI_DisableIT_RXP(SPI6);
-  LL_SPI_DisableIT_CRCERR(SPI6);
-  LL_SPI_DisableIT_OVR(SPI6);
-  LL_SPI_DisableIT_UDR(SPI6);
-  LL_SPI_DisableIT_EOT(SPI6);
-
-  /* Update SPI6 Transfer Complete global variable*/
-  SPI6_XfrCompleteDetect = 1;
-}
-
-/**
-  * @brief  Function called in case of error detected in SPI IT Handler
-  * @param  None
-  * @retval None
-  */
-void SPI_TransferError_Callback(void)
-{
-
-  /* Disable ALL Interrupts */
-  LL_SPI_DisableIT_TXP(SPI6);
-  LL_SPI_DisableIT_RXP(SPI6);
-  LL_SPI_DisableIT_CRCERR(SPI6);
-  LL_SPI_DisableIT_OVR(SPI6);
-  LL_SPI_DisableIT_UDR(SPI6);
-  LL_SPI_DisableIT_EOT(SPI6);
-
-  /* Disable SPI6 */
-  LL_SPI_Disable(SPI6);
-
-  /* Update Xfr Error detection global variable*/
-  SPIx_XfrErrorDetect = 1;
-}
-
-/* USER CODE END 4 */
 
 /**
   * @brief  This function is executed in case of error occurrence.

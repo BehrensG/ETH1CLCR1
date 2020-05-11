@@ -58,7 +58,8 @@
 /* External variables --------------------------------------------------------*/
 
 /* USER CODE BEGIN EV */
-
+extern __IO uint8_t    SPI6_RxBuffer[];
+extern __IO uint32_t   SPI6_ReceiveIndex;
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -202,35 +203,32 @@ void SysTick_Handler(void)
   */
 void SPI6_IRQHandler(void)
 {
-  /* USER CODE BEGIN SPI6_IRQn 0 */
-	 /* Check OVR/UDR flag value in ISR register */
-	    if(LL_SPI_IsActiveFlag_OVR(SPI6) || LL_SPI_IsActiveFlag_UDR(SPI6))
-	    {
-	      /* Call Error function */
-	      SPI_TransferError_Callback();
-	    }
-	    /* Check RXP flag value in ISR register */
-	    if(LL_SPI_IsActiveFlag_RXP(SPI6) && LL_SPI_IsEnabledIT_RXP(SPI6))
-	    {
-	      /* Call function Reception Callback */
-	      SPI6_Rx_Callback();
-	      return;
-	    }
-	    /* Check TXP flag value in ISR register */
-	    if((LL_SPI_IsActiveFlag_TXP(SPI6) && LL_SPI_IsEnabledIT_TXP(SPI6)))
-	    {
-	      /* Call function Reception Callback */
-	      SPI6_Tx_Callback();
-	      return;
-	    }
-	    /* Check EOT flag value in ISR register */
-	    if(LL_SPI_IsActiveFlag_EOT(SPI6) && LL_SPI_IsEnabledIT_EOT(SPI6))
-	    {
-	      /* Call function Reception Callback */
-	      SPI6_EOT_Callback();
-	      return;
-	    }
+    /* Check RXP flag value in ISR register */
+    if(LL_SPI_IsActiveFlag_RXP(SPI6) && LL_SPI_IsEnabledIT_RXP(SPI6))
+    {
 
+    	SPI6_RxBuffer[SPI6_ReceiveIndex++]= LL_SPI_ReceiveData8(SPI6);
+      //LL_SPI_ClearFlag_UDR(SPI6);
+    }
+
+    if(LL_SPI_IsActiveFlag_TXP(SPI6) && LL_SPI_IsEnabledIT_TXP(SPI6))
+        {
+
+          LL_SPI_TransmitData8(SPI6, 'B');
+        //  LL_SPI_ClearFlag_UDR(SPI6);
+        }
+
+    if(LL_SPI_IsActiveFlag_UDR(SPI6) && LL_SPI_IsEnabledIT_UDR(SPI6))
+        {
+
+                    LL_SPI_ClearFlag_UDR(SPI6);
+        }
+
+    if(LL_SPI_IsActiveFlag_EOT(SPI6) && LL_SPI_IsEnabledIT_EOT(SPI6))
+        {
+
+                    LL_SPI_ClearFlag_EOT(SPI6);
+        }
   /* USER CODE END SPI6_IRQn 0 */
   /* USER CODE BEGIN SPI6_IRQn 1 */
 
