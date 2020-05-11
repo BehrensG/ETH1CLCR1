@@ -57,10 +57,30 @@ extern SPI_HandleTypeDef hspi4;
 
 static scpi_result_t TEST_TSQ(scpi_t * context)
 {
+	scpi_bool_t  enable = FALSE;
+	if (!SCPI_ParamBool(context, &enable, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
 	BRD_StatusTypeDef status;
-	uint8_t text[]="Test";
-	uint8_t rx_data[6] ={0x00};
-	status = HAL_SPI_TransmitReceive(&hspi4, text, rx_data, 5, 1000);
+	uint8_t tx_data[]="*IDN?\n\r";
+	uint8_t tx_dummy[64] ={[0 ... 63] = '\0'};
+	uint8_t rx_data[64] ={[0 ... 63] = '\0'};
+	if(!enable)
+	{
+		HAL_GPIO_WritePin(MCU1_nSS_GPIO_Port, MCU1_nSS_Pin, 0);
+	status = HAL_SPI_Transmit(&hspi4, tx_data, sizeof(tx_data)/sizeof(uint8_t), 10000);
+	HAL_GPIO_WritePin(MCU1_nSS_GPIO_Port, MCU1_nSS_Pin, 1);
+	}
+	else
+	{
+		HAL_GPIO_WritePin(MCU1_nSS_GPIO_Port, MCU1_nSS_Pin, 0);
+	status = HAL_SPI_TransmitReceive(&hspi4, tx_dummy, rx_data, 32, 1000);
+	HAL_GPIO_WritePin(MCU1_nSS_GPIO_Port, MCU1_nSS_Pin, 1);
+	SCPI_ResultCharacters(context, rx_data, 32);
+	}
+
 
 	return SCPI_RES_OK;
 }

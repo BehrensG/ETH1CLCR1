@@ -210,6 +210,18 @@ void Error_Handler(void);
 #define RR_CLK_GPIO_Port GPIOG
 /* USER CODE BEGIN Private defines */
 
+
+#define SPI6_BUFFOR_SIZE 128
+#define SPI6_TX_MODE 1
+#define SPI6_RX_MODE 2
+
+typedef enum
+{
+	SPI6_MODE_NONE = 0U,
+	SPI6_MODE_TX = 1U,
+	SPI6_MODE_RX = 2U
+}SPI6_Status;
+
 #define ON	1U
 #define OFF	0U
 
