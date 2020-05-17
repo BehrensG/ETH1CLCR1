@@ -59,7 +59,9 @@
 
 /* USER CODE BEGIN EV */
 extern __IO uint8_t    SPI6_RxBuffer[];
-extern __IO uint32_t   SPI6_ReceiveIndex;
+extern __IO uint8_t    SPI6_TxBuffer[];
+extern __IO uint16_t   SPI6_ReceiveIndex;
+extern __IO uint16_t   SPI6_TransmitIndex;
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -203,32 +205,32 @@ void SysTick_Handler(void)
   */
 void SPI6_IRQHandler(void)
 {
-    /* Check RXP flag value in ISR register */
-    if(LL_SPI_IsActiveFlag_RXP(SPI6) && LL_SPI_IsEnabledIT_RXP(SPI6))
-    {
+  /* USER CODE BEGIN SPI6_IRQn 0 */
+	 /* Check RXP flag value in ISR register */
+	    if(LL_SPI_IsActiveFlag_RXP(SPI6) && LL_SPI_IsEnabledIT_RXP(SPI6))
+	    {
 
-    	SPI6_RxBuffer[SPI6_ReceiveIndex++]= LL_SPI_ReceiveData8(SPI6);
-      //LL_SPI_ClearFlag_UDR(SPI6);
-    }
+	    	SPI6_RxBuffer[SPI6_ReceiveIndex++]= LL_SPI_ReceiveData8(SPI6);
+	    }
 
-    if(LL_SPI_IsActiveFlag_TXP(SPI6) && LL_SPI_IsEnabledIT_TXP(SPI6))
-        {
+	    if(LL_SPI_IsActiveFlag_TXP(SPI6) && LL_SPI_IsEnabledIT_TXP(SPI6))
+	        {
 
-          LL_SPI_TransmitData8(SPI6, 'B');
-        //  LL_SPI_ClearFlag_UDR(SPI6);
-        }
+	          LL_SPI_TransmitData8(SPI6, SPI6_TxBuffer[SPI6_TransmitIndex++]);
+	        }
 
-    if(LL_SPI_IsActiveFlag_UDR(SPI6) && LL_SPI_IsEnabledIT_UDR(SPI6))
-        {
+	    if(LL_SPI_IsActiveFlag_UDR(SPI6) && LL_SPI_IsEnabledIT_UDR(SPI6))
+	        {
 
-                    LL_SPI_ClearFlag_UDR(SPI6);
-        }
+	                    LL_SPI_ClearFlag_UDR(SPI6);
+	        }
 
-    if(LL_SPI_IsActiveFlag_EOT(SPI6) && LL_SPI_IsEnabledIT_EOT(SPI6))
-        {
+	    if(LL_SPI_IsActiveFlag_EOT(SPI6) && LL_SPI_IsEnabledIT_EOT(SPI6))
+	        {
 
-                    LL_SPI_ClearFlag_EOT(SPI6);
-        }
+	                    LL_SPI_ClearFlag_EOT(SPI6);
+
+	        }
   /* USER CODE END SPI6_IRQn 0 */
   /* USER CODE BEGIN SPI6_IRQn 1 */
 

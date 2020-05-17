@@ -49,11 +49,14 @@
 #include "scpi_commands_source.h"
 #include "scpi_commands_system.h"
 #include "scpi_commands_trigger.h"
+#include "scpi_commands_calculate.h"
 
 #include "eeprom.h"
 
 extern I2C_HandleTypeDef hi2c4;
 extern SPI_HandleTypeDef hspi4;
+
+
 
 static scpi_result_t TEST_TSQ(scpi_t * context)
 {
@@ -69,16 +72,19 @@ static scpi_result_t TEST_TSQ(scpi_t * context)
 	uint8_t rx_data[64] ={[0 ... 63] = '\0'};
 	if(!enable)
 	{
-		HAL_GPIO_WritePin(MCU1_nSS_GPIO_Port, MCU1_nSS_Pin, 0);
+	HAL_GPIO_WritePin(MCU1_TX_DATA_GPIO_Port, MCU1_TX_DATA_Pin, 1);
 	status = HAL_SPI_Transmit(&hspi4, tx_data, sizeof(tx_data)/sizeof(uint8_t), 10000);
-	HAL_GPIO_WritePin(MCU1_nSS_GPIO_Port, MCU1_nSS_Pin, 1);
+	HAL_GPIO_WritePin(MCU1_TX_DATA_GPIO_Port, MCU1_TX_DATA_Pin, 0);
+
+
 	}
 	else
 	{
-		HAL_GPIO_WritePin(MCU1_nSS_GPIO_Port, MCU1_nSS_Pin, 0);
-	status = HAL_SPI_TransmitReceive(&hspi4, tx_dummy, rx_data, 32, 1000);
-	HAL_GPIO_WritePin(MCU1_nSS_GPIO_Port, MCU1_nSS_Pin, 1);
-	SCPI_ResultCharacters(context, rx_data, 32);
+	HAL_GPIO_WritePin(MCU1_RX_DATA_GPIO_Port, MCU1_RX_DATA_Pin, 1);
+	while(!HAL_GPIO_ReadPin(MCU2_RX_STATUS_GPIO_Port, MCU2_RX_STATUS_Pin)){}
+	status = HAL_SPI_Receive(&hspi4, rx_data, 64, 1000);
+	HAL_GPIO_WritePin(MCU1_RX_DATA_GPIO_Port, MCU1_RX_DATA_Pin, 0);
+	SCPI_ResultCharacters(context, rx_data, 64);
 	}
 
 
@@ -129,12 +135,18 @@ const scpi_command_t scpi_commands[] = {
     { .pattern = "*TST?", .callback = My_CoreTstQ,},
     { .pattern = "*WAI", .callback = SCPI_CoreWai,},
 
+    {.pattern = "STATus:QUEStionable[:EVENt]?", .callback = SCPI_StatusQuestionableEventQ,},
+    /* {.pattern = "STATus:QUEStionable:CONDition?", .callback = scpi_stub_callback,}, */
+    {.pattern = "STATus:QUEStionable:ENABle", .callback = SCPI_StatusQuestionableEnable,},
+    {.pattern = "STATus:QUEStionable:ENABle?", .callback = SCPI_StatusQuestionableEnableQ,},
+
+    {.pattern = "STATus:PRESet", .callback = SCPI_StatusPreset,},
+
     /* Required SCPI commands (SCPI std V1999.0 4.2.1) */
     {.pattern = "SYSTem:ERRor[:NEXT]?", .callback = SCPI_SystemErrorNextQ,},
     {.pattern = "SYSTem:ERRor:COUNt?", .callback = SCPI_SystemErrorCountQ,},
     {.pattern = "SYSTem:VERSion?", .callback = SCPI_SystemVersionQ,},
 
-    {.pattern = "SYSTem:COMMunication:TCPIP:CONTROL?", .callback = SCPI_SystemCommTcpipControlQ,},
 	{.pattern = "SYSTem:COMMunicate:LAN:DHCP", .callback = SCPI_SystemCommunicateLANDHCP,}, // {ON|OFF|1|0} Enabled DHCP
 	{.pattern = "SYSTem:COMMunicate:LAN:DHCP?", .callback = SCPI_SystemCommunicateLANDHCPQ,}, // Get DHCP status
 	{.pattern = "SYSTem:COMMunicate:LAN:IPADdress", .callback = SCPI_SystemCommunicateLANIPAddress,}, // "<IP address>" static IP address
@@ -150,15 +162,11 @@ const scpi_command_t scpi_commands[] = {
 	{.pattern = "SYSTem:COMMunication:LAN:UPDate", .callback = SCPI_SystemCommunicationLanUpdate,},
 	{.pattern = "SYSTem:SERVice:EEPROM", .callback = SCPI_SystemServiceEEPROM,}, // {RESET|DEFault}
 	{.pattern = "SYSTem:SERVice:ID", .callback = SCPI_SystemServiceID,}, // manufacturer model SW serial
-
-
 	{.pattern = "SYSTem:SECure:STATe", .callback = SCPI_SystemSecureState,}, // {OFF|ON|0|1} <code>
 	{.pattern = "SYSTem:SECure:STATe?", .callback = SCPI_SystemSecureStateQ,},
-
 	{.pattern = "SYSTem:TEMPerature?", .callback = SCPI_SystemTemperatureQ,}, // Read the temperature of the PCB, default readout is in celsius
 	{.pattern = "SYSTem:TEMPerature:UNIT", .callback = SCPI_SystemTemperatureUnit,}, // {C|F|K}
 	{.pattern = "SYSTem:TEMPerature:UNIT?", .callback = SCPI_SystemTemperatureUnitQ,},
-
 	{.pattern = "SYSTem:HUMIdity?", .callback = SCPI_SystemHumidityQ,},
 
 	{.pattern = "CALibration:ADC?", .callback = SCPI_CalibrationADCQ,}, // Calibrate ADC
@@ -172,44 +180,65 @@ const scpi_command_t scpi_commands[] = {
 	{.pattern = "CALibration:VALue?", .callback = SCPI_CalibrationValueQ,},
 
 
-    {.pattern = "STATus:QUEStionable[:EVENt]?", .callback = SCPI_StatusQuestionableEventQ,},
-    /* {.pattern = "STATus:QUEStionable:CONDition?", .callback = scpi_stub_callback,}, */
-    {.pattern = "STATus:QUEStionable:ENABle", .callback = SCPI_StatusQuestionableEnable,},
-    {.pattern = "STATus:QUEStionable:ENABle?", .callback = SCPI_StatusQuestionableEnableQ,},
-
-    {.pattern = "STATus:PRESet", .callback = SCPI_StatusPreset,},
-
 	{.pattern = "TS?", .callback = TEST_TSQ,},
 
 	{.pattern = "FORMAt[:DATA]", .callback = SCPI_FormatData,}, // {ASCii|REAL} NOTE: Selects the data transfer format (BIN or ASCII).
 	{.pattern = "FORMAt[:DATA]?", .callback = SCPI_FormatDataQ,}, // NOTE: Return the data transfer format.
 
-	{.pattern = "SOURce:FREQuency[:CW]", .callback = SCPI_FrequencyCW,}, // <numeric> [HZ|KHZ] NOTE: Set the frequency for normal measurement
-	{.pattern = "SOURce:FREQuency[:CW]?", .callback = SCPI_FrequencyCWQ,}, // NOTE: Read the frequency for normal measurement
-	{.pattern = "SOURce:VOLTage:AMPLitude", .callback = SCPI_SourceVoltageAmplitude,}, // <numeric_value> {MV|V}
-	{.pattern = "SOURce:VOLTage:AMPLitude?", .callback = SCPI_SourceVoltageAmplitudeQ,}, // Read the source amplitude
-	{.pattern = "SOURce:VOLTage:OFFSet", .callback = SCPI_SourceVoltageOffset,}, // <numeric_value> {MV|V}
-	{.pattern = "SOURce:VOLTage:OFFSet?", .callback = SCPI_SourceVoltageOffsetQ,}, // Read the source offset
-	{.pattern = "SOURce:VOLTage:OFFSet:STATe", .callback = SCPI_SourceVoltageOffsetState,}, // {ON|OFF|1|0}
-	{.pattern = "SOURce:VOLTage:OFFSet:STATe?", .callback = SCPI_SourceVoltageOffsetStateQ,}, // Check if the offset is enabled
+	{.pattern = "SOURce:FREQuency[:CW]", .callback = SCPI_SourceFrequencyCW,}, // <numeric> [HZ|KHZ] NOTE: Set the frequency for normal measurement
+	{.pattern = "SOURce:FREQuency[:CW]?", .callback = SCPI_SourceFrequencyCWQ,}, // NOTE: Read the frequency for normal measurement
+	{.pattern = "SOURce:VOLTage[:LEVel][:IMMediate][:AMPLitude]", .callback = SCPI_SourceVoltageLevelImmediateAmplitude,}, // {<numeric_value>}{[MV|V]}
+	{.pattern = "SOURce:VOLTage[:LEVel][:IMMediate][:AMPLitude]?", .callback = SCPI_SourceVoltageLevelImmediateAmplitudeQ,},
+	{.pattern = "SOURce:VOLTage[:LEVel][:IMMediate]:OFFSet", .callback = SCPI_SourceVoltageLevelImmediateOffset,}, // {<numeric_value>}{[MV|V]}
+	{.pattern = "SOURce:VOLTage[:LEVel][:IMMediate]:OFFSet?", .callback = SCPI_SourceVoltageLevelImmediateOffsetQ,},
+	{.pattern = "SOURce:VOLTage[:LEVel][:IMMediate]:STATe", .callback = SCPI_SourceVoltageLevelImmediateState,}, // {ON|OFF|1|0}
+	{.pattern = "SOURce:VOLTage[:LEVel][:IMMediate]:STATe?", .callback = SCPI_SourceVoltageLevelImmediateStateQ,},
 
+	// Response <stat>,<data1>,<data2>,<comp1>,<comp2>
+	// <stat>: 0: Normal, 1: Overload, 2: No-Contact
+	// <data1>: Measurement data of the primary parameter
+	// <data2>: Measurement data of the secondary parameters
+	// <comp1>: Comparison result of the primary parameter (no output when comp. is OFF)
+	// <comp2>: Comparison result of the secondary parameter (no output when comp. is OFF)
+	// <comp>: 1: In, 2:High, 3:Low, 8:No-Contact
 	{.pattern = "FETCh?", .callback = SCPI_FetchQ,},
 
 	{.pattern = "INITiate[:IMMediate]", .callback = SCPI_InitiateImmediate,}, // Cause all sequences to exit Idle state and enter Initiate state.
 	{.pattern = "INITiate:CONTinuous", .callback = SCPI_InitiateContinuous,}, // {ON|OFF|1|0} Sets or queries whether the trigger system is continuously initiated or not.
 	{.pattern = "INITiate:CONTinuous?", .callback = SCPI_InitiateContinuousQ,}, // Response 1 or 0.
 
-	{.pattern = "SENSe:AVERage:COUNt", .callback = SCPI_SenseAverageCount,}, // <numeric value> MIN 1 MAX 1024, set the averaging rate
-	{.pattern = "SENSe:AVERage:COUNt?", .callback = SCPI_SenseAverageCountQ,}, // Read the averaging rate
-	{.pattern = "SENSe:AVERage[:STATe]", .callback = SCPI_SenseAverageState,}, // {ON|OFF|1|0}, enable averaging
-	{.pattern = "SENSe:AVERage[:STATe]?", .callback = SCPI_SenseAverageStateQ,}, // Read averaging state, return 1 or 0
-	{.pattern = "SENSe:FUNCtion", .callback = SCPI_SenseFunction,}, // {C|L|R|ESR}, C - capacitance, L - inductance, R- resistance, ESR - equivalent series resistance
-	{.pattern = "SENSe:FUNCtion?", .callback = SCPI_SenseFunctionQ,}, // Read function, Result C, L, R
-	{.pattern = "SENSe:MODe", .callback = SCPI_SenseMode,}, // {AUTO|PRL|SER}
-	{.pattern = "SENSe:NOMinal:VALue", .callback = SCPI_SenseNominalValue}, // Set the expected measurement value -- Do I need this ?
-	{.pattern = "SENSe:NOMinal:VALue?", .callback = SCPI_SenseNominalValueQ}, // Read the expected measurement value -- Do I need this ?
-	{.pattern = "SENSe:NOMinal[:STATe]", .callback = SCPI_SenseNominalState}, // {ON|OFF|1|0} Enable the nominal measurement function
-	{.pattern = "SENSe:NOMinal[:STATe]?", .callback = SCPI_SenseNominalStateQ}, // {ON|OFF|1|0} Enable the nominal measurement function
+	{.pattern = "[SENSe:]AVERage:COUNt", .callback = SCPI_SenseAverageCount,}, // <numeric value> MIN 1 MAX 256, set the averaging rate
+	{.pattern = "[SENSe:]AVERage:COUNt?", .callback = SCPI_SenseAverageCountQ,}, // Read the averaging rate
+	{.pattern = "[SENSe:]AVERage[:STATe]", .callback = SCPI_SenseAverageState,}, // {ON|OFF|1|0}, enable averaging
+	{.pattern = "[SENSe:]AVERage[:STATe]?", .callback = SCPI_SenseAverageStateQ,}, // Read averaging state, return 1 or 0
+	{.pattern = "[SENSe:]CORRection:CKIT:STANdard", .callback = SCPI_SenseCorrectionCkitStandard,}, //{3}{<numeric_value>,<numeric_value>}, Enters the reference value for the LOAD correction.
+	{.pattern = "[SENSe:]CORRection:CKIT:STANdard?", .callback = SCPI_SenseCorrectionCkitStandardQ,}, //{3}
+	{.pattern = "[SENSe:]CORRection:COLLect[:ACQuire]", .callback = SCPI_SenseCorrectionCollectAquire,}, //{STAN1|STAN2|STAN3}
+	{.pattern = "[SENSe:]CORRection:COLLect:METHod", .callback = SCPI_SenseCorrectionCollectMethod,}, //{REFL2|REFL3}, Sets the measurement error correction method.
+	{.pattern = "[SENSe:]CORRection:COLLect:METHod?", .callback = SCPI_SenseCorrectionCollectMethodQ,},
+	{.pattern = "[SENSe:]CORRection:DATA?", .callback = SCPI_SenseCorrectionDataQ,}, //{STAN1|STAN2|STAN3}
+	{.pattern = "[SENSe:]CORRection:STATe", .callback = SCPI_SenseCorrectionState,}, //{ON|OFF|1|0}, Set the measurement error correction.
+	{.pattern = "[SENSe:]CORRection:STATe?", .callback = SCPI_SenseCorrectionStateQ,}, // Queries the measurement error correction status.
+	{.pattern = "[SENSe:]FIMPedance:APERture", .callback = SCPI_SenseFimpedanceAperture,}, // <numeric_value> {[MS|S]}
+	{.pattern = "[SENSe:]FIMPedance:CONTact:VERify", .callback = SCPI_SenseFimpedanceContactVerify,}, //{ON|OFF|1|0}
+	{.pattern = "[SENSe:]FIMPedance:CONTact:VERify?", .callback = SCPI_SenseFimpedanceContactVerifyQ,},
+	{.pattern = "[SENSe:]FIMPedance:RANGe:AUTO", .callback = SCPI_SenseFimpedanceRangeAuto,}, //{ON|OFF|1|0}
+	{.pattern = "[SENSe:]FIMPedance:RANGe:AUTO?", .callback = SCPI_SenseFimpedanceRangeAutoQ,},
+	{.pattern = "[SENSe:]FIMPedance:RANGe", .callback = SCPI_SenseFimpedanceRangeAutoQ,}, // {<numeric_value> (valid: 10, 100, 1000, 10000, 100000)}{[OHM|KOHM]}
+	{.pattern = "[SENSe:]FUNCtion[:ON]", .callback = SCPI_SenseFunction,}, // {FIMPedance|FADMittance}
+	{.pattern = "[SENSe:]FUNCtion[:ON]?", .callback = SCPI_SenseFunctionQ,},
+
+	{.pattern = "CALCulate:FORMat", .callback = SCPI_CalculateFormat,}, //{1|2}  for {1}{REAL | MLINear | CP | CS | LP | LS}, for {2}{IMAGinary | PHASe | D | Q | REAL | LP | RP | INV}
+	{.pattern = "CALCulate:LIMit:CLEar", .callback = SCPI_CalculateLimitClear,}, // {1|2}
+	{.pattern = "CALCulate:LIMit:FAIL?", .callback = SCPI_CalculateLimitFailQ,}, // {1|2}
+	{.pattern = "CALCulate:LIMit:LOWer[:DATA]", .callback = SCPI_CalculateLimitLowerData,}, // {1|2}{<numeric> | MINimum | MAXimum}
+	{.pattern = "CALCulate:LIMit:LOWer:STATe", .callback = SCPI_CalculateLimitLowerState,}, // {1|2}{ON|OFF|1|0}
+	{.pattern = "CALCulate:LIMit:STATe", .callback = SCPI_CalculateLimitState,}, // {1|2}{ON|OFF|1|0}
+	{.pattern = "CALCulate:LIMit:UPPer[:DATA]", .callback = SCPI_CalculateLimitUpperData,}, // {1|2}{<numeric> | MINimum | MAXimum}
+	{.pattern = "CALCulate:LIMit:UPPer:STATe", .callback = SCPI_CalculateLimitUpperState,}, // {1|2}{ON|OFF|1|0}
+	{.pattern = "CALCulate:MATH:EXPRession:CATalog?", .callback = SCPI_CalculateMathExpressionCatalogQ,}, // {1|2}
+	{.pattern = "CALCulate:MATH:EXPRession:NAME", .callback = SCPI_CalculateMathExpressionNameQ,}, // {1|2}{DEV|PCNT}
+	{.pattern = "CALCulate:MATH:STATe", .callback = SCPI_CalculateMathState,}, // {1|2}{ON|OFF|1|0}
 
 	{.pattern = "TRIGger:DELay", .callback = SCPI_TriggerDelay,}, // <numeric_value> [MS|S] Set the trigger delay
 	{.pattern = "TRIGger:DELay?", .callback = SCPI_TriggerDelayQ,}, // Read the trigger delay
