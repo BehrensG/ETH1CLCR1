@@ -48,6 +48,10 @@ scpi_choice_def_t EEPROM_state_select[] =
     SCPI_CHOICE_LIST_END
 };
 
+/*
+ * Private function to convert a IP string (format xxx.xxx.xxx.xxx) to a array of uint8_t. The conversion is need for the lwIP Ethernet function.
+ */
+
 static uint8_t SCPI_StringToIP4Array(const int8_t* ip_string, uint8_t* ip_array)
 {
 
@@ -92,6 +96,10 @@ static uint8_t SCPI_StringToIP4Array(const int8_t* ip_string, uint8_t* ip_array)
     return NET_STR_OK;
 }
 
+/*
+ * Private function to convert a MAC string (format xx:xx:xx:xx:xx:xx or xx-xx-xx-xx-xx-xx) to a array of uint8_t. The conversion is need for the lwIP Ethernet function.
+ */
+
 static uint8_t SCPI_StringToMACArray(const uint8_t* MAC_string, uint8_t* MAC_array)
 {
     int32_t values[6];
@@ -116,6 +124,17 @@ static uint8_t SCPI_StringToMACArray(const uint8_t* MAC_string, uint8_t* MAC_arr
     return NET_STR_OK;
 }
 
+/*
+ * SYSTem:COMMunicate:LAN:DHCP {ON|OFF|1|0}
+ *
+ * @INFO:
+ * Disables or enables instrument's use of DHCP. With dynamic addressing, a device can have a different IP address every time it connects to the network.
+ *
+ * @PARAMETERS:
+ *	ON or 1		instrument tries to obtain an IP address from a DHCP server.
+ *	OFF or 0	instrument uses the static IP address, Subnet Mask, and Default Gateway during power-on
+ */
+
 scpi_result_t SCPI_SystemCommunicateLANDHCP(scpi_t * context)
 {
 	scpi_bool_t  enable = FALSE;
@@ -129,6 +148,13 @@ scpi_result_t SCPI_SystemCommunicateLANDHCP(scpi_t * context)
 	return SCPI_RES_OK;
 }
 
+/*
+ * SYSTem:COMMunicate:LAN:DHCP?
+ *
+ * @INFO:
+ * Queries the DHCP configuration status. Result value 0 or 1.
+ */
+
 scpi_result_t SCPI_SystemCommunicateLANDHCPQ(scpi_t * context)
 {
 
@@ -136,6 +162,20 @@ scpi_result_t SCPI_SystemCommunicateLANDHCPQ(scpi_t * context)
 
 	return SCPI_RES_OK;
 }
+
+/*
+ * SYSTem:COMMunicate:LAN:IPADdress "<address>"
+ *
+ * @INFO:
+ * Assigns a static Internet Protocol (IP) address for the instrument. If DHCP is enabled (SYSTem:COMMunicate:LAN:DHCP ON), the specified static IP address is not used.
+ *
+ * @PARAMETERS:
+ * 				"<address>"		"nnnn.nnnn.nnnn.nnnn" - where nnnn is a number from 0-255. Default "192.168.1.126".
+ *
+ * @NOTE:
+ * If you change this setting, you must send SYSTem:COMMunicate:LAN:UPDate to activate the new setting.
+ * This setting is non-volatile; it is not changed by power cycling, a Factory Reset (*RST)
+ */
 
 scpi_result_t SCPI_SystemCommunicateLANIPAddress(scpi_t * context)
 {
@@ -168,6 +208,20 @@ scpi_result_t SCPI_SystemCommunicateLANIPAddress(scpi_t * context)
 	return SCPI_RES_OK;
 }
 
+/*
+ * SYSTem:COMMunicate:LAN:IPADdress? [{CURRent|STATic}]
+ *
+ * @INFO:
+ * Query the IP4 address. Result is a string. Typical return "192.168.1.126"
+ *
+ * @PARAMETERS:
+ * 				CURRent		read the value currently being used by the instrument (default)
+ * 				STATic		read the value currently stored in nonvolatile memory within the instrument
+ *
+ * @NOTE:
+ * Readout may not be the actual address used by the instrument if DHCP is enabled.
+ */
+
 scpi_result_t SCPI_SystemCommunicateLANIPAddressQ(scpi_t * context)
 {
 	int32_t value = 0;
@@ -188,6 +242,21 @@ scpi_result_t SCPI_SystemCommunicateLANIPAddressQ(scpi_t * context)
 	SCPI_ResultMnemonic(context, (char*)str);
 	return SCPI_RES_OK;
 }
+
+/*
+ * SYSTem:COMMunicate:LAN:SMASk "<mask>"
+ *
+ * @INFO:
+ * Assigns a subnet mask for the instrument to use in determining whether a client IP address is on the same local subnet.
+ *
+ * @PARAMETERS:
+ * 				"<mask>"	"nnnn.nnnn.nnnn.nnnn" - where nnnn is a number from 0-255. Default "255.255.255.0".
+ *
+ * @NOTE:
+ *  A value of "0.0.0.0" or "255.255.255.255" indicates that subnetting is not being used.
+ *  If you change this setting, you must send SYSTem:COMMunicate:LAN:UPDate to activate the new setting.
+ *  This setting is non-volatile; it is not changed by power cycling, a Factory Reset (*RST).
+ */
 
 scpi_result_t SCPI_SystemCommunicateLANIPSmask(scpi_t * context)
 {
@@ -219,6 +288,20 @@ scpi_result_t SCPI_SystemCommunicateLANIPSmask(scpi_t * context)
 
 	return SCPI_RES_OK;
 }
+
+/*
+ * SYSTem:COMMunicate:LAN:SMASk? [{CURRent|STATic}]
+ *
+ * @INFO:
+ * Query IP4 subnet mask. Result is a string. Typical return "255.255.255.0".
+ *
+ * @PARAMETERS:
+ * 				CURRent		read the value currently being used by the instrument (default)
+ * 				STATic		read the value currently stored in nonvolatile memory within the instrument
+ *
+ * @NOTE:
+ * Readout may not be the actual mask used by the instrument if DHCP is enabled.
+ */
 
 scpi_result_t SCPI_SystemCommunicateLANIPSmaskQ(scpi_t * context)
 {
@@ -401,6 +484,17 @@ scpi_result_t SCPI_SystemCommunicateLANPortQ(scpi_t * context)
 
 	return SCPI_RES_OK;
 }
+
+/*
+ * SYSTem:COMMunicate:LAN:UPDate
+ *
+ * @INFO:
+ * Stores any changes made to the LAN settings into non-volatile memory.
+ *
+ * @NOTE:
+ * This command must be sent after changing the settings for DHCP, gateway, hostname, IP address, subnet mask.
+ *
+ */
 
 scpi_result_t SCPI_SystemCommunicationLanUpdate(scpi_t * context)
 {

@@ -142,7 +142,7 @@ int main(void)
 
   /* Create the thread(s) */
   /* creation of defaultTask */
- // defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+ //defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   scpi_server_init();
@@ -371,7 +371,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOG_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOE, TRIG_OUT_Pin|TRIG_EN_Pin|MCU1_GPIO_OUT2_Pin|MCU1_GPIO_OUT1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOE, TRIG_OUT_Pin|TRIG_EN_Pin|MCU1_RX_DATA_Pin|MCU1_TX_DATA_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(I2C4_WP_GPIO_Port, I2C4_WP_Pin, GPIO_PIN_RESET);
@@ -379,8 +379,8 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, LED_RED_Pin|LED_GREEN_Pin|LED_BLUE_Pin, GPIO_PIN_SET);
 
-  /*Configure GPIO pins : TRIG_IN_Pin MCU1_STATUS_IN2_Pin MCU1_STATUS_IN1_Pin */
-  GPIO_InitStruct.Pin = TRIG_IN_Pin|MCU1_STATUS_IN2_Pin|MCU1_STATUS_IN1_Pin;
+  /*Configure GPIO pins : TRIG_IN_Pin MCU2_STATUS_Pin MCU2_RX_STATUS_Pin */
+  GPIO_InitStruct.Pin = TRIG_IN_Pin|MCU2_STATUS_Pin|MCU2_RX_STATUS_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
@@ -392,12 +392,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   HAL_GPIO_Init(TRIG_OUT_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : TRIG_EN_Pin MCU1_GPIO_OUT2_Pin MCU1_GPIO_OUT1_Pin */
-  GPIO_InitStruct.Pin = TRIG_EN_Pin|MCU1_GPIO_OUT2_Pin|MCU1_GPIO_OUT1_Pin;
+  /*Configure GPIO pin : TRIG_EN_Pin */
+  GPIO_InitStruct.Pin = TRIG_EN_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+  HAL_GPIO_Init(TRIG_EN_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : I2C4_WP_Pin */
   GPIO_InitStruct.Pin = I2C4_WP_Pin;
@@ -405,6 +405,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(I2C4_WP_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : MCU1_RX_DATA_Pin MCU1_TX_DATA_Pin */
+  GPIO_InitStruct.Pin = MCU1_RX_DATA_Pin|MCU1_TX_DATA_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
   /*Configure GPIO pins : LED_RED_Pin LED_GREEN_Pin LED_BLUE_Pin */
   GPIO_InitStruct.Pin = LED_RED_Pin|LED_GREEN_Pin|LED_BLUE_Pin;

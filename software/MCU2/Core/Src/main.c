@@ -51,17 +51,17 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-__IO uint8_t    SPI6_TxBuffer[SPI6_BUFFOR_SIZE] = {[0 ... SPI6_BUFFOR_SIZE -1] = 'A'};
-uint32_t   SPI6_NbDataToTransmit = 40;
-__IO uint32_t   SPI6_TransmitIndex = 0;
+__IO uint8_t    SPI6_TxBuffer[SPI6_BUFFOR_SIZE] = {[0 ... SPI6_BUFFOR_SIZE -1] = '\0'};
+uint32_t   SPI6_NbDataToTransmit = SPI6_BUFFOR_SIZE;
+__IO uint16_t   SPI6_TransmitIndex = 0;
 uint32_t   SPI6_TransmitSize = 0;
 
-__IO uint8_t    SPI6_RxBuffer[SPI6_BUFFOR_SIZE];
-__IO uint32_t   SPI6_ReceiveIndex = 0;
+__IO uint8_t    SPI6_RxBuffer[SPI6_BUFFOR_SIZE] = {[0 ... SPI6_BUFFOR_SIZE -1] = '\0'};
+__IO uint16_t   SPI6_ReceiveIndex = 0;
 
-__IO uint32_t SPI6_XfrCompleteDetect = 0;
+__IO uint8_t SPI6_XfrCompleteDetect = 0;
 
-__IO uint32_t SPI6_XfrErrorDetect = 0;
+__IO uint8_t SPI6_XfrErrorDetect = 0;
 
 /* USER CODE END PV */
 
@@ -82,7 +82,7 @@ static void MX_SPI6_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-static SPI6_Status SPI6_CheckData()
+static SPI6_Status SPI6_CheckMode()
 {
 	if(0 == SPI6_ReceiveIndex)
 	{
@@ -90,16 +90,33 @@ static SPI6_Status SPI6_CheckData()
 	}
 	else if (SPI6_ReceiveIndex > 0)
 	{
-		if('\0' == SPI6_RxBuffer[0])
+		if(LL_GPIO_IsInputPinSet(MCU1_RX_DATA_GPIO_Port, MCU1_RX_DATA_Pin))
 		{
 			return SPI6_MODE_TX;
 		}
-		else
+		else if ('\0'!=SPI6_RxBuffer)
 		{
 			return SPI6_MODE_RX;
 		}
 
 	}
+}
+
+static void SPI6_DataHandler()
+{
+	  if(SPI6_MODE_RX == SPI6_CheckMode())
+	  {
+		  LL_GPIO_ResetOutputPin(MCU2_RX_STATUS_GPIO_Port, MCU2_RX_STATUS_Pin);
+		  SCPI_Input(&scpi_context, SPI6_RxBuffer, SPI6_ReceiveIndex);
+		  SPI6_ReceiveIndex = 0;
+		  LL_GPIO_SetOutputPin(MCU2_RX_STATUS_GPIO_Port, MCU2_RX_STATUS_Pin);
+	  }
+	  else if(LL_GPIO_IsInputPinSet(MCU1_RX_DATA_GPIO_Port, MCU1_RX_DATA_Pin))
+	  {
+		  SPI6_TransmitIndex = 0;
+		  SPI6_ReceiveIndex = 0;
+		  LL_GPIO_SetOutputPin(MCU2_RX_STATUS_GPIO_Port, MCU2_RX_STATUS_Pin);
+	  }
 }
 size_t SCPI_Write(scpi_t * context, const char * data, size_t len) {
     (void) context;
@@ -180,8 +197,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-
-
+	  SPI6_DataHandler();
   }
   /* USER CODE END 3 */
 }
@@ -740,7 +756,7 @@ static void MX_GPIO_Init(void)
   LL_GPIO_SetOutputPin(RR_nCS_GPIO_Port, RR_nCS_Pin);
 
   /**/
-  LL_GPIO_ResetOutputPin(GPIOF, DAC_nLDAC_Pin|MCU1_STATUS_IN1_Pin|MCU1_STATUS_IN2_Pin|EEPROM_WP_Pin);
+  LL_GPIO_ResetOutputPin(GPIOF, DAC_nLDAC_Pin|MCU2_RX_STATUS_Pin|MCU1_STATUS_IN2_Pin|EEPROM_WP_Pin);
 
   /**/
   LL_GPIO_ResetOutputPin(GPIOG, CXN_REL6_Pin|CXN_REL5_Pin|RR_1KCTR_Pin|RR_10KCTR_Pin 
@@ -774,8 +790,7 @@ static void MX_GPIO_Init(void)
   LL_GPIO_Init(MCU3_nSS_GPIO_Port, &GPIO_InitStruct);
 
   /**/
-  GPIO_InitStruct.Pin = DAC_nLDAC_Pin|DAC_nCLR_Pin|MCU1_STATUS_IN1_Pin|MCU1_STATUS_IN2_Pin 
-                          |EEPROM_WP_Pin;
+  GPIO_InitStruct.Pin = DAC_nLDAC_Pin|DAC_nCLR_Pin|MCU1_STATUS_IN2_Pin|EEPROM_WP_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
   GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
@@ -791,10 +806,18 @@ static void MX_GPIO_Init(void)
   LL_GPIO_Init(DAC_nSYNC_GPIO_Port, &GPIO_InitStruct);
 
   /**/
-  GPIO_InitStruct.Pin = MCU1_GPIO_OUT1_Pin|MCU1_GPIO_OUT2_Pin;
+  GPIO_InitStruct.Pin = MCU1_TX_DATA_Pin|MCU1_RX_DATA_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
   LL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /**/
+  GPIO_InitStruct.Pin = MCU2_RX_STATUS_Pin;
+  GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+  GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
+  LL_GPIO_Init(MCU2_RX_STATUS_GPIO_Port, &GPIO_InitStruct);
 
   /**/
   GPIO_InitStruct.Pin = CXN_REL6_Pin|CXN_REL5_Pin|RR_1KCTR_Pin|RR_10KCTR_Pin 
@@ -883,6 +906,7 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
+/* USER CODE END 4 */
 
 /**
   * @brief  This function is executed in case of error occurrence.
