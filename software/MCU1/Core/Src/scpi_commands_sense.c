@@ -5,6 +5,13 @@
  *      Author: grzegorz
  */
 
+ scpi_choice_def_t sense_function_select[] =
+ {
+ 		{"FIMPedance", 1},
+ 		{"FADMittance", 2},
+ 		SCPI_CHOICE_LIST_END
+ };
+
 #include "scpi_commands_sense.h"
 
 scpi_result_t SCPI_SenseAverageCount(scpi_t * context)

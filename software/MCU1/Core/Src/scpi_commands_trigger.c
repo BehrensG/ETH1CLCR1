@@ -11,6 +11,16 @@
 #include <string.h>
 #include "scpi_commands_trigger.h"
 
+
+ scpi_choice_def_t trigger_source_select[] =
+ {
+ 		{"IMMediate", 1},
+ 		{"EXTernal", 2},
+ 		{"BUS", 3},
+ 		SCPI_CHOICE_LIST_END
+ };
+
+
 scpi_result_t SCPI_TriggerDelay(scpi_t * context)
 {
 

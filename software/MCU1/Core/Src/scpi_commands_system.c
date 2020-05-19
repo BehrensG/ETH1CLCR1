@@ -26,6 +26,14 @@ scpi_choice_def_t LAN_state_select[] =
     SCPI_CHOICE_LIST_END
 };
 
+scpi_choice_def_t mcu_select[] =
+{
+    {"MCU1", 1},
+    {"MCU2", 2},
+    {"MCU3", 3},
+    SCPI_CHOICE_LIST_END
+};
+
 scpi_choice_def_t temperature_unit[] =
 {
     {"C", 0},
@@ -38,6 +46,8 @@ scpi_choice_def_t security_state_select[] =
 {
     {"OFF", 0},
     {"ON", 1},
+	{"0", 0},
+	{"1", 1},
     SCPI_CHOICE_LIST_END
 };
 
@@ -49,6 +59,7 @@ scpi_choice_def_t EEPROM_state_select[] =
 };
 
 /*
+ * @INFO:
  * Private function to convert a IP string (format xxx.xxx.xxx.xxx) to a array of uint8_t. The conversion is need for the lwIP Ethernet function.
  */
 
@@ -97,6 +108,7 @@ static uint8_t SCPI_StringToIP4Array(const int8_t* ip_string, uint8_t* ip_array)
 }
 
 /*
+ * @INFO:
  * Private function to convert a MAC string (format xx:xx:xx:xx:xx:xx or xx-xx-xx-xx-xx-xx) to a array of uint8_t. The conversion is need for the lwIP Ethernet function.
  */
 
@@ -131,8 +143,8 @@ static uint8_t SCPI_StringToMACArray(const uint8_t* MAC_string, uint8_t* MAC_arr
  * Disables or enables instrument's use of DHCP. With dynamic addressing, a device can have a different IP address every time it connects to the network.
  *
  * @PARAMETERS:
- *	ON or 1		instrument tries to obtain an IP address from a DHCP server.
- *	OFF or 0	instrument uses the static IP address, Subnet Mask, and Default Gateway during power-on
+ *				ON or 1		instrument tries to obtain an IP address from a DHCP server.
+ *				OFF or 0	instrument uses the static IP address, Subnet Mask, and Default Gateway during power-on
  */
 
 scpi_result_t SCPI_SystemCommunicateLANDHCP(scpi_t * context)
@@ -174,7 +186,7 @@ scpi_result_t SCPI_SystemCommunicateLANDHCPQ(scpi_t * context)
  *
  * @NOTE:
  * If you change this setting, you must send SYSTem:COMMunicate:LAN:UPDate to activate the new setting.
- * This setting is non-volatile; it is not changed by power cycling, a Factory Reset (*RST)
+ * This setting is non-volatile; it is not changed by power cycling, a Factory Reset (*RST).
  */
 
 scpi_result_t SCPI_SystemCommunicateLANIPAddress(scpi_t * context)
@@ -227,9 +239,9 @@ scpi_result_t SCPI_SystemCommunicateLANIPAddressQ(scpi_t * context)
 	int32_t value = 0;
 	uint8_t str[16] = {0};
 
-	if(!SCPI_ParamChoice(context, LAN_state_select, &value, TRUE))
+	if(!SCPI_ParamChoice(context, LAN_state_select, &value, FALSE))
 	{
-		return SCPI_RES_ERR;
+		value = 0;
 	}
 	if(CURRENT == value)
 	{
@@ -253,9 +265,9 @@ scpi_result_t SCPI_SystemCommunicateLANIPAddressQ(scpi_t * context)
  * 				"<mask>"	"nnnn.nnnn.nnnn.nnnn" - where nnnn is a number from 0-255. Default "255.255.255.0".
  *
  * @NOTE:
- *  A value of "0.0.0.0" or "255.255.255.255" indicates that subnetting is not being used.
- *  If you change this setting, you must send SYSTem:COMMunicate:LAN:UPDate to activate the new setting.
- *  This setting is non-volatile; it is not changed by power cycling, a Factory Reset (*RST).
+ * A value of "0.0.0.0" or "255.255.255.255" indicates that subnetting is not being used.
+ * If you change this setting, you must send SYSTem:COMMunicate:LAN:UPDate to activate the new setting.
+ * This setting is non-volatile; it is not changed by power cycling, a Factory Reset (*RST).
  */
 
 scpi_result_t SCPI_SystemCommunicateLANIPSmask(scpi_t * context)
@@ -308,9 +320,9 @@ scpi_result_t SCPI_SystemCommunicateLANIPSmaskQ(scpi_t * context)
 	int32_t value = 0;
 	uint8_t str[16] = {0};
 
-	if(!SCPI_ParamChoice(context, LAN_state_select, &value, TRUE))
+	if(!SCPI_ParamChoice(context, LAN_state_select, &value, FALSE))
 	{
-		return SCPI_RES_ERR;
+		value = 0;
 	}
 	if(CURRENT == value)
 	{
@@ -326,6 +338,19 @@ scpi_result_t SCPI_SystemCommunicateLANIPSmaskQ(scpi_t * context)
 
 	return SCPI_RES_OK;
 }
+
+/*
+ * SYSTem:COMMunicate:LAN:GATEway "<gateway>"
+ *
+ * @INFO:
+ * Assigns a gateway address for the instrument. A gateway IP refers to a device on a network which sends local network traffic to other networks.
+ *
+ * @PARAMETERS:
+ * 				"<gateway>"	"nnnn.nnnn.nnnn.nnnn" - where nnnn is a number from 0-255. Default "192.168.1.1".
+ *
+ * @NOTE:
+ * If you change this setting, you must send SYSTem:COMMunicate:LAN:UPDate to activate the new setting.
+ */
 
 scpi_result_t SCPI_SystemCommunicateLANGateway(scpi_t * context)
 {
@@ -358,14 +383,22 @@ scpi_result_t SCPI_SystemCommunicateLANGateway(scpi_t * context)
 	return SCPI_RES_OK;
 }
 
+/*
+ * SYSTem:COMMunicate:LAN:GATEway? [{CURRent|STATic}]
+ *
+ * @INFO:
+ * Query the gateway address. Typical return "192.168.1.1".
+ *
+ */
+
 scpi_result_t SCPI_SystemCommunicateLANGatewayQ(scpi_t * context)
 {
 	int32_t value = 0;
 	uint8_t str[16] = {0};
 
-	if(!SCPI_ParamChoice(context, LAN_state_select, &value, TRUE))
+	if(!SCPI_ParamChoice(context, LAN_state_select, &value, FALSE))
 	{
-		return SCPI_RES_ERR;
+		value = 0;
 	}
 	if(CURRENT == value)
 	{
@@ -443,6 +476,19 @@ scpi_result_t SCPI_SystemCommunicateLANMACQ(scpi_t * context)
 	return SCPI_RES_OK;
 }
 
+/*
+ * SYSTem:COMMunicate:LAN:PORT <numeric_value>
+ *
+ * @INFO:
+ * Set the TCP/IP port number.
+ *
+ * @PARAMETERS:
+ * 				<numeric_value>		port value. Valid values are 0 - 65535. Default value is 2000.
+ *
+ * @NOTE:
+ * If you change this setting, you must send SYSTem:COMMunicate:LAN:UPDate to activate the new setting.
+ */
+
 scpi_result_t SCPI_SystemCommunicateLANPort(scpi_t * context)
 {
     uint32_t port = 0;
@@ -462,6 +508,14 @@ scpi_result_t SCPI_SystemCommunicateLANPort(scpi_t * context)
 
 	return SCPI_RES_OK;
 }
+
+/*
+ * SYSTem:COMMunicate:LAN:PORT?
+ *
+ * @INFO:
+ * Query the TCP/IP port number. Typical result 2000.
+ *
+ */
 
 scpi_result_t SCPI_SystemCommunicateLANPortQ(scpi_t * context)
 {
@@ -509,6 +563,20 @@ scpi_result_t SCPI_SystemCommunicationLanUpdate(scpi_t * context)
 	return SCPI_RES_OK;
 }
 
+/*
+ * SYSTem:SECure:STATe {ON|OFF|1|0} "<password>"
+ *
+ * @INFO:
+ * Enables or disables device configuration protection. If the protection is disabled the user can reset the EEPROM of all MCU on the PCB,
+ * change the device information and enable the calibration function.
+ *
+ * @PARAMETERS:
+ * 				ON or 1			Enable device protection.
+ * 				OFF or 0		Disable device protection.
+ * 				"<password>"	Password string. The default password is "ETH1CLCR1". Max. password lenght is PASSWORD_LENGTH.
+ *
+ */
+
 scpi_result_t SCPI_SystemSecureState(scpi_t * context)
 {
 	int32_t state = 0;
@@ -528,7 +596,7 @@ scpi_result_t SCPI_SystemSecureState(scpi_t * context)
 
 	if(!strcmp((const char*)password_read, (const char*)password_reference))
 	{
-		board.structure.system.security.status = SECURITY_OFF;
+		board.structure.system.security.status = state;
 		return SCPI_RES_ERR;
 	}
 	else
@@ -540,11 +608,27 @@ scpi_result_t SCPI_SystemSecureState(scpi_t * context)
 	return SCPI_RES_OK;
 }
 
+/*
+ * SYSTem:SECure:STATe?
+ *
+ * @INFO:
+ * Query the device security state. Returns 1 or 0.
+ *
+ */
+
 scpi_result_t SCPI_SystemSecureStateQ(scpi_t * context)
 {
 	SCPI_ResultUInt8(context, board.structure.system.security.status);
 	return SCPI_RES_OK;
 }
+
+/*
+ * SYSTem:TEMPerature?
+ *
+ * @INFO:
+ * Returns the instrument's internal temperature. The temperature format depends on the selected unit (celsius, kelvin or fahrenheit).
+ *
+ */
 
 scpi_result_t SCPI_SystemTemperatureQ(scpi_t * context)
 {
@@ -564,6 +648,18 @@ scpi_result_t SCPI_SystemTemperatureQ(scpi_t * context)
 	return SCPI_RES_OK;
 }
 
+/*
+ * SYSTem:TEMPerature:UNIT
+ *
+ * @INFO:
+ * Set the temperature unit.
+ *
+ * @PARAMETERS:
+ * 				C	celsius
+ * 				F	fahrenheit
+ * 				K	kelvin
+ */
+
 scpi_result_t SCPI_SystemTemperatureUnit(scpi_t * context)
 {
 	int32_t param = 0;
@@ -578,6 +674,14 @@ scpi_result_t SCPI_SystemTemperatureUnit(scpi_t * context)
 	return SCPI_RES_OK;
 }
 
+/*
+ * SYSTem:TEMPerature:UNIT?
+ *
+ * @INFO:
+ * Query the temperature unit. Result can be C, K or F.
+ *
+ */
+
 scpi_result_t SCPI_SystemTemperatureUnitQ(scpi_t * context)
 {
 	switch(board.structure.system.temperature.unit)
@@ -590,6 +694,14 @@ scpi_result_t SCPI_SystemTemperatureUnitQ(scpi_t * context)
 	return SCPI_RES_OK;
 }
 
+/*
+ * SYSTem:HUMIdity?
+ *
+ * @INFO:
+ * Readout the device internal humidity as percentage value.
+ *
+ */
+
 scpi_result_t SCPI_SystemHumidityQ(scpi_t * context)
 {
 	double humidity = 0.0;
@@ -599,6 +711,23 @@ scpi_result_t SCPI_SystemHumidityQ(scpi_t * context)
 
 	return SCPI_RES_OK;
 }
+
+/*
+ * SYSTem:SERVice:EEPROM {MCU1|MCU2|MCU3} {RESET|DEFault}
+ *
+ * @INFO:
+ * Modify the EEPROM memory for the MCU1, MCU2 or MCU3.
+ *
+ * @PARAMETERS:
+ * 				1			Select MCU1
+ * 				2			Select MCU2
+ * 				3			Select MCU3
+ * 				RESET		Overwrite EEPROM memory with 0xFF.
+ * 				DEFault		Overwrite EEPROM memory with device default values.
+ *
+ * @NOTE:
+ * To use this function the device must be first unlocked using the SYSTem:SECure:STATe command.
+ */
 
 scpi_result_t SCPI_SystemServiceEEPROM(scpi_t * context)
 {
@@ -621,6 +750,22 @@ scpi_result_t SCPI_SystemServiceEEPROM(scpi_t * context)
 
 	return SCPI_RES_OK;
 }
+
+/*
+ * SYSTem:SERVice:ID "<manufacturer>" "<device>" "<software_version>" "<serial_number>"
+ *
+ * @INFO:
+ * Configure the device information, readout using the *IDN? command.
+ *
+ * @PARAMETERS:
+ * 				"<manufacturer>"		Manufacturer string. Max. length is SCPI_MANUFACTURER_STRING_LENGTH.
+ * 				"<device>"				Device name string. Max. length SCPI_MANUFACTURER_STRING_LENGTH.
+ * 				"<software_version>"	Software version string. Max. length SCPI_SOFTWAREVERSION_STRING_LENGTH.
+ * 				"<serial_number>"		Serial number string. Max. length SCPI_SERIALNUMBER_STRING_LENGTH.
+ *
+ * @NOTE:
+ * To use this function the device must be first unlocked using the SYSTem:SECure:STATe command.
+ */
 
 scpi_result_t SCPI_SystemServiceID(scpi_t * context)
 {
@@ -654,6 +799,4 @@ scpi_result_t SCPI_SystemServiceID(scpi_t * context)
 		return SCPI_RES_ERR;
 	}
 	strncpy(board.structure.info.serial_number,buffer,SCPI_SERIALNUMBER_STRING_LENGTH);
-
-
 }
