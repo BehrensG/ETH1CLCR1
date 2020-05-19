@@ -11,6 +11,14 @@
 #include <string.h>
 #include "scpi_commands_misc.h"
 
+
+scpi_choice_def_t format_data_select[] =
+{
+ 		{"ASCii", 1},
+ 		{"REAL", 2},
+ 		SCPI_CHOICE_LIST_END
+};
+
 scpi_result_t SCPI_FormatData(scpi_t * context)
 {
 
