@@ -61,6 +61,7 @@ scpi_choice_def_t EEPROM_state_select[] =
 /*
  * @INFO:
  * Private function to convert a IP string (format xxx.xxx.xxx.xxx) to a array of uint8_t. The conversion is need for the lwIP Ethernet function.
+ *
  */
 
 static uint8_t SCPI_StringToIP4Array(const int8_t* ip_string, uint8_t* ip_array)
@@ -110,6 +111,7 @@ static uint8_t SCPI_StringToIP4Array(const int8_t* ip_string, uint8_t* ip_array)
 /*
  * @INFO:
  * Private function to convert a MAC string (format xx:xx:xx:xx:xx:xx or xx-xx-xx-xx-xx-xx) to a array of uint8_t. The conversion is need for the lwIP Ethernet function.
+ *
  */
 
 static uint8_t SCPI_StringToMACArray(const uint8_t* MAC_string, uint8_t* MAC_array)
@@ -145,6 +147,7 @@ static uint8_t SCPI_StringToMACArray(const uint8_t* MAC_string, uint8_t* MAC_arr
  * @PARAMETERS:
  *				ON or 1		instrument tries to obtain an IP address from a DHCP server.
  *				OFF or 0	instrument uses the static IP address, Subnet Mask, and Default Gateway during power-on
+ *
  */
 
 scpi_result_t SCPI_SystemCommunicateLANDHCP(scpi_t * context)
@@ -165,6 +168,7 @@ scpi_result_t SCPI_SystemCommunicateLANDHCP(scpi_t * context)
  *
  * @INFO:
  * Queries the DHCP configuration status. Result value 0 or 1.
+ *
  */
 
 scpi_result_t SCPI_SystemCommunicateLANDHCPQ(scpi_t * context)
@@ -187,6 +191,7 @@ scpi_result_t SCPI_SystemCommunicateLANDHCPQ(scpi_t * context)
  * @NOTE:
  * If you change this setting, you must send SYSTem:COMMunicate:LAN:UPDate to activate the new setting.
  * This setting is non-volatile; it is not changed by power cycling, a Factory Reset (*RST).
+ *
  */
 
 scpi_result_t SCPI_SystemCommunicateLANIPAddress(scpi_t * context)
@@ -232,6 +237,7 @@ scpi_result_t SCPI_SystemCommunicateLANIPAddress(scpi_t * context)
  *
  * @NOTE:
  * Readout may not be the actual address used by the instrument if DHCP is enabled.
+ *
  */
 
 scpi_result_t SCPI_SystemCommunicateLANIPAddressQ(scpi_t * context)
@@ -268,6 +274,7 @@ scpi_result_t SCPI_SystemCommunicateLANIPAddressQ(scpi_t * context)
  * A value of "0.0.0.0" or "255.255.255.255" indicates that subnetting is not being used.
  * If you change this setting, you must send SYSTem:COMMunicate:LAN:UPDate to activate the new setting.
  * This setting is non-volatile; it is not changed by power cycling, a Factory Reset (*RST).
+ *
  */
 
 scpi_result_t SCPI_SystemCommunicateLANIPSmask(scpi_t * context)
@@ -313,6 +320,7 @@ scpi_result_t SCPI_SystemCommunicateLANIPSmask(scpi_t * context)
  *
  * @NOTE:
  * Readout may not be the actual mask used by the instrument if DHCP is enabled.
+ *
  */
 
 scpi_result_t SCPI_SystemCommunicateLANIPSmaskQ(scpi_t * context)
@@ -350,6 +358,7 @@ scpi_result_t SCPI_SystemCommunicateLANIPSmaskQ(scpi_t * context)
  *
  * @NOTE:
  * If you change this setting, you must send SYSTem:COMMunicate:LAN:UPDate to activate the new setting.
+ *
  */
 
 scpi_result_t SCPI_SystemCommunicateLANGateway(scpi_t * context)
@@ -415,6 +424,20 @@ scpi_result_t SCPI_SystemCommunicateLANGatewayQ(scpi_t * context)
 	return SCPI_RES_OK;
 }
 
+/*
+ * SYSTem:COMMunicate:LAN:MAC "<MAC_address>"
+ *
+ * @INFO:
+ * Assign a new MAC address to the device.
+ *
+ * @PARAMETERS:
+ * 				"<MAC_address>"	"nn:nn:nn:nn:nn:nn" or "nn-nn-nn-nn-nn-nn" - where nn is a number from 00-FF.
+ *
+ * @NOTE:
+ * To use this function the device must be first unlocked using the SYSTem:SECure:STATe command.
+ *
+ */
+
 scpi_result_t SCPI_SystemCommunicateLANMAC(scpi_t * context)
 {
 	uint8_t str[18] = {0};
@@ -454,6 +477,14 @@ scpi_result_t SCPI_SystemCommunicateLANMAC(scpi_t * context)
 	return SCPI_RES_OK;
 }
 
+/*
+ * SYSTem:COMMunicate:LAN:MAC?
+ *
+ * @INFO:
+ * Query the device MAC address. The default value is "00:80:E1:00:00:00".
+ *
+ */
+
 scpi_result_t SCPI_SystemCommunicateLANMACQ(scpi_t * context)
 {
 	uint8_t str[18] = {0};
@@ -487,6 +518,7 @@ scpi_result_t SCPI_SystemCommunicateLANMACQ(scpi_t * context)
  *
  * @NOTE:
  * If you change this setting, you must send SYSTem:COMMunicate:LAN:UPDate to activate the new setting.
+ *
  */
 
 scpi_result_t SCPI_SystemCommunicateLANPort(scpi_t * context)
@@ -658,6 +690,7 @@ scpi_result_t SCPI_SystemTemperatureQ(scpi_t * context)
  * 				C	celsius
  * 				F	fahrenheit
  * 				K	kelvin
+ *
  */
 
 scpi_result_t SCPI_SystemTemperatureUnit(scpi_t * context)
@@ -727,6 +760,7 @@ scpi_result_t SCPI_SystemHumidityQ(scpi_t * context)
  *
  * @NOTE:
  * To use this function the device must be first unlocked using the SYSTem:SECure:STATe command.
+ *
  */
 
 scpi_result_t SCPI_SystemServiceEEPROM(scpi_t * context)
@@ -765,6 +799,7 @@ scpi_result_t SCPI_SystemServiceEEPROM(scpi_t * context)
  *
  * @NOTE:
  * To use this function the device must be first unlocked using the SYSTem:SECure:STATe command.
+ *
  */
 
 scpi_result_t SCPI_SystemServiceID(scpi_t * context)
