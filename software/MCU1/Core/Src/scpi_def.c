@@ -57,6 +57,14 @@ extern I2C_HandleTypeDef hi2c4;
 extern SPI_HandleTypeDef hspi4;
 
 
+scpi_choice_def_t boolean_select[] =
+{
+    {"OFF", 0},
+    {"ON", 1},
+	{"0", 0},
+	{"1", 1},
+    SCPI_CHOICE_LIST_END
+};
 
 static scpi_result_t TEST_TSQ(scpi_t * context)
 {
@@ -182,37 +190,30 @@ const scpi_command_t scpi_commands[] = {
 
 	{.pattern = "TS?", .callback = TEST_TSQ,},
 
-	{.pattern = "FORMAt[:DATA]", .callback = SCPI_FormatData,}, // {ASCii|REAL} NOTE: Selects the data transfer format (BIN or ASCII).
-	{.pattern = "FORMAt[:DATA]?", .callback = SCPI_FormatDataQ,}, // NOTE: Return the data transfer format.
+	{.pattern = "FORMAt[:DATA]", .callback = SCPI_FormatData,},
+	{.pattern = "FORMAt[:DATA]?", .callback = SCPI_FormatDataQ,},
 
-	{.pattern = "SOURce:FREQuency[:CW]", .callback = SCPI_SourceFrequencyCW,}, // <numeric> [HZ|KHZ] NOTE: Set the frequency for normal measurement
-	{.pattern = "SOURce:FREQuency[:CW]?", .callback = SCPI_SourceFrequencyCWQ,}, // NOTE: Read the frequency for normal measurement
-	{.pattern = "SOURce:VOLTage[:LEVel][:IMMediate][:AMPLitude]", .callback = SCPI_SourceVoltageLevelImmediateAmplitude,}, // {<numeric_value>}{[MV|V]}
+	{.pattern = "SOURce:FREQuency[:CW]", .callback = SCPI_SourceFrequencyCW,},
+	{.pattern = "SOURce:FREQuency[:CW]?", .callback = SCPI_SourceFrequencyCWQ,},
+	{.pattern = "SOURce:VOLTage[:LEVel][:IMMediate][:AMPLitude]", .callback = SCPI_SourceVoltageLevelImmediateAmplitude,},
 	{.pattern = "SOURce:VOLTage[:LEVel][:IMMediate][:AMPLitude]?", .callback = SCPI_SourceVoltageLevelImmediateAmplitudeQ,},
-	{.pattern = "SOURce:VOLTage[:LEVel][:IMMediate]:OFFSet", .callback = SCPI_SourceVoltageLevelImmediateOffset,}, // {<numeric_value>}{[MV|V]}
+	{.pattern = "SOURce:VOLTage[:LEVel][:IMMediate]:OFFSet", .callback = SCPI_SourceVoltageLevelImmediateOffset,},
 	{.pattern = "SOURce:VOLTage[:LEVel][:IMMediate]:OFFSet?", .callback = SCPI_SourceVoltageLevelImmediateOffsetQ,},
-	{.pattern = "SOURce:VOLTage[:LEVel][:IMMediate]:STATe", .callback = SCPI_SourceVoltageLevelImmediateState,}, // {ON|OFF|1|0}
+	{.pattern = "SOURce:VOLTage[:LEVel][:IMMediate]:STATe", .callback = SCPI_SourceVoltageLevelImmediateState,},
 	{.pattern = "SOURce:VOLTage[:LEVel][:IMMediate]:STATe?", .callback = SCPI_SourceVoltageLevelImmediateStateQ,},
 
-	// Response <stat>,<data1>,<data2>,<comp1>,<comp2>
-	// <stat>: 0: Normal, 1: Overload, 2: No-Contact
-	// <data1>: Measurement data of the primary parameter
-	// <data2>: Measurement data of the secondary parameters
-	// <comp1>: Comparison result of the primary parameter (no output when comp. is OFF)
-	// <comp2>: Comparison result of the secondary parameter (no output when comp. is OFF)
-	// <comp>: 1: In, 2:High, 3:Low, 8:No-Contact
 	{.pattern = "FETCh?", .callback = SCPI_FetchQ,},
 
-	{.pattern = "INITiate[:IMMediate]", .callback = SCPI_InitiateImmediate,}, // Cause all sequences to exit Idle state and enter Initiate state.
-	{.pattern = "INITiate:CONTinuous", .callback = SCPI_InitiateContinuous,}, // {ON|OFF|1|0} Sets or queries whether the trigger system is continuously initiated or not.
-	{.pattern = "INITiate:CONTinuous?", .callback = SCPI_InitiateContinuousQ,}, // Response 1 or 0.
+	{.pattern = "INITiate[:IMMediate]", .callback = SCPI_InitiateImmediate,},
+	{.pattern = "INITiate:CONTinuous", .callback = SCPI_InitiateContinuous,},
+	{.pattern = "INITiate:CONTinuous?", .callback = SCPI_InitiateContinuousQ,},
 
 	{.pattern = "[SENSe:]AVERage:COUNt", .callback = SCPI_SenseAverageCount,}, // <numeric value> MIN 1 MAX 256, set the averaging rate
 	{.pattern = "[SENSe:]AVERage:COUNt?", .callback = SCPI_SenseAverageCountQ,}, // Read the averaging rate
 	{.pattern = "[SENSe:]AVERage[:STATe]", .callback = SCPI_SenseAverageState,}, // {ON|OFF|1|0}, enable averaging
 	{.pattern = "[SENSe:]AVERage[:STATe]?", .callback = SCPI_SenseAverageStateQ,}, // Read averaging state, return 1 or 0
-	{.pattern = "[SENSe:]CORRection:CKIT:STANdard", .callback = SCPI_SenseCorrectionCkitStandard,}, //{3}{<numeric_value>,<numeric_value>}, Enters the reference value for the LOAD correction.
-	{.pattern = "[SENSe:]CORRection:CKIT:STANdard?", .callback = SCPI_SenseCorrectionCkitStandardQ,}, //{3}
+	{.pattern = "[SENSe:]CORRection:CKIT:STANdard", .callback = SCPI_SenseCorrectionCkitStandard,}, //{STAN3}{<numeric_value>,<numeric_value>}, Enters the reference value for the LOAD correction.
+	{.pattern = "[SENSe:]CORRection:CKIT:STANdard?", .callback = SCPI_SenseCorrectionCkitStandardQ,}, //{STAN3}
 	{.pattern = "[SENSe:]CORRection:COLLect[:ACQuire]", .callback = SCPI_SenseCorrectionCollectAquire,}, //{STAN1|STAN2|STAN3}
 	{.pattern = "[SENSe:]CORRection:COLLect:METHod", .callback = SCPI_SenseCorrectionCollectMethod,}, //{REFL2|REFL3}, Sets the measurement error correction method.
 	{.pattern = "[SENSe:]CORRection:COLLect:METHod?", .callback = SCPI_SenseCorrectionCollectMethodQ,},
@@ -220,33 +221,44 @@ const scpi_command_t scpi_commands[] = {
 	{.pattern = "[SENSe:]CORRection:STATe", .callback = SCPI_SenseCorrectionState,}, //{ON|OFF|1|0}, Set the measurement error correction.
 	{.pattern = "[SENSe:]CORRection:STATe?", .callback = SCPI_SenseCorrectionStateQ,}, // Queries the measurement error correction status.
 	{.pattern = "[SENSe:]FIMPedance:APERture", .callback = SCPI_SenseFimpedanceAperture,}, // <numeric_value> {[MS|S]}
+	{.pattern = "[SENSe:]FIMPedance:APERture?", .callback = SCPI_SenseFimpedanceApertureQ,}, // <numeric_value> {[MS|S]}
 	{.pattern = "[SENSe:]FIMPedance:CONTact:VERify", .callback = SCPI_SenseFimpedanceContactVerify,}, //{ON|OFF|1|0}
 	{.pattern = "[SENSe:]FIMPedance:CONTact:VERify?", .callback = SCPI_SenseFimpedanceContactVerifyQ,},
 	{.pattern = "[SENSe:]FIMPedance:RANGe:AUTO", .callback = SCPI_SenseFimpedanceRangeAuto,}, //{ON|OFF|1|0}
 	{.pattern = "[SENSe:]FIMPedance:RANGe:AUTO?", .callback = SCPI_SenseFimpedanceRangeAutoQ,},
-	{.pattern = "[SENSe:]FIMPedance:RANGe", .callback = SCPI_SenseFimpedanceRangeAutoQ,}, // {<numeric_value> (valid: 10, 100, 1000, 10000, 100000)}{[OHM|KOHM]}
-	{.pattern = "[SENSe:]FUNCtion[:ON]", .callback = SCPI_SenseFunction,}, // {FIMPedance|FADMittance}
-	{.pattern = "[SENSe:]FUNCtion[:ON]?", .callback = SCPI_SenseFunctionQ,},
+	{.pattern = "[SENSe:]FIMPedance:RANGe", .callback = SCPI_SenseFimpedanceRange,}, // {<numeric_value> (valid: 10, 100, 1000, 10000, 100000)}{[OHM|KOHM]}
+	{.pattern = "[SENSe:]FIMPedance:RANGe?", .callback = SCPI_SenseFimpedanceRangeQ,},
+	{.pattern = "[SENSe:]FUNCtion[:ON]", .callback = SCPI_SenseFunctionOn,}, // {FIMPedance|FADMittance}
+	{.pattern = "[SENSe:]FUNCtion[:ON]?", .callback = SCPI_SenseFunctionOnQ,},
 
-	{.pattern = "CALCulate:FORMat", .callback = SCPI_CalculateFormat,}, //{1|2}  for {1}{REAL | MLINear | CP | CS | LP | LS}, for {2}{IMAGinary | PHASe | D | Q | REAL | LP | RP | INV}
-	{.pattern = "CALCulate:LIMit:CLEar", .callback = SCPI_CalculateLimitClear,}, // {1|2}
-	{.pattern = "CALCulate:LIMit:FAIL?", .callback = SCPI_CalculateLimitFailQ,}, // {1|2}
-	{.pattern = "CALCulate:LIMit:LOWer[:DATA]", .callback = SCPI_CalculateLimitLowerData,}, // {1|2}{<numeric> | MINimum | MAXimum}
-	{.pattern = "CALCulate:LIMit:LOWer:STATe", .callback = SCPI_CalculateLimitLowerState,}, // {1|2}{ON|OFF|1|0}
-	{.pattern = "CALCulate:LIMit:STATe", .callback = SCPI_CalculateLimitState,}, // {1|2}{ON|OFF|1|0}
-	{.pattern = "CALCulate:LIMit:UPPer[:DATA]", .callback = SCPI_CalculateLimitUpperData,}, // {1|2}{<numeric> | MINimum | MAXimum}
-	{.pattern = "CALCulate:LIMit:UPPer:STATe", .callback = SCPI_CalculateLimitUpperState,}, // {1|2}{ON|OFF|1|0}
-	{.pattern = "CALCulate:MATH:EXPRession:CATalog?", .callback = SCPI_CalculateMathExpressionCatalogQ,}, // {1|2}
-	{.pattern = "CALCulate:MATH:EXPRession:NAME", .callback = SCPI_CalculateMathExpressionNameQ,}, // {1|2}{DEV|PCNT}
-	{.pattern = "CALCulate:MATH:STATe", .callback = SCPI_CalculateMathState,}, // {1|2}{ON|OFF|1|0}
+	{.pattern = "CALCulate:FORMat", .callback = SCPI_CalculateFormat,},
+	{.pattern = "CALCulate:FORMat?", .callback = SCPI_CalculateFormatQ,},
+	{.pattern = "CALCulate:LIMit:CLEar", .callback = SCPI_CalculateLimitClear,},
+	{.pattern = "CALCulate:LIMit:FAIL?", .callback = SCPI_CalculateLimitFailQ,},
+	{.pattern = "CALCulate:LIMit:LOWer[:DATA]", .callback = SCPI_CalculateLimitLowerData,},
+	{.pattern = "CALCulate:LIMit:LOWer[:DATA]?", .callback = SCPI_CalculateLimitLowerDataQ,},
+	{.pattern = "CALCulate:LIMit:LOWer:STATe", .callback = SCPI_CalculateLimitLowerState,},
+	{.pattern = "CALCulate:LIMit:LOWer:STATe?", .callback = SCPI_CalculateLimitLowerStateQ,},
+	{.pattern = "CALCulate:LIMit:STATe", .callback = SCPI_CalculateLimitState,},
+	{.pattern = "CALCulate:LIMit:STATe?", .callback = SCPI_CalculateLimitStateQ,},
+	{.pattern = "CALCulate:LIMit:UPPer[:DATA]", .callback = SCPI_CalculateLimitUpperData,},
+	{.pattern = "CALCulate:LIMit:UPPer[:DATA]?", .callback = SCPI_CalculateLimitUpperDataQ,},
+	{.pattern = "CALCulate:LIMit:UPPer:STATe", .callback = SCPI_CalculateLimitUpperState,},
+	{.pattern = "CALCulate:LIMit:UPPer:STATe?", .callback = SCPI_CalculateLimitUpperStateQ,},
+	{.pattern = "CALCulate:MATH:EXPRession:CATalog?", .callback = SCPI_CalculateMathExpressionCatalogQ,},
+	{.pattern = "CALCulate:MATH:EXPRession:NAME", .callback = SCPI_CalculateMathExpressionName,},
+	{.pattern = "CALCulate:MATH:EXPRession:NAME?", .callback = SCPI_CalculateMathExpressionNameQ,},
+	{.pattern = "CALCulate:MATH:STATe", .callback = SCPI_CalculateMathState,},
+	{.pattern = "CALCulate:MATH:STATe?", .callback = SCPI_CalculateMathStateQ,},
 
-	{.pattern = "TRIGger:DELay", .callback = SCPI_TriggerDelay,}, // <numeric_value> [MS|S] Set the trigger delay
-	{.pattern = "TRIGger:DELay?", .callback = SCPI_TriggerDelayQ,}, // Read the trigger delay
+	{.pattern = "TRIGger:DELay", .callback = SCPI_TriggerDelay,},
+	{.pattern = "TRIGger:DELay?", .callback = SCPI_TriggerDelayQ,},
 	{.pattern = "TRIGger[:IMMediate]", .callback = SCPI_TriggerImmediate,},
-	{.pattern = "TRIGger:SOURce", .callback = SCPI_TriggerSource,}, // {IMMediate|EXTernal|BUS}
+	{.pattern = "TRIGger:SOURce", .callback = SCPI_TriggerSource,},
 	{.pattern = "TRIGger:SOURce?", .callback = SCPI_TriggerSourceQ,},
-	{.pattern = "TRIGger:OUTPut", .callback = SCPI_TriggerOutput,}, // {OFF|ON}
-	{.pattern = "TRIGger:OUTPut?", .callback = SCPI_TriggerOutputQ,},
+	{.pattern = "TRIGger:OUTPut", .callback = SCPI_TriggerOutput,},
+	{.pattern = "TRIGger:OUTPut:SLOPe", .callback = SCPI_TriggerOutputSlope,},
+	{.pattern = "TRIGger:OUTPut:SLOPe?", .callback = SCPI_TriggerOutputSlopeQ,},
 
 	SCPI_CMD_LIST_END
 };

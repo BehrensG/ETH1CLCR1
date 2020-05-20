@@ -15,10 +15,11 @@
  * Sets the test signal frequency.
  *
  * @PARAMETERS:
- * <numeric_value> :
- *					numeric from 100 to 100000(= 100k)
- *					MINimum 100 (Hz)
- *					MAXimum 100000 (= 100k)(Hz)
+ * 				<numeric_value> :
+ *									numeric from 100 to 100000(= 100k)
+ *									MINimum 100 (Hz)
+ *									MAXimum 100000 (= 100k)(Hz)
+ *
  */
 
 scpi_result_t SCPI_SourceFrequencyCW(scpi_t * context)
@@ -31,6 +32,7 @@ scpi_result_t SCPI_SourceFrequencyCW(scpi_t * context)
  *
  * @INFO:
  * Queries the test signal frequency. Response is a numeric value.
+ *
  */
 
 scpi_result_t SCPI_SourceFrequencyCWQ(scpi_t * context)
@@ -45,10 +47,11 @@ scpi_result_t SCPI_SourceFrequencyCWQ(scpi_t * context)
  * Sets the test signal level.
  *
  * @PARAMETERS:
- * <numeric_value> :
- * 					numeric TBD
- * 					MINimum TBD
- * 					MAXimum TBD
+ * 				<numeric_value> :
+ * 									numeric TBD
+ * 									MINimum TBD
+ * 									MAXimum TBD
+ *
  */
 
 scpi_result_t SCPI_SourceVoltageLevelImmediateAmplitude(scpi_t * context)
@@ -61,6 +64,7 @@ scpi_result_t SCPI_SourceVoltageLevelImmediateAmplitude(scpi_t * context)
  *
  * @INFO:
  * Queries the test signal level. Response is a numeric value.
+ *
  */
 
 scpi_result_t SCPI_SourceVoltageLevelImmediateAmplitudeQ(scpi_t * context)
@@ -75,13 +79,14 @@ scpi_result_t SCPI_SourceVoltageLevelImmediateAmplitudeQ(scpi_t * context)
  * Sets the DC bias voltage.
  *
  * @PARAMETERS:
- * <numeric_value> :
- * 					numeric 0-2(V)
- * 					MINimum 0
- * 					MAXimum 2
+ * 				<numeric_value> :
+ * 									numeric 0-2(V)
+ * 									MINimum 0
+ * 									MAXimum 2
  *
  * @NOTE:
  * In the current PCB desgin no DC bias voltage output is not possible.
+ *
  */
 
 scpi_result_t SCPI_SourceVoltageLevelImmediateOffset(scpi_t * context)
@@ -96,13 +101,14 @@ scpi_result_t SCPI_SourceVoltageLevelImmediateOffset(scpi_t * context)
  * Queries the DC bias voltage. Response is a numeric value.
  *
  * @PARAMETERS:
- * <numeric_value> :
- * 					numeric 0-2(V)
- * 					MINimum 0(V)
- * 					MAXimum 2(V)
+ * 				<numeric_value> :
+ * 									numeric 0-2(V)
+ * 									MINimum 0(V)
+ * 									MAXimum 2(V)
  *
  * @NOTE:
  * In the current PCB desgin no DC bias voltage output is not possible.
+ *
  */
 
 scpi_result_t SCPI_SourceVoltageLevelImmediateOffsetQ(scpi_t * context)
@@ -117,11 +123,12 @@ scpi_result_t SCPI_SourceVoltageLevelImmediateOffsetQ(scpi_t * context)
  * Sets whether or not DC bias output is enabled.
  *
  * @PARAMETERS:
- * OFF or 0		Disable DC bias output
- * ON or 1		Enable DC bias output
+ * 				OFF or 0 :		Disable DC bias output
+ * 				ON or 1	:		Enable DC bias output
  *
  * @NOTE:
  * In the current PCB desgin no DC bias voltage output is not possible.
+ *
  */
 
 scpi_result_t SCPI_SourceVoltageLevelImmediateState(scpi_t * context)
@@ -137,6 +144,7 @@ scpi_result_t SCPI_SourceVoltageLevelImmediateState(scpi_t * context)
  *
  * @NOTE:
  * In the current PCB desgin no DC bias voltage output is not possible.
+ *
  */
 
 scpi_result_t SCPI_SourceVoltageLevelImmediateStateQ(scpi_t * context)
