@@ -107,8 +107,10 @@ static void SPI6_DataHandler()
 	  if(SPI6_MODE_RX == SPI6_CheckMode())
 	  {
 		  LL_GPIO_ResetOutputPin(MCU2_RX_STATUS_GPIO_Port, MCU2_RX_STATUS_Pin);
+		  LL_GPIO_SetOutputPin(MCU2_STATUS_GPIO_Port, MCU2_STATUS_Pin);
 		  SCPI_Input(&scpi_context, SPI6_RxBuffer, SPI6_ReceiveIndex);
 		  SPI6_ReceiveIndex = 0;
+		  LL_GPIO_ResetOutputPin(MCU2_STATUS_GPIO_Port, MCU2_STATUS_Pin);
 		  LL_GPIO_SetOutputPin(MCU2_RX_STATUS_GPIO_Port, MCU2_RX_STATUS_Pin);
 	  }
 	  else if(LL_GPIO_IsInputPinSet(MCU1_RX_DATA_GPIO_Port, MCU1_RX_DATA_Pin))
@@ -189,7 +191,7 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-
+  LL_GPIO_ResetOutputPin(MCU2_STATUS_GPIO_Port, MCU2_STATUS_Pin);
   while (1)
   {
 
@@ -756,7 +758,7 @@ static void MX_GPIO_Init(void)
   LL_GPIO_SetOutputPin(RR_nCS_GPIO_Port, RR_nCS_Pin);
 
   /**/
-  LL_GPIO_ResetOutputPin(GPIOF, DAC_nLDAC_Pin|MCU2_RX_STATUS_Pin|MCU1_STATUS_IN2_Pin|EEPROM_WP_Pin);
+  LL_GPIO_ResetOutputPin(GPIOF, DAC_nLDAC_Pin|MCU2_RX_STATUS_Pin|MCU2_STATUS_Pin|EEPROM_WP_Pin);
 
   /**/
   LL_GPIO_ResetOutputPin(GPIOG, CXN_REL6_Pin|CXN_REL5_Pin|RR_1KCTR_Pin|RR_10KCTR_Pin 
@@ -790,7 +792,7 @@ static void MX_GPIO_Init(void)
   LL_GPIO_Init(MCU3_nSS_GPIO_Port, &GPIO_InitStruct);
 
   /**/
-  GPIO_InitStruct.Pin = DAC_nLDAC_Pin|DAC_nCLR_Pin|MCU1_STATUS_IN2_Pin|EEPROM_WP_Pin;
+  GPIO_InitStruct.Pin = DAC_nLDAC_Pin|DAC_nCLR_Pin|MCU2_STATUS_Pin|EEPROM_WP_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
   GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;

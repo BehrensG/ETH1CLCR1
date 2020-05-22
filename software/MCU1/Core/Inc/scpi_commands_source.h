@@ -10,6 +10,9 @@
 
 #include "scpi/scpi.h"
 
+#define HZ 0
+#define KHZ 1
+
 scpi_result_t SCPI_SourceFrequencyCW(scpi_t * context);
 scpi_result_t SCPI_SourceFrequencyCWQ(scpi_t * context);
 scpi_result_t SCPI_SourceVoltageLevelImmediateAmplitude(scpi_t * context);

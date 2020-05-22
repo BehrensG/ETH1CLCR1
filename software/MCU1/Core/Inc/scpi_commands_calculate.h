@@ -10,6 +10,8 @@
 
 #include "scpi/scpi.h"
 
+
+
 scpi_result_t SCPI_CalculateFormat(scpi_t * context);
 scpi_result_t SCPI_CalculateFormatQ(scpi_t * context);
 scpi_result_t SCPI_CalculateLimitClear(scpi_t * context);

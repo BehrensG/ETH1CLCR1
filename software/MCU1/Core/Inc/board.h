@@ -180,7 +180,8 @@ typedef enum
   BRD_BUSY = 0x02U,
   BRD_TIMEOUT  = 0x03U,
   BRD_EEPROM_EMPTY = 0x04U,
-  BRD_EEPROM_MAX_SIZE = 0x05U
+  BRD_EEPROM_MAX_SIZE = 0x05U,
+  BRD_MCU2_TIMEOUT = 0x06U
 } BRD_StatusTypeDef;
 
 typedef enum

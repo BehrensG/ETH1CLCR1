@@ -6,6 +6,9 @@
  */
 
 #include "scpi_commands_calculate.h"
+#include "spi4.h"
+
+extern scpi_choice_def_t boolean_select[];
 
 scpi_choice_def_t calc1_format_select[] =
 {
@@ -20,17 +23,23 @@ scpi_choice_def_t calc1_format_select[] =
 
 scpi_choice_def_t calc2_format_select[] =
 {
-		{"IMAGinary", 1},
-		{"PHASe", 2},
-		{"D", 3},
-		{"Q", 4},
-		{"REAL", 5},
-		{"LP", 6},
-		{"RP", 7},
-		{"INV", 8},
+		{"IMAGinary", 7},
+		{"PHASe", 8},
+		{"D", 9},
+		{"Q", 10},
+		{"REAL", 11},
+		{"LP", 12},
+		{"RP", 13},
+		{"INV", 14},
 		SCPI_CHOICE_LIST_END
 };
 
+scpi_choice_def_t deviation_select[] =
+{
+		{"DEV", 1},
+		{"PCNT", 2},
+		SCPI_CHOICE_LIST_END
+};
 
 /*
  * CALCulate:FORMat  {1} {REAL|MLINear|CP|CS|LP|LS} or {2} {IMAGinary|PHASe|D|Q|REAL|LP|RP|INV}
@@ -92,6 +101,44 @@ scpi_choice_def_t calc2_format_select[] =
 
 scpi_result_t SCPI_CalculateFormat(scpi_t * context)
 {
+	int32_t paramSEL;
+	scpi_choice_def_t paramCALC1, paramCALC2;
+	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+
+
+	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	if((1 != paramSEL) || (2 != paramSEL))
+	{
+		SCPI_ErrorPush(context, SCPI_ERROR_DATA_OUT_OF_RANGE);
+		return SCPI_RES_ERR;
+	}
+
+	if(1 == paramSEL)
+	{
+		if(!SCPI_ParamChoice(context, calc1_format_select, &paramCALC1, TRUE))
+		{
+			return SCPI_RES_ERR;
+		}
+
+		snprintf(tx_data, SPI4_BUFFER, "CALC:FORM %d %d\r\n", paramSEL, paramCALC1.tag);
+		SPI4_SendDataToMCU2(&tx_data,1000);
+	}
+
+	if(2 == paramSEL)
+	{
+		if(!SCPI_ParamChoice(context, calc2_format_select, &paramCALC2, TRUE))
+		{
+			return SCPI_RES_ERR;
+		}
+
+		snprintf(tx_data, SPI4_BUFFER, "CALC:FORM %d %d\r\n", paramSEL, paramCALC2.tag);
+		SPI4_SendDataToMCU2(&tx_data,1000);
+	}
+
     return SCPI_RES_OK;
 }
 
@@ -103,9 +150,29 @@ scpi_result_t SCPI_CalculateFormat(scpi_t * context)
  *
  */
 
-
 scpi_result_t SCPI_CalculateFormatQ(scpi_t * context)
 {
+	int32_t paramSEL;
+	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+
+	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	if((1 != paramSEL) || (2 != paramSEL))
+	{
+		SCPI_ErrorPush(context, SCPI_ERROR_DATA_OUT_OF_RANGE);
+		return SCPI_RES_ERR;
+	}
+
+	snprintf(tx_data, SPI4_BUFFER, "CALC:FORM? %d\r\n", paramSEL);
+	SPI4_SendDataToMCU2(&tx_data,1000);
+
+	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+
     return SCPI_RES_OK;
 }
 
@@ -123,6 +190,23 @@ scpi_result_t SCPI_CalculateFormatQ(scpi_t * context)
 
 scpi_result_t SCPI_CalculateLimitClear(scpi_t * context)
 {
+	int32_t paramSEL;
+	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+
+	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	if((1 != paramSEL) || (2 != paramSEL))
+	{
+		SCPI_ErrorPush(context, SCPI_ERROR_DATA_OUT_OF_RANGE);
+		return SCPI_RES_ERR;
+	}
+
+	snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:CLE %d\r\n", paramSEL);
+	SPI4_SendDataToMCU2(&tx_data,1000);
+
     return SCPI_RES_OK;
 }
 
@@ -143,6 +227,27 @@ scpi_result_t SCPI_CalculateLimitClear(scpi_t * context)
 
 scpi_result_t SCPI_CalculateLimitFailQ(scpi_t * context)
 {
+	int32_t paramSEL;
+	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+
+	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	if((1 != paramSEL) || (2 != paramSEL))
+	{
+		SCPI_ErrorPush(context, SCPI_ERROR_DATA_OUT_OF_RANGE);
+		return SCPI_RES_ERR;
+	}
+
+	snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:FAIL? %d\r\n", paramSEL);
+	SPI4_SendDataToMCU2(&tx_data,1000);
+
+	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+
     return SCPI_RES_OK;
 }
 
@@ -156,14 +261,61 @@ scpi_result_t SCPI_CalculateLimitFailQ(scpi_t * context)
  * 				1 :					select calculate option 1
  * 				2 :					select calculate option 2
  *				<numeric_value> :
- *									numeric TBD
- *									MINimum TBD
- *									MAXimum TBD
+ *									numeric -2147483647 - +2147483647
+ *									MINimum -2147483647
+ *									MAXimum +2147483647
  *
  */
 
 scpi_result_t SCPI_CalculateLimitLowerData(scpi_t * context)
 {
+	int32_t paramSEL;
+	scpi_number_t paramNUM;
+	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+
+	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	if((1 != paramSEL) || (2 != paramSEL))
+	{
+		SCPI_ErrorPush(context, SCPI_ERROR_DATA_OUT_OF_RANGE);
+		return SCPI_RES_ERR;
+	}
+
+	if(!SCPI_ParamNumber(context, scpi_special_numbers_def, &paramNUM, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	if(paramNUM.special)
+	{
+		switch(paramNUM.content.tag)
+		{
+		case SCPI_NUM_MIN: snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:LOW:DATA %d %d\r\n", paramSEL, INT32_MIN); SPI4_SendDataToMCU2(&tx_data,1000); break;
+		case SCPI_NUM_MAX: snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:LOW:DATA %d %d\r\n", paramSEL, INT32_MAX); SPI4_SendDataToMCU2(&tx_data,1000); break;
+		default: SCPI_ErrorPush(context, SCPI_ERROR_ILLEGAL_PARAMETER_VALUE); return SCPI_RES_ERR;
+		}
+	}
+	else
+	{
+		if(SCPI_UNIT_NONE == paramNUM.unit || SCPI_UNIT_UNITLESS == paramNUM.unit)
+		{
+			if(paramNUM.content.value < INT32_MIN || paramNUM.content.value > INT32_MAX)
+			{
+				SCPI_ErrorPush(context, SCPI_ERROR_DATA_OUT_OF_RANGE);
+				return SCPI_RES_ERR;
+			}
+			else
+			{
+				snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:LOW:DATA %d %f\r\n", paramSEL, paramNUM.content.value);
+				SPI4_SendDataToMCU2(&tx_data,1000);
+				return SCPI_RES_OK;
+			}
+		}
+	}
+
     return SCPI_RES_OK;
 }
 
@@ -182,6 +334,27 @@ scpi_result_t SCPI_CalculateLimitLowerData(scpi_t * context)
 
 scpi_result_t SCPI_CalculateLimitLowerDataQ(scpi_t * context)
 {
+	int32_t paramSEL;
+	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+
+	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	if((1 != paramSEL) || (2 != paramSEL))
+	{
+		SCPI_ErrorPush(context, SCPI_ERROR_DATA_OUT_OF_RANGE);
+		return SCPI_RES_ERR;
+	}
+
+	snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:LOW:DATA? %d\r\n", paramSEL);
+	SPI4_SendDataToMCU2(&tx_data,1000);
+
+	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+
     return SCPI_RES_OK;
 }
 
@@ -201,6 +374,29 @@ scpi_result_t SCPI_CalculateLimitLowerDataQ(scpi_t * context)
 
 scpi_result_t SCPI_CalculateLimitLowerState(scpi_t * context)
 {
+	int32_t paramSEL;
+	scpi_choice_def_t paramBOOL;
+	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+
+	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	if(!SCPI_ParamChoice(context, boolean_select, &paramBOOL, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	if((1 != paramSEL) || (2 != paramSEL))
+	{
+		SCPI_ErrorPush(context, SCPI_ERROR_DATA_OUT_OF_RANGE);
+		return SCPI_RES_ERR;
+	}
+
+	snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:LOW:STAT %d %d\r\n", paramSEL, paramBOOL.tag);
+	SPI4_SendDataToMCU2(&tx_data,1000);
+
     return SCPI_RES_OK;
 }
 
@@ -218,6 +414,27 @@ scpi_result_t SCPI_CalculateLimitLowerState(scpi_t * context)
 
 scpi_result_t SCPI_CalculateLimitLowerStateQ(scpi_t * context)
 {
+	int32_t paramSEL;
+	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+
+	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	if((1 != paramSEL) || (2 != paramSEL))
+	{
+		SCPI_ErrorPush(context, SCPI_ERROR_DATA_OUT_OF_RANGE);
+		return SCPI_RES_ERR;
+	}
+
+	snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:LOW:STAT? %d\r\n", paramSEL);
+	SPI4_SendDataToMCU2(&tx_data,1000);
+
+	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+
     return SCPI_RES_OK;
 }
 
@@ -237,6 +454,29 @@ scpi_result_t SCPI_CalculateLimitLowerStateQ(scpi_t * context)
 
 scpi_result_t SCPI_CalculateLimitState(scpi_t * context)
 {
+	int32_t paramSEL;
+	scpi_choice_def_t paramBOOL;
+	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+
+	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	if(!SCPI_ParamChoice(context, boolean_select, &paramBOOL, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	if((1 != paramSEL) || (2 != paramSEL))
+	{
+		SCPI_ErrorPush(context, SCPI_ERROR_DATA_OUT_OF_RANGE);
+		return SCPI_RES_ERR;
+	}
+
+	snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:STAT %d %d\r\n", paramSEL, paramBOOL.tag);
+	SPI4_SendDataToMCU2(&tx_data,1000);
+
     return SCPI_RES_OK;
 }
 
@@ -254,6 +494,27 @@ scpi_result_t SCPI_CalculateLimitState(scpi_t * context)
 
 scpi_result_t SCPI_CalculateLimitStateQ(scpi_t * context)
 {
+	int32_t paramSEL;
+	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+
+	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	if((1 != paramSEL) || (2 != paramSEL))
+	{
+		SCPI_ErrorPush(context, SCPI_ERROR_DATA_OUT_OF_RANGE);
+		return SCPI_RES_ERR;
+	}
+
+	snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:STAT? %d\r\n", paramSEL);
+	SPI4_SendDataToMCU2(&tx_data,1000);
+
+	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+
     return SCPI_RES_OK;
 }
 
@@ -267,14 +528,61 @@ scpi_result_t SCPI_CalculateLimitStateQ(scpi_t * context)
  * 				1 :					select calculate option 1
  * 				2 :					select calculate option 2
  *				<numeric_value> :
- *									numeric TBD
- *									MINimum TBD
- *									MAXimum TBD
+ *									numeric -2147483647 - +2147483647
+ *									MINimum -2147483647
+ *									MAXimum +2147483647
  *
  */
 
 scpi_result_t SCPI_CalculateLimitUpperData(scpi_t * context)
 {
+	int32_t paramSEL;
+	scpi_number_t paramNUM;
+	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+
+	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	if((1 != paramSEL) || (2 != paramSEL))
+	{
+		SCPI_ErrorPush(context, SCPI_ERROR_DATA_OUT_OF_RANGE);
+		return SCPI_RES_ERR;
+	}
+
+	if(!SCPI_ParamNumber(context, scpi_special_numbers_def, &paramNUM, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	if(paramNUM.special)
+	{
+		switch(paramNUM.content.tag)
+		{
+		case SCPI_NUM_MIN: snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:UPP:DATA %d %d\r\n", paramSEL, INT32_MIN); SPI4_SendDataToMCU2(&tx_data,1000); break;
+		case SCPI_NUM_MAX: snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:UPP:DATA %d %d\r\n", paramSEL, INT32_MAX); SPI4_SendDataToMCU2(&tx_data,1000); break;
+		default: SCPI_ErrorPush(context, SCPI_ERROR_ILLEGAL_PARAMETER_VALUE); return SCPI_RES_ERR;
+		}
+	}
+	else
+	{
+		if(SCPI_UNIT_NONE == paramNUM.unit || SCPI_UNIT_UNITLESS == paramNUM.unit)
+		{
+			if(paramNUM.content.value < INT32_MIN || paramNUM.content.value > INT32_MAX)
+			{
+				SCPI_ErrorPush(context, SCPI_ERROR_DATA_OUT_OF_RANGE);
+				return SCPI_RES_ERR;
+			}
+			else
+			{
+				snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:UPP:DATA %d %f\r\n", paramSEL, paramNUM.content.value);
+				SPI4_SendDataToMCU2(&tx_data,1000);
+				return SCPI_RES_OK;
+			}
+		}
+	}
+
     return SCPI_RES_OK;
 }
 
@@ -293,6 +601,27 @@ scpi_result_t SCPI_CalculateLimitUpperData(scpi_t * context)
 
 scpi_result_t SCPI_CalculateLimitUpperDataQ(scpi_t * context)
 {
+	int32_t paramSEL;
+	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+
+	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	if((1 != paramSEL) || (2 != paramSEL))
+	{
+		SCPI_ErrorPush(context, SCPI_ERROR_DATA_OUT_OF_RANGE);
+		return SCPI_RES_ERR;
+	}
+
+	snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:UPP:DATA? %d\r\n", paramSEL);
+	SPI4_SendDataToMCU2(&tx_data,1000);
+
+	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+
     return SCPI_RES_OK;
 }
 
@@ -313,6 +642,29 @@ scpi_result_t SCPI_CalculateLimitUpperDataQ(scpi_t * context)
 
 scpi_result_t SCPI_CalculateLimitUpperState(scpi_t * context)
 {
+	int32_t paramSEL;
+	scpi_choice_def_t paramBOOL;
+	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+
+	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	if(!SCPI_ParamChoice(context, boolean_select, &paramBOOL, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	if((1 != paramSEL) || (2 != paramSEL))
+	{
+		SCPI_ErrorPush(context, SCPI_ERROR_DATA_OUT_OF_RANGE);
+		return SCPI_RES_ERR;
+	}
+
+	snprintf(tx_data, SPI4_BUFFER, "CALC:MATH:STAT %d %d\r\n", paramSEL, paramBOOL.tag);
+	SPI4_SendDataToMCU2(&tx_data,1000);
+
     return SCPI_RES_OK;
 }
 
@@ -330,6 +682,27 @@ scpi_result_t SCPI_CalculateLimitUpperState(scpi_t * context)
 
 scpi_result_t SCPI_CalculateLimitUpperStateQ(scpi_t * context)
 {
+	int32_t paramSEL;
+	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+
+	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	if((1 != paramSEL) || (2 != paramSEL))
+	{
+		SCPI_ErrorPush(context, SCPI_ERROR_DATA_OUT_OF_RANGE);
+		return SCPI_RES_ERR;
+	}
+
+	snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:UPP:STAT? %d\r\n", paramSEL);
+	SPI4_SendDataToMCU2(&tx_data,1000);
+
+	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+
     return SCPI_RES_OK;
 }
 
@@ -347,6 +720,9 @@ scpi_result_t SCPI_CalculateLimitUpperStateQ(scpi_t * context)
 
 scpi_result_t SCPI_CalculateMathExpressionCatalogQ(scpi_t * context)
 {
+	const int8_t string[SPI4_BUFFER] ="DEV,PCNT";
+	SCPI_ResultCharacters(context, string, SPI4_BUFFER);
+
     return SCPI_RES_OK;
 }
 
@@ -365,6 +741,29 @@ scpi_result_t SCPI_CalculateMathExpressionCatalogQ(scpi_t * context)
 
 scpi_result_t SCPI_CalculateMathExpressionName(scpi_t * context)
 {
+	int32_t paramSEL;
+	scpi_choice_def_t paramDEVI;
+	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+
+	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	if(!SCPI_ParamChoice(context, deviation_select, &paramDEVI, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	if((1 != paramSEL) || (2 != paramSEL))
+	{
+		SCPI_ErrorPush(context, SCPI_ERROR_DATA_OUT_OF_RANGE);
+		return SCPI_RES_ERR;
+	}
+
+	snprintf(tx_data, SPI4_BUFFER, "CALC:MATH:EXPR:NAME %d %d\r\n", paramSEL, paramDEVI.tag);
+	SPI4_SendDataToMCU2(&tx_data,1000);
+
     return SCPI_RES_OK;
 }
 
@@ -382,6 +781,27 @@ scpi_result_t SCPI_CalculateMathExpressionName(scpi_t * context)
 
 scpi_result_t SCPI_CalculateMathExpressionNameQ(scpi_t * context)
 {
+	int32_t paramSEL;
+	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+
+	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	if((1 != paramSEL) || (2 != paramSEL))
+	{
+		SCPI_ErrorPush(context, SCPI_ERROR_DATA_OUT_OF_RANGE);
+		return SCPI_RES_ERR;
+	}
+
+	snprintf(tx_data, SPI4_BUFFER, "CALC:MATH:EXPR:NAME? %d\r\n", paramSEL);
+	SPI4_SendDataToMCU2(&tx_data,1000);
+
+	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+
     return SCPI_RES_OK;
 }
 
@@ -401,6 +821,29 @@ scpi_result_t SCPI_CalculateMathExpressionNameQ(scpi_t * context)
 
 scpi_result_t SCPI_CalculateMathState(scpi_t * context)
 {
+	int32_t paramSEL;
+	scpi_choice_def_t paramBOOL;
+	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+
+	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	if(!SCPI_ParamChoice(context, boolean_select, &paramBOOL, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	if((1 != paramSEL) || (2 != paramSEL))
+	{
+		SCPI_ErrorPush(context, SCPI_ERROR_DATA_OUT_OF_RANGE);
+		return SCPI_RES_ERR;
+	}
+
+	snprintf(tx_data, SPI4_BUFFER, "CALC:MATH:STAT %d %d\r\n", paramSEL, paramBOOL.tag);
+	SPI4_SendDataToMCU2(&tx_data,1000);
+
     return SCPI_RES_OK;
 }
 
@@ -418,5 +861,26 @@ scpi_result_t SCPI_CalculateMathState(scpi_t * context)
 
 scpi_result_t SCPI_CalculateMathStateQ(scpi_t * context)
 {
+	int32_t paramSEL;
+	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+
+	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	if((1 != paramSEL) || (2 != paramSEL))
+	{
+		SCPI_ErrorPush(context, SCPI_ERROR_DATA_OUT_OF_RANGE);
+		return SCPI_RES_ERR;
+	}
+
+	snprintf(tx_data, SPI4_BUFFER, "CALC:MATH:STAT? %d\r\n", paramSEL);
+	SPI4_SendDataToMCU2(&tx_data,1000);
+
+	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+
     return SCPI_RES_OK;
 }
