@@ -51,6 +51,7 @@
 #include "scpi_commands_trigger.h"
 #include "scpi_commands_calculate.h"
 
+#include "spi4.h"
 #include "eeprom.h"
 
 extern I2C_HandleTypeDef hi2c4;
@@ -66,6 +67,7 @@ scpi_choice_def_t boolean_select[] =
     SCPI_CHOICE_LIST_END
 };
 
+
 static scpi_result_t TEST_TSQ(scpi_t * context)
 {
 	scpi_bool_t  enable = FALSE;
@@ -78,21 +80,16 @@ static scpi_result_t TEST_TSQ(scpi_t * context)
 	uint8_t tx_data[]="*IDN?\n\r";
 	uint8_t tx_dummy[64] ={[0 ... 63] = '\0'};
 	uint8_t rx_data[64] ={[0 ... 63] = '\0'};
+
 	if(!enable)
 	{
-	HAL_GPIO_WritePin(MCU1_TX_DATA_GPIO_Port, MCU1_TX_DATA_Pin, 1);
-	status = HAL_SPI_Transmit(&hspi4, tx_data, sizeof(tx_data)/sizeof(uint8_t), 10000);
-	HAL_GPIO_WritePin(MCU1_TX_DATA_GPIO_Port, MCU1_TX_DATA_Pin, 0);
-
+		SPI4_SendDataToMCU2("*IDN?",1000);
 
 	}
 	else
 	{
-	HAL_GPIO_WritePin(MCU1_RX_DATA_GPIO_Port, MCU1_RX_DATA_Pin, 1);
-	while(!HAL_GPIO_ReadPin(MCU2_RX_STATUS_GPIO_Port, MCU2_RX_STATUS_Pin)){}
-	status = HAL_SPI_Receive(&hspi4, rx_data, 64, 1000);
-	HAL_GPIO_WritePin(MCU1_RX_DATA_GPIO_Port, MCU1_RX_DATA_Pin, 0);
-	SCPI_ResultCharacters(context, rx_data, 64);
+		SPI4_ReadDataFromMCU2(&rx_data, 1000);
+		SCPI_ResultCharacters(context, rx_data, 64);
 	}
 
 

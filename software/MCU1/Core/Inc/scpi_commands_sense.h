@@ -10,6 +10,9 @@
 
 #include "scpi/scpi.h"
 
+#define DUT_OPEN 1
+#define DUT_SHORT 2
+#define DUT_LOAD 3
 
 scpi_result_t SCPI_SenseAverageCount(scpi_t * context);
 scpi_result_t SCPI_SenseAverageCountQ(scpi_t * context);
