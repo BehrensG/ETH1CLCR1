@@ -34,22 +34,21 @@
  *
  */
 
+#include <scpi_calculate.h>
+#include <scpi_calibration.h>
 #include <scpi_def.h>
+#include <scpi_measure.h>
+#include <scpi_misc.h>
+#include <scpi_sense.h>
+#include <scpi_source.h>
+#include <scpi_system.h>
+#include <scpi_trigger.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "scpi/scpi.h"
 #include "board.h"
 #include "main.h"
-
-#include "scpi_commands_calibration.h"
-#include "scpi_commands_measure.h"
-#include "scpi_commands_misc.h"
-#include "scpi_commands_sense.h"
-#include "scpi_commands_source.h"
-#include "scpi_commands_system.h"
-#include "scpi_commands_trigger.h"
-#include "scpi_commands_calculate.h"
 
 #include "spi4.h"
 #include "eeprom.h"
@@ -152,25 +151,25 @@ const scpi_command_t scpi_commands[] = {
     {.pattern = "SYSTem:ERRor:COUNt?", .callback = SCPI_SystemErrorCountQ,},
     {.pattern = "SYSTem:VERSion?", .callback = SCPI_SystemVersionQ,},
 
-	{.pattern = "SYSTem:COMMunicate:LAN:DHCP", .callback = SCPI_SystemCommunicateLANDHCP,}, // {ON|OFF|1|0} Enabled DHCP
-	{.pattern = "SYSTem:COMMunicate:LAN:DHCP?", .callback = SCPI_SystemCommunicateLANDHCPQ,}, // Get DHCP status
-	{.pattern = "SYSTem:COMMunicate:LAN:IPADdress", .callback = SCPI_SystemCommunicateLANIPAddress,}, // "<IP address>" static IP address
-	{.pattern = "SYSTem:COMMunicate:LAN:IPADdress?", .callback = SCPI_SystemCommunicateLANIPAddressQ,}, // Static IP address readout
-	{.pattern = "SYSTem:COMMunicate:LAN:SMASk", .callback = SCPI_SystemCommunicateLANIPSmask,}, // "<mask>" Subnet mask
-	{.pattern = "SYSTem:COMMunicate:LAN:SMASk?", .callback = SCPI_SystemCommunicateLANIPSmaskQ,}, // Read subnet mask
-	{.pattern = "SYSTem:COMMunicate:LAN:GATEway", .callback = SCPI_SystemCommunicateLANGateway,}, // "<address>" default gateway
-	{.pattern = "SYSTem:COMMunicate:LAN:GATEway?", .callback = SCPI_SystemCommunicateLANGatewayQ,}, // Read default gateway
-	{.pattern = "SYSTem:COMMunicate:LAN:MAC", .callback = SCPI_SystemCommunicateLANMAC,}, // "<MAC address>"
-	{.pattern = "SYSTem:COMMunicate:LAN:MAC?", .callback = SCPI_SystemCommunicateLANMACQ,}, // Read MAC device
+	{.pattern = "SYSTem:COMMunicate:LAN:DHCP", .callback = SCPI_SystemCommunicateLANDHCP,},
+	{.pattern = "SYSTem:COMMunicate:LAN:DHCP?", .callback = SCPI_SystemCommunicateLANDHCPQ,},
+	{.pattern = "SYSTem:COMMunicate:LAN:IPADdress", .callback = SCPI_SystemCommunicateLANIPAddress,},
+	{.pattern = "SYSTem:COMMunicate:LAN:IPADdress?", .callback = SCPI_SystemCommunicateLANIPAddressQ,},
+	{.pattern = "SYSTem:COMMunicate:LAN:SMASk", .callback = SCPI_SystemCommunicateLANIPSmask,},
+	{.pattern = "SYSTem:COMMunicate:LAN:SMASk?", .callback = SCPI_SystemCommunicateLANIPSmaskQ,},
+	{.pattern = "SYSTem:COMMunicate:LAN:GATEway", .callback = SCPI_SystemCommunicateLANGateway,},
+	{.pattern = "SYSTem:COMMunicate:LAN:GATEway?", .callback = SCPI_SystemCommunicateLANGatewayQ,},
+	{.pattern = "SYSTem:COMMunicate:LAN:MAC", .callback = SCPI_SystemCommunicateLANMAC,},
+	{.pattern = "SYSTem:COMMunicate:LAN:MAC?", .callback = SCPI_SystemCommunicateLANMACQ,},
 	{.pattern = "SYSTem:COMMunicate:LAN:PORT", .callback = SCPI_SystemCommunicateLANPort,},
 	{.pattern = "SYSTem:COMMunicate:LAN:PORT?", .callback = SCPI_SystemCommunicateLANPortQ,},
 	{.pattern = "SYSTem:COMMunication:LAN:UPDate", .callback = SCPI_SystemCommunicationLanUpdate,},
-	{.pattern = "SYSTem:SERVice:EEPROM", .callback = SCPI_SystemServiceEEPROM,}, // {RESET|DEFault}
-	{.pattern = "SYSTem:SERVice:ID", .callback = SCPI_SystemServiceID,}, // manufacturer model SW serial
-	{.pattern = "SYSTem:SECure:STATe", .callback = SCPI_SystemSecureState,}, // {OFF|ON|0|1} <code>
+	{.pattern = "SYSTem:SERVice:EEPROM", .callback = SCPI_SystemServiceEEPROM,},
+	{.pattern = "SYSTem:SERVice:ID", .callback = SCPI_SystemServiceID,},
+	{.pattern = "SYSTem:SECure:STATe", .callback = SCPI_SystemSecureState,},
 	{.pattern = "SYSTem:SECure:STATe?", .callback = SCPI_SystemSecureStateQ,},
-	{.pattern = "SYSTem:TEMPerature?", .callback = SCPI_SystemTemperatureQ,}, // Read the temperature of the PCB, default readout is in celsius
-	{.pattern = "SYSTem:TEMPerature:UNIT", .callback = SCPI_SystemTemperatureUnit,}, // {C|F|K}
+	{.pattern = "SYSTem:TEMPerature?", .callback = SCPI_SystemTemperatureQ,},
+	{.pattern = "SYSTem:TEMPerature:UNIT", .callback = SCPI_SystemTemperatureUnit,},
 	{.pattern = "SYSTem:TEMPerature:UNIT?", .callback = SCPI_SystemTemperatureUnitQ,},
 	{.pattern = "SYSTem:HUMIdity?", .callback = SCPI_SystemHumidityQ,},
 
@@ -183,7 +182,6 @@ const scpi_command_t scpi_commands[] = {
 	{.pattern = "CALibration:STRing?", .callback = SCPI_CalibrationStringQ,}, // "<string>"
 	{.pattern = "CALibration:VALue", .callback = SCPI_CalibrationValue,}, // <value>
 	{.pattern = "CALibration:VALue?", .callback = SCPI_CalibrationValueQ,},
-
 
 	{.pattern = "TS?", .callback = TEST_TSQ,},
 
