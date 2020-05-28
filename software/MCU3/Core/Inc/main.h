@@ -120,6 +120,10 @@ void Error_Handler(void);
 #define EEPROM_SDA_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
+/* Size of buffer */
+#define BUFFERSIZE	64U
+
+
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

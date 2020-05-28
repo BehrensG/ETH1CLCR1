@@ -23,10 +23,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "relay.h"
-#include "ADC.h"
-#include "scpi_def.h"
-#include "scpi/scpi.h"
+#include <relay.h>
+#include <ADC.h>
+#include <scpi_def.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -51,13 +50,13 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-__IO uint8_t    SPI6_TxBuffer[SPI6_BUFFOR_SIZE] = {[0 ... SPI6_BUFFOR_SIZE -1] = '\0'};
-uint32_t   SPI6_NbDataToTransmit = SPI6_BUFFOR_SIZE;
-__IO uint16_t   SPI6_TransmitIndex = 0;
-uint32_t   SPI6_TransmitSize = 0;
+__IO uint8_t SPI6_TxBuffer[SPI6_BUFFOR_SIZE] = {[0 ... SPI6_BUFFOR_SIZE -1] = '\0'};
+uint32_t SPI6_NbDataToTransmit = SPI6_BUFFOR_SIZE;
+__IO uint16_t SPI6_TransmitIndex = 0;
+uint32_t SPI6_TransmitSize = 0;
 
-__IO uint8_t    SPI6_RxBuffer[SPI6_BUFFOR_SIZE] = {[0 ... SPI6_BUFFOR_SIZE -1] = '\0'};
-__IO uint16_t   SPI6_ReceiveIndex = 0;
+__IO uint8_t SPI6_RxBuffer[SPI6_BUFFOR_SIZE] = {[0 ... SPI6_BUFFOR_SIZE -1] = '\0'};
+__IO uint16_t SPI6_ReceiveIndex = 0;
 
 __IO uint8_t SPI6_XfrCompleteDetect = 0;
 
@@ -120,21 +119,7 @@ static void SPI6_DataHandler()
 		  LL_GPIO_SetOutputPin(MCU2_RX_STATUS_GPIO_Port, MCU2_RX_STATUS_Pin);
 	  }
 }
-size_t SCPI_Write(scpi_t * context, const char * data, size_t len) {
-    (void) context;
 
-    strncpy(SPI6_TxBuffer + SPI6_TransmitSize,data, len);
-    SPI6_TransmitSize += (strlen(data));
-
-    return SPI6_TransmitSize;
-}
-
-
-scpi_result_t SCPI_Reset(scpi_t * context) {
-    (void) context;
-
-    return SCPI_RES_OK;
-}
 
 /* USER CODE END 0 */
 

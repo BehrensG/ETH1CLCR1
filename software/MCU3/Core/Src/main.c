@@ -23,9 +23,10 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "DG419.h"
-#include "AD9835.h"
-#include "AD5453.h"
+#include <DG419.h>
+#include <AD9835.h>
+#include <AD5453.h>
+#include <scpi_def.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -51,6 +52,10 @@ SPI_HandleTypeDef hspi3;
 SPI_HandleTypeDef hspi5;
 
 /* USER CODE BEGIN PV */
+
+/* Buffer used for reception */
+uint8_t aRxBuffer[BUFFERSIZE];
+
 
 /* USER CODE END PV */
 
@@ -113,6 +118,13 @@ int main(void)
   AD5453_SetVoltage(0.3);
   DG419_Switch(ON);
 
+  SCPI_Init(&scpi_context,
+          scpi_commands,
+          &scpi_interface,
+          scpi_units_def,
+          SCPI_IDN1, SCPI_IDN2, SCPI_IDN3, SCPI_IDN4,
+          scpi_input_buffer, SCPI_INPUT_BUFFER_LENGTH,
+          scpi_error_queue_data, SCPI_ERROR_QUEUE_SIZE);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -122,6 +134,25 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	  /*##-2- Start the Full Duplex Communication process ########################*/
+	    /* While the SPI in TransmitReceive process, user can transmit data through
+	       "aTxBuffer" buffer & receive data through "aRxBuffer" */
+	    if(HAL_SPI_Receive_IT(&hspi3, (uint8_t *)aRxBuffer, BUFFERSIZE) != HAL_OK)
+	    {
+	      /* Transfer error in transmission process */
+	      Error_Handler();
+	    }
+
+	    /*##-3- Wait for the end of the transfer ###################################*/
+	    /*  Before starting a new communication transfer, you need to check the current
+	        state of the peripheral; if it's busy you need to wait for the end of current
+	        transfer before starting a new one.
+	        For simplicity reasons, this example is just waiting till the end of the
+	        transfer, but application may perform other tasks while transfer operation
+	        is ongoing. */
+	    while (HAL_SPI_GetState(&hspi3) != HAL_SPI_STATE_READY)
+	    {
+	    }
   }
   /* USER CODE END 3 */
 }
