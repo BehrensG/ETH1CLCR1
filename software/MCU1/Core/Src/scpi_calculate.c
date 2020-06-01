@@ -125,7 +125,7 @@ scpi_result_t SCPI_CalculateFormat(scpi_t * context)
 		}
 
 		snprintf(tx_data, SPI4_BUFFER, "CALC:FORM %d %d\r\n", paramSEL, paramCALC1.tag);
-		SPI4_SendDataToMCU2(&tx_data,1000);
+		SPI4_Transmit(&tx_data,1000);
 	}
 
 	if(2 == paramSEL)
@@ -136,7 +136,7 @@ scpi_result_t SCPI_CalculateFormat(scpi_t * context)
 		}
 
 		snprintf(tx_data, SPI4_BUFFER, "CALC:FORM %d %d\r\n", paramSEL, paramCALC2.tag);
-		SPI4_SendDataToMCU2(&tx_data,1000);
+		SPI4_Transmit(&tx_data,1000);
 	}
 
     return SCPI_RES_OK;
@@ -168,9 +168,9 @@ scpi_result_t SCPI_CalculateFormatQ(scpi_t * context)
 	}
 
 	snprintf(tx_data, SPI4_BUFFER, "CALC:FORM? %d\r\n", paramSEL);
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SPI4_Receive(&rx_data, 1000);
 	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
 
     return SCPI_RES_OK;
@@ -205,7 +205,7 @@ scpi_result_t SCPI_CalculateLimitClear(scpi_t * context)
 	}
 
 	snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:CLE %d\r\n", paramSEL);
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
     return SCPI_RES_OK;
 }
@@ -243,9 +243,9 @@ scpi_result_t SCPI_CalculateLimitFailQ(scpi_t * context)
 	}
 
 	snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:FAIL? %d\r\n", paramSEL);
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SPI4_Receive(&rx_data, 1000);
 	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
 
     return SCPI_RES_OK;
@@ -293,8 +293,8 @@ scpi_result_t SCPI_CalculateLimitLowerData(scpi_t * context)
 	{
 		switch(paramNUM.content.tag)
 		{
-		case SCPI_NUM_MIN: snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:LOW:DATA %d %d\r\n", paramSEL, INT32_MIN); SPI4_SendDataToMCU2(&tx_data,1000); break;
-		case SCPI_NUM_MAX: snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:LOW:DATA %d %d\r\n", paramSEL, INT32_MAX); SPI4_SendDataToMCU2(&tx_data,1000); break;
+		case SCPI_NUM_MIN: snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:LOW:DATA %d %d\r\n", paramSEL, INT32_MIN); SPI4_Transmit(&tx_data,1000); break;
+		case SCPI_NUM_MAX: snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:LOW:DATA %d %d\r\n", paramSEL, INT32_MAX); SPI4_Transmit(&tx_data,1000); break;
 		default: SCPI_ErrorPush(context, SCPI_ERROR_ILLEGAL_PARAMETER_VALUE); return SCPI_RES_ERR;
 		}
 	}
@@ -310,7 +310,7 @@ scpi_result_t SCPI_CalculateLimitLowerData(scpi_t * context)
 			else
 			{
 				snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:LOW:DATA %d %f\r\n", paramSEL, paramNUM.content.value);
-				SPI4_SendDataToMCU2(&tx_data,1000);
+				SPI4_Transmit(&tx_data,1000);
 				return SCPI_RES_OK;
 			}
 		}
@@ -350,9 +350,9 @@ scpi_result_t SCPI_CalculateLimitLowerDataQ(scpi_t * context)
 	}
 
 	snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:LOW:DATA? %d\r\n", paramSEL);
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SPI4_Receive(&rx_data, 1000);
 	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
 
     return SCPI_RES_OK;
@@ -395,7 +395,7 @@ scpi_result_t SCPI_CalculateLimitLowerState(scpi_t * context)
 	}
 
 	snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:LOW:STAT %d %d\r\n", paramSEL, paramBOOL.tag);
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
     return SCPI_RES_OK;
 }
@@ -430,9 +430,9 @@ scpi_result_t SCPI_CalculateLimitLowerStateQ(scpi_t * context)
 	}
 
 	snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:LOW:STAT? %d\r\n", paramSEL);
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SPI4_Receive(&rx_data, 1000);
 	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
 
     return SCPI_RES_OK;
@@ -475,7 +475,7 @@ scpi_result_t SCPI_CalculateLimitState(scpi_t * context)
 	}
 
 	snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:STAT %d %d\r\n", paramSEL, paramBOOL.tag);
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
     return SCPI_RES_OK;
 }
@@ -510,9 +510,9 @@ scpi_result_t SCPI_CalculateLimitStateQ(scpi_t * context)
 	}
 
 	snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:STAT? %d\r\n", paramSEL);
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SPI4_Receive(&rx_data, 1000);
 	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
 
     return SCPI_RES_OK;
@@ -560,8 +560,8 @@ scpi_result_t SCPI_CalculateLimitUpperData(scpi_t * context)
 	{
 		switch(paramNUM.content.tag)
 		{
-		case SCPI_NUM_MIN: snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:UPP:DATA %d %d\r\n", paramSEL, INT32_MIN); SPI4_SendDataToMCU2(&tx_data,1000); break;
-		case SCPI_NUM_MAX: snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:UPP:DATA %d %d\r\n", paramSEL, INT32_MAX); SPI4_SendDataToMCU2(&tx_data,1000); break;
+		case SCPI_NUM_MIN: snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:UPP:DATA %d %d\r\n", paramSEL, INT32_MIN); SPI4_Transmit(&tx_data,1000); break;
+		case SCPI_NUM_MAX: snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:UPP:DATA %d %d\r\n", paramSEL, INT32_MAX); SPI4_Transmit(&tx_data,1000); break;
 		default: SCPI_ErrorPush(context, SCPI_ERROR_ILLEGAL_PARAMETER_VALUE); return SCPI_RES_ERR;
 		}
 	}
@@ -577,7 +577,7 @@ scpi_result_t SCPI_CalculateLimitUpperData(scpi_t * context)
 			else
 			{
 				snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:UPP:DATA %d %f\r\n", paramSEL, paramNUM.content.value);
-				SPI4_SendDataToMCU2(&tx_data,1000);
+				SPI4_Transmit(&tx_data,1000);
 				return SCPI_RES_OK;
 			}
 		}
@@ -617,9 +617,9 @@ scpi_result_t SCPI_CalculateLimitUpperDataQ(scpi_t * context)
 	}
 
 	snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:UPP:DATA? %d\r\n", paramSEL);
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SPI4_Receive(&rx_data, 1000);
 	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
 
     return SCPI_RES_OK;
@@ -663,7 +663,7 @@ scpi_result_t SCPI_CalculateLimitUpperState(scpi_t * context)
 	}
 
 	snprintf(tx_data, SPI4_BUFFER, "CALC:MATH:STAT %d %d\r\n", paramSEL, paramBOOL.tag);
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
     return SCPI_RES_OK;
 }
@@ -698,9 +698,9 @@ scpi_result_t SCPI_CalculateLimitUpperStateQ(scpi_t * context)
 	}
 
 	snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:UPP:STAT? %d\r\n", paramSEL);
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SPI4_Receive(&rx_data, 1000);
 	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
 
     return SCPI_RES_OK;
@@ -762,7 +762,7 @@ scpi_result_t SCPI_CalculateMathExpressionName(scpi_t * context)
 	}
 
 	snprintf(tx_data, SPI4_BUFFER, "CALC:MATH:EXPR:NAME %d %d\r\n", paramSEL, paramDEVI.tag);
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
     return SCPI_RES_OK;
 }
@@ -797,9 +797,9 @@ scpi_result_t SCPI_CalculateMathExpressionNameQ(scpi_t * context)
 	}
 
 	snprintf(tx_data, SPI4_BUFFER, "CALC:MATH:EXPR:NAME? %d\r\n", paramSEL);
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SPI4_Receive(&rx_data, 1000);
 	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
 
     return SCPI_RES_OK;
@@ -842,7 +842,7 @@ scpi_result_t SCPI_CalculateMathState(scpi_t * context)
 	}
 
 	snprintf(tx_data, SPI4_BUFFER, "CALC:MATH:STAT %d %d\r\n", paramSEL, paramBOOL.tag);
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
     return SCPI_RES_OK;
 }
@@ -877,9 +877,9 @@ scpi_result_t SCPI_CalculateMathStateQ(scpi_t * context)
 	}
 
 	snprintf(tx_data, SPI4_BUFFER, "CALC:MATH:STAT? %d\r\n", paramSEL);
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SPI4_Receive(&rx_data, 1000);
 	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
 
     return SCPI_RES_OK;

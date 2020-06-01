@@ -104,12 +104,12 @@ extern "C" {
     X(SCPI_ERROR_EXECUTION_ERROR,               -200, "Execution error")                              \
     XE(SCPI_ERROR_INVAL_WHILE_IN_LOCAL,         -201, "Invalid while in local")                       \
     XE(SCPI_ERROR_SETTINGS_LOST_DUE_TO_RTL,     -202, "Settings lost due to rtl")                     \
-    XE(SCPI_ERROR_COMMAND_PROTECTED,            -203, "Command protected")                            \
-    XE(SCPI_ERROR_TRIGGER_ERROR,                -210, "Trigger error")                                \
-    XE(SCPI_ERROR_TRIGGER_IGNORED,              -211, "Trigger ignored")                              \
+    X(SCPI_ERROR_COMMAND_PROTECTED,             -203, "Command protected")                            \
+    X(SCPI_ERROR_TRIGGER_ERROR,                 -210, "Trigger error")                                \
+    X(SCPI_ERROR_TRIGGER_IGNORED,               -211, "Trigger ignored")                              \
     XE(SCPI_ERROR_ARM_IGNORED,                  -212, "Arm ignored")                                  \
     XE(SCPI_ERROR_INIT_IGNORED,                 -213, "Init ignored")                                 \
-    XE(SCPI_ERROR_TRIGGER_DEADLOCK,             -214, "Trigger deadlock")                             \
+    X(SCPI_ERROR_TRIGGER_DEADLOCK,              -214, "Trigger deadlock")                             \
     XE(SCPI_ERROR_ARM_DEADLOCK,                 -215, "Arm deadlock")                                 \
     XE(SCPI_ERROR_PARAMETER_ERROR,              -220, "Parameter error")                              \
     X(SCPI_ERROR_SETTINGS_CONFLICT,             -221, "Settings conflict")                            \
@@ -161,7 +161,7 @@ extern "C" {
     XE(SCPI_ERROR_PUD_MEMORY_LOST,              -312, "PUD memory lost")                              \
     XE(SCPI_ERROR_CALIBRATION_MEMORY_LOST,      -313, "Calibration memory lost")                      \
     XE(SCPI_ERROR_SAVE_RECALL_MEMORY_LOST,      -314, "Save/recall memory lost")                      \
-    XE(SCPI_ERROR_CONFIGURATION_MEMORY_LOST,    -315, "Configuration memory lost")                    \
+    X(SCPI_ERROR_CONFIGURATION_MEMORY_LOST,     -315, "Configuration memory lost")                    \
     XE(SCPI_ERROR_STORAGE_FAULT,                -320, "Storage fault")                                \
     XE(SCPI_ERROR_OUT_OF_DEVICE_MEMORY,         -321, "Out of memory")                                \
     XE(SCPI_ERROR_SELF_TEST_FAILED,             -330, "Self-test failed")                             \
@@ -181,9 +181,7 @@ extern "C" {
     XE(SCPI_ERROR_USER_REQUEST,                 -600, "User request")                                 \
     XE(SCPI_ERROR_REQUEST_CONTROL,              -700, "Request control")                              \
     XE(SCPI_ERROR_OPERATION_COMPLETE,           -800, "Operation complete")                           \
-    X(SCPI_ERROR_MODULE_NOT_MOUNTED,            -370, "Module not mounted")                           \
     X(SCPI_ERROR_INVALID_RANGE,                 -371, "Invalid range")                                \
-    X(SCPI_ERROR_INVALID_MODULE,                -372, "Invalid module")                               \
     X(SCPI_ERROR_CALIBRATION_MEMORY_SECURE,     +700, "Calibration memory is secured")                \
     X(SCPI_ERROR_CALIBRATION_INVALID_PASSWORD,  +701, "Secure code provided was invalid")             \
     X(SCPI_ERROR_CALIBRATION_OUT_OF_RANGE,      +702, "Provided value out of range")                  \
@@ -194,6 +192,8 @@ extern "C" {
     X(SCPI_ERROR_CALIBRATION_ADC_FAILED,        +712, "ADC calibration failed")                       \
     X(SCPI_ERROR_SERVICE_MODE_SECURE,           +800, "Service mode is secured")                      \
     X(SCPI_ERROR_SERVICE_INVALID_PASSWORD,      +801, "Secure code provided was invalid")             \
+
+
 
 enum {
 #define X(def, val, str) def = val,

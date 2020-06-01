@@ -9,6 +9,7 @@
 #define INC_BOARD_H_
 
 #include "stm32f7xx_hal.h"
+#include "scpi/scpi.h"
 
 #define SCPI_MANUFACTURER_STRING_LENGTH 49
 #define SCPI_DEVICE_STRING_LENGTH 49
@@ -49,10 +50,11 @@
 
 #define MCU_SERVICE_SECURITY_OFF 0
 #define MCU_SERVICE_SECURITY_ON 1
-#define STRUCT_SIZE 350
+#define STRUCT_SIZE 298
 
 #pragma pack(push, 1)
 
+// size 196
 struct brd_scpi_info
 {
 	int8_t manufacturer[SCPI_MANUFACTURER_STRING_LENGTH];
@@ -62,22 +64,26 @@ struct brd_scpi_info
 
 };
 
+// size 1
 struct brd_dhcp
 {
-	uint8_t enable;
+	scpi_bool_t enable;
 };
 
 typedef struct brd_dhcp brd_dhcp_t;
 
+// size 10
 struct brd_trigger
 {
-	uint8_t output;
-	uint32_t delay;
+
+	uint8_t slope;
+	double delay;
 	uint8_t source;
 };
 
 typedef struct brd_trigger brd_trigger_t;
 
+// size 40
 struct brd_ip4_lan
 {
 	uint8_t ip[4];
@@ -88,44 +94,14 @@ struct brd_ip4_lan
 	uint16_t port;
 };
 
+// size 50
 struct brd_security
 {
-	uint8_t status;
+	scpi_bool_t status;
 	int8_t password[PASSWORD_LENGTH];
 };
 
-struct brd_average
-{
-	uint16_t count;
-	uint8_t status;
-};
-
-typedef struct brd_average brd_average_t;
-
-struct brd_sense
-{
-	brd_average_t average;
-	uint8_t function;
-	uint8_t mode;
-	uint8_t nominal_val_enable;
-};
-
-struct brd_offset
-{
-	double value;
-	uint8_t status;
-};
-
-
-typedef struct brd_offset brd_offset_t;
-
-struct brd_source
-{
-	uint32_t frequency;
-	double ampltidue;
-	brd_offset_t offset;
-};
-
+// size 1
 struct brd_temperature
 {
 	uint8_t unit;
@@ -149,26 +125,18 @@ struct brd_system
 
 typedef struct brd_system brd_system_t;
 
-struct brd_format
-{
-	uint8_t data;
-};
-
-typedef struct brd_format brd_format_t;
-
 union brd_data
 {
 	struct data
 	{
 		brd_scpi_info_t info;
 		brd_system_t system;
-		brd_source_t source;
-		uint8_t default_cfg;
+		scpi_bool_t default_cfg;
 		brd_trigger_t trigger;
-		brd_format_t format;
-
 	}structure;
+
 	uint8_t bytes[STRUCT_SIZE];
+
 }board, default_board;
 
 #pragma pack(pop)

@@ -16,13 +16,14 @@
 #include "hdc1080.h"
 #include "board.h"
 #include "eeprom.h"
+#include "spi4.h"
 
 extern I2C_HandleTypeDef hi2c2;
 
 scpi_choice_def_t LAN_state_select[] =
 {
-    {"CURRent", 0},
-    {"STATic", 1},
+    {"CURRent", 1},
+    {"STATic", 2},
     SCPI_CHOICE_LIST_END
 };
 
@@ -34,11 +35,11 @@ scpi_choice_def_t mcu_select[] =
     SCPI_CHOICE_LIST_END
 };
 
-scpi_choice_def_t temperature_unit[] =
+scpi_choice_def_t temperature_unit_select[] =
 {
-    {"C", 0},
-    {"F", 1},
-    {"K", 2},
+    {"C", 1},
+    {"F", 2},
+    {"K", 3},
     SCPI_CHOICE_LIST_END
 };
 
@@ -53,8 +54,8 @@ scpi_choice_def_t security_state_select[] =
 
 scpi_choice_def_t EEPROM_state_select[] =
 {
-    {"RESET", 0},
-    {"DEFault", 1},
+    {"RESET", 1},
+    {"DEFault", 2},
     SCPI_CHOICE_LIST_END
 };
 
@@ -247,15 +248,21 @@ scpi_result_t SCPI_SystemCommunicateLANIPAddressQ(scpi_t * context)
 
 	if(!SCPI_ParamChoice(context, LAN_state_select, &value, FALSE))
 	{
-		value = 0;
+		value = CURRENT;
 	}
 	if(CURRENT == value)
 	{
-		sprintf(str, "%d.%d.%d.%d", board.structure.system.ip4_current.ip[0],board.structure.system.ip4_current.ip[1], board.structure.system.ip4_current.ip[2], board.structure.system.ip4_current.ip[3]);
+		sprintf(str, "%d.%d.%d.%d", board.structure.system.ip4_current.ip[0],
+									board.structure.system.ip4_current.ip[1],
+									board.structure.system.ip4_current.ip[2],
+									board.structure.system.ip4_current.ip[3]);
 	}
 	else if(STATIC == value)
 	{
-		sprintf(str, "%d.%d.%d.%d", board.structure.system.ip4_static.ip[0],board.structure.system.ip4_static.ip[1], board.structure.system.ip4_static.ip[2], board.structure.system.ip4_static.ip[3]);
+		sprintf(str, "%d.%d.%d.%d", board.structure.system.ip4_static.ip[0],
+									board.structure.system.ip4_static.ip[1],
+									board.structure.system.ip4_static.ip[2],
+									board.structure.system.ip4_static.ip[3]);
 	}
 	SCPI_ResultMnemonic(context, (char*)str);
 	return SCPI_RES_OK;
@@ -330,17 +337,21 @@ scpi_result_t SCPI_SystemCommunicateLANIPSmaskQ(scpi_t * context)
 
 	if(!SCPI_ParamChoice(context, LAN_state_select, &value, FALSE))
 	{
-		value = 0;
+		value = CURRENT;
 	}
 	if(CURRENT == value)
 	{
-		sprintf(str, "%d.%d.%d.%d", board.structure.system.ip4_current.netmask[0], board.structure.system.ip4_current.netmask[1],
-									board.structure.system.ip4_current.netmask[2], board.structure.system.ip4_current.netmask[3]);
+		sprintf(str, "%d.%d.%d.%d", board.structure.system.ip4_current.netmask[0],
+									board.structure.system.ip4_current.netmask[1],
+									board.structure.system.ip4_current.netmask[2],
+									board.structure.system.ip4_current.netmask[3]);
 	}
 	else if(STATIC == value)
 	{
-		sprintf(str, "%d.%d.%d.%d", board.structure.system.ip4_static.netmask[0], board.structure.system.ip4_static.netmask[1],
-									board.structure.system.ip4_static.netmask[2], board.structure.system.ip4_static.netmask[3]);
+		sprintf(str, "%d.%d.%d.%d", board.structure.system.ip4_static.netmask[0],
+									board.structure.system.ip4_static.netmask[1],
+									board.structure.system.ip4_static.netmask[2],
+									board.structure.system.ip4_static.netmask[3]);
 	}
 	SCPI_ResultMnemonic(context, (char*)str);
 
@@ -377,16 +388,16 @@ scpi_result_t SCPI_SystemCommunicateLANGateway(scpi_t * context)
 
 	switch(conv_result)
 	{
-	case NET_STR_OK:
-	{
-		board.structure.system.ip4_current.gateway[0] = gateway_numb[0];
-		board.structure.system.ip4_current.gateway[1] = gateway_numb[1];
-		board.structure.system.ip4_current.gateway[2] = gateway_numb[2];
-		board.structure.system.ip4_current.gateway[3] = gateway_numb[3];
-	}break;
-	case NET_STR_WRONG_FORMAT: SCPI_ErrorPush(context, SCPI_ERROR_DATA_TYPE_ERROR); break;
-	case NET_STR_WRONG_NUMBER: SCPI_ErrorPush(context, SCPI_ERROR_NUMERIC_DATA_NOT_ALLOWED); break;
-	default: return SCPI_RES_ERR; break;
+		case NET_STR_OK:
+		{
+			board.structure.system.ip4_current.gateway[0] = gateway_numb[0];
+			board.structure.system.ip4_current.gateway[1] = gateway_numb[1];
+			board.structure.system.ip4_current.gateway[2] = gateway_numb[2];
+			board.structure.system.ip4_current.gateway[3] = gateway_numb[3];
+		}break;
+		case NET_STR_WRONG_FORMAT: SCPI_ErrorPush(context, SCPI_ERROR_DATA_TYPE_ERROR); break;
+		case NET_STR_WRONG_NUMBER: SCPI_ErrorPush(context, SCPI_ERROR_NUMERIC_DATA_NOT_ALLOWED); break;
+		default: return SCPI_RES_ERR; break;
 	}
 
 	return SCPI_RES_OK;
@@ -407,18 +418,23 @@ scpi_result_t SCPI_SystemCommunicateLANGatewayQ(scpi_t * context)
 
 	if(!SCPI_ParamChoice(context, LAN_state_select, &value, FALSE))
 	{
-		value = 0;
+		value = CURRENT;
 	}
 	if(CURRENT == value)
 	{
-		sprintf(str, "%d.%d.%d.%d", board.structure.system.ip4_current.gateway[0], board.structure.system.ip4_current.gateway[1],
-									board.structure.system.ip4_current.gateway[2], board.structure.system.ip4_current.gateway[3]);
+		sprintf(str, "%d.%d.%d.%d", board.structure.system.ip4_current.gateway[0],
+									board.structure.system.ip4_current.gateway[1],
+									board.structure.system.ip4_current.gateway[2],
+									board.structure.system.ip4_current.gateway[3]);
 	}
 	else if(STATIC == value)
 	{
-		sprintf(str, "%d.%d.%d.%d", board.structure.system.ip4_static.gateway[0], board.structure.system.ip4_static.gateway[1],
-									board.structure.system.ip4_static.gateway[2], board.structure.system.ip4_static.gateway[3]);
+		sprintf(str, "%d.%d.%d.%d", board.structure.system.ip4_static.gateway[0],
+									board.structure.system.ip4_static.gateway[1],
+									board.structure.system.ip4_static.gateway[2],
+									board.structure.system.ip4_static.gateway[3]);
 	}
+
 	SCPI_ResultMnemonic(context, (char*)str);
 
 	return SCPI_RES_OK;
@@ -460,18 +476,18 @@ scpi_result_t SCPI_SystemCommunicateLANMAC(scpi_t * context)
 
 	switch(conv_result)
 	{
-	case NET_STR_OK:
-	{
-		board.structure.system.ip4_current.MAC[0] = numb[0];
-		board.structure.system.ip4_current.MAC[1] = numb[1];
-		board.structure.system.ip4_current.MAC[2] = numb[2];
-		board.structure.system.ip4_current.MAC[3] = numb[3];
-		board.structure.system.ip4_current.MAC[4] = numb[4];
-		board.structure.system.ip4_current.MAC[5] = numb[5];
-	}break;
-	case NET_STR_WRONG_FORMAT: SCPI_ErrorPush(context, SCPI_ERROR_DATA_TYPE_ERROR); break;
-	case NET_STR_WRONG_NUMBER: SCPI_ErrorPush(context, SCPI_ERROR_NUMERIC_DATA_NOT_ALLOWED); break;
-	default: return SCPI_RES_ERR; break;
+		case NET_STR_OK:
+		{
+			board.structure.system.ip4_current.MAC[0] = numb[0];
+			board.structure.system.ip4_current.MAC[1] = numb[1];
+			board.structure.system.ip4_current.MAC[2] = numb[2];
+			board.structure.system.ip4_current.MAC[3] = numb[3];
+			board.structure.system.ip4_current.MAC[4] = numb[4];
+			board.structure.system.ip4_current.MAC[5] = numb[5];
+		}break;
+		case NET_STR_WRONG_FORMAT: SCPI_ErrorPush(context, SCPI_ERROR_DATA_TYPE_ERROR); break;
+		case NET_STR_WRONG_NUMBER: SCPI_ErrorPush(context, SCPI_ERROR_NUMERIC_DATA_NOT_ALLOWED); break;
+		default: return SCPI_RES_ERR; break;
 	}
 
 	return SCPI_RES_OK;
@@ -491,15 +507,21 @@ scpi_result_t SCPI_SystemCommunicateLANMACQ(scpi_t * context)
 
 	if(!board.structure.default_cfg)
 	{
-		sprintf(str, "%02x:%02x:%02x:%02x:%02x:%02x", board.structure.system.ip4_current.MAC[0], board.structure.system.ip4_current.MAC[1],
-														board.structure.system.ip4_current.MAC[2], board.structure.system.ip4_current.MAC[3],
-														board.structure.system.ip4_current.MAC[4], board.structure.system.ip4_current.MAC[5]);
+		sprintf(str, "%02x:%02x:%02x:%02x:%02x:%02x",	board.structure.system.ip4_current.MAC[0],
+														board.structure.system.ip4_current.MAC[1],
+														board.structure.system.ip4_current.MAC[2],
+														board.structure.system.ip4_current.MAC[3],
+														board.structure.system.ip4_current.MAC[4],
+														board.structure.system.ip4_current.MAC[5]);
 	}
 	else
 	{
-		sprintf(str, "%02x:%02x:%02x:%02x:%02x:%02x", board.structure.system.ip4_static.MAC[0], board.structure.system.ip4_static.MAC[1],
-														board.structure.system.ip4_static.MAC[2], board.structure.system.ip4_static.MAC[3],
-														board.structure.system.ip4_static.MAC[4], board.structure.system.ip4_static.MAC[5]);
+		sprintf(str, "%02x:%02x:%02x:%02x:%02x:%02x",	board.structure.system.ip4_static.MAC[0],
+														board.structure.system.ip4_static.MAC[1],
+														board.structure.system.ip4_static.MAC[2],
+														board.structure.system.ip4_static.MAC[3],
+														board.structure.system.ip4_static.MAC[4],
+														board.structure.system.ip4_static.MAC[5]);
 	}
 
 	SCPI_ResultMnemonic(context, (char*)str);
@@ -530,7 +552,7 @@ scpi_result_t SCPI_SystemCommunicateLANPort(scpi_t * context)
         return SCPI_RES_ERR;
     }
 
-    if (port > ETH_PORT_MAX_VAL)
+    if(port > ETH_PORT_MAX_VAL)
     {
         SCPI_ErrorPush(context, SCPI_ERROR_TOO_MANY_DIGITS);
         return SCPI_RES_OK;
@@ -670,9 +692,9 @@ scpi_result_t SCPI_SystemTemperatureQ(scpi_t * context)
 
 	switch(board.structure.system.temperature.unit)
 	{
-		case 0:;break;
-		case 1: temperature = (temperature*1.8)+32;break;
-		case 2: temperature += 273.15;break;
+		case CELSIUS: break;
+		case FAHRENHEIT: temperature = (temperature*1.8)+32; break;
+		case KELVIN: temperature += 273.15; break;
 	}
 
 	SCPI_ResultUInt8(context, (uint8_t)temperature);
@@ -697,7 +719,7 @@ scpi_result_t SCPI_SystemTemperatureUnit(scpi_t * context)
 {
 	int32_t param = 0;
 
-    if(!SCPI_ParamChoice(context, temperature_unit, &param, TRUE))
+    if(!SCPI_ParamChoice(context, temperature_unit_select, &param, TRUE))
     {
         return SCPI_RES_ERR;
     }
@@ -719,9 +741,9 @@ scpi_result_t SCPI_SystemTemperatureUnitQ(scpi_t * context)
 {
 	switch(board.structure.system.temperature.unit)
 	{
-		case 0: SCPI_ResultText(context, "C");break;
-		case 1: SCPI_ResultText(context, "F");break;
-		case 2: SCPI_ResultText(context, "K");break;
+		case CELSIUS: SCPI_ResultText(context, "C");break;
+		case FAHRENHEIT: SCPI_ResultText(context, "F");break;
+		case KELVIN: SCPI_ResultText(context, "K");break;
 	}
 
 	return SCPI_RES_OK;
@@ -765,8 +787,18 @@ scpi_result_t SCPI_SystemHumidityQ(scpi_t * context)
 
 scpi_result_t SCPI_SystemServiceEEPROM(scpi_t * context)
 {
-	int32_t param = 0;
-	if(!SCPI_ParamChoice(context, EEPROM_state_select, &param, TRUE))
+	scpi_choice_def_t paramEEPROM;
+	scpi_choice_def_t paramMCU;
+
+	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+
+
+	if(!SCPI_ParamChoice(context, mcu_select, &paramMCU, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	if(!SCPI_ParamChoice(context, EEPROM_state_select, &paramEEPROM, TRUE))
 	{
         return SCPI_RES_ERR;
 	}
@@ -776,11 +808,20 @@ scpi_result_t SCPI_SystemServiceEEPROM(scpi_t * context)
 		return SCPI_ERROR_SERVICE_MODE_SECURE;
 	}
 
-	switch(param)
+	if(MCU1 == paramMCU.tag)
 	{
-		case 0:EEPROM_Reset();break;
-		case 1:EEPROM_WriteDefaultValues();break;
+		switch(paramEEPROM.tag)
+		{
+			case EEPROM_RESET:EEPROM_Reset();break;
+			case EEPROM_DEFAULT:EEPROM_WriteDefaultValues();break;
+		}
 	}
+	else
+	{
+		snprintf(tx_data, SPI4_BUFFER, "SYST:SERV:EEPROM %s %s\r\n", paramMCU.name, paramEEPROM.name);
+		SPI4_Transmit(&tx_data,1000);
+	}
+
 
 	return SCPI_RES_OK;
 }
@@ -812,26 +853,29 @@ scpi_result_t SCPI_SystemServiceID(scpi_t * context)
 		buffer[0]='\0';
 		return SCPI_RES_ERR;
 	}
-	strncpy(board.structure.info.manufacturer,buffer,SCPI_MANUFACTURER_STRING_LENGTH);
 
 	if(!SCPI_ParamCopyText(context, buffer, SCPI_DEVICE_STRING_LENGTH, len, TRUE))
 	{
 		buffer[0]='\0';
 		return SCPI_RES_ERR;
 	}
-	strncpy(board.structure.info.device,buffer,SCPI_DEVICE_STRING_LENGTH);
 
 	if(!SCPI_ParamCopyText(context, buffer, SCPI_SOFTWAREVERSION_STRING_LENGTH, len, TRUE))
 	{
 		buffer[0]='\0';
 		return SCPI_RES_ERR;
 	}
-	strncpy(board.structure.info.software_version,buffer,SCPI_SOFTWAREVERSION_STRING_LENGTH);
 
 	if(!SCPI_ParamCopyText(context, buffer, SCPI_SERIALNUMBER_STRING_LENGTH, len, TRUE))
 	{
 		buffer[0]='\0';
 		return SCPI_RES_ERR;
 	}
+
+	strncpy(board.structure.info.manufacturer,buffer,SCPI_MANUFACTURER_STRING_LENGTH);
+	strncpy(board.structure.info.device,buffer,SCPI_DEVICE_STRING_LENGTH);
+	strncpy(board.structure.info.software_version,buffer,SCPI_SOFTWAREVERSION_STRING_LENGTH);
 	strncpy(board.structure.info.serial_number,buffer,SCPI_SERIALNUMBER_STRING_LENGTH);
+
+	EEPROM_WriteValues();
 }

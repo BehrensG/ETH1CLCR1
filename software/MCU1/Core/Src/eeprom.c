@@ -101,6 +101,9 @@ BRD_StatusTypeDef EEPROM_WriteValues()
 	uint16_t limit = STRUCT_SIZE;
 	uint8_t blocks = (uint8_t)ceil((float)STRUCT_SIZE/(float)EEPROM_BLOCK_COUNT);
 
+	// enable protection
+	board.structure.system.security.status = 1;
+
 	HAL_GPIO_WritePin(I2C4_WP_GPIO_Port, I2C4_WP_Pin, 0);
 	HAL_Delay(10);
 
