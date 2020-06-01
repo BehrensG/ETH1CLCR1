@@ -5,7 +5,7 @@
  *      Author: grzegorz
  */
 
-
+#include <stdio.h>
 #include <scpi_source.h>
 #include <spi4.h>
 
@@ -46,8 +46,8 @@ scpi_result_t SCPI_SourceFrequencyCW(scpi_t * context)
 	{
 		switch(paramFREQ.content.tag)
 		{
-		case SCPI_NUM_MIN: snprintf(tx_data, SPI4_BUFFER, "SOUR:FREQ:CW %d\r\n", 100); SPI4_SendDataToMCU2(&tx_data,1000); break;
-		case SCPI_NUM_MAX: snprintf(tx_data, SPI4_BUFFER, "SOUR:FREQ:CW %d\r\n", 100000); SPI4_SendDataToMCU2(&tx_data,1000); break;
+		case SCPI_NUM_MIN: snprintf(tx_data, SPI4_BUFFER, "SOUR:FREQ:CW %d\r\n", 100); SPI4_Transmit(&tx_data,1000); break;
+		case SCPI_NUM_MAX: snprintf(tx_data, SPI4_BUFFER, "SOUR:FREQ:CW %d\r\n", 100000); SPI4_Transmit(&tx_data,1000); break;
 		default: SCPI_ErrorPush(context, SCPI_ERROR_ILLEGAL_PARAMETER_VALUE); return SCPI_RES_ERR;
 		}
 	}
@@ -63,14 +63,14 @@ scpi_result_t SCPI_SourceFrequencyCW(scpi_t * context)
 			else
 			{
 				snprintf(tx_data, SPI4_BUFFER, "SOUR:FREQ:CW %d\r\n", paramFREQ.content.value);
-				SPI4_SendDataToMCU2(&tx_data,1000);
+				SPI4_Transmit(&tx_data,1000);
 				return SCPI_RES_OK;
 			}
 		}
 		else if (SCPI_UNIT_HERTZ == paramFREQ.unit)
 		{
 			snprintf(tx_data, SPI4_BUFFER, "SOUR:FREQ:CW %d\r\n", paramFREQ.content.value);
-			SPI4_SendDataToMCU2(&tx_data,1000);
+			SPI4_Transmit(&tx_data,1000);
 			return SCPI_RES_OK;
 		}
 		else
@@ -97,9 +97,9 @@ scpi_result_t SCPI_SourceFrequencyCWQ(scpi_t * context)
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 
 	snprintf(tx_data, SPI4_BUFFER, "SOUR:FREQ:CW?\r\n");
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SPI4_Receive(&rx_data, 1000);
 	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
 
 	return SCPI_RES_OK;
@@ -133,8 +133,8 @@ scpi_result_t SCPI_SourceVoltageLevelImmediateAmplitude(scpi_t * context)
 	{
 		switch(paramVOLT.content.tag)
 		{
-		case SCPI_NUM_MIN: snprintf(tx_data, SPI4_BUFFER, "SOUR:VOLT %f\r\n", 0); SPI4_SendDataToMCU2(&tx_data,1000); break;
-		case SCPI_NUM_MAX: snprintf(tx_data, SPI4_BUFFER, "SOUR:VOLT %f\r\n", 10); SPI4_SendDataToMCU2(&tx_data,1000); break;
+		case SCPI_NUM_MIN: snprintf(tx_data, SPI4_BUFFER, "SOUR:VOLT %f\r\n", 0); SPI4_Transmit(&tx_data,1000); break;
+		case SCPI_NUM_MAX: snprintf(tx_data, SPI4_BUFFER, "SOUR:VOLT %f\r\n", 10); SPI4_Transmit(&tx_data,1000); break;
 		default: SCPI_ErrorPush(context, SCPI_ERROR_ILLEGAL_PARAMETER_VALUE); return SCPI_RES_ERR;
 		}
 	}
@@ -150,14 +150,14 @@ scpi_result_t SCPI_SourceVoltageLevelImmediateAmplitude(scpi_t * context)
 			else
 			{
 				snprintf(tx_data, SPI4_BUFFER, "SOUR:VOLT %f\r\n", paramVOLT.content.value);
-				SPI4_SendDataToMCU2(&tx_data,1000);
+				SPI4_Transmit(&tx_data,1000);
 				return SCPI_RES_OK;
 			}
 		}
 		else if (SCPI_UNIT_VOLT == paramVOLT.unit)
 		{
 			snprintf(tx_data, SPI4_BUFFER, "SOUR:VOLT %f\r\n", paramVOLT.content.value);
-			SPI4_SendDataToMCU2(&tx_data,1000);
+			SPI4_Transmit(&tx_data,1000);
 			return SCPI_RES_OK;
 		}
 		else
@@ -184,9 +184,9 @@ scpi_result_t SCPI_SourceVoltageLevelImmediateAmplitudeQ(scpi_t * context)
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 
 	snprintf(tx_data, SPI4_BUFFER, "SOUR:VOLT?\r\n");
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SPI4_Receive(&rx_data, 1000);
 	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
 
 	return SCPI_RES_OK;
@@ -223,8 +223,8 @@ scpi_result_t SCPI_SourceVoltageLevelImmediateOffset(scpi_t * context)
 	{
 		switch(paramOFFS.content.tag)
 		{
-		case SCPI_NUM_MIN: snprintf(tx_data, SPI4_BUFFER, "SOUR:VOLT:OFFS %f\r\n", -10); SPI4_SendDataToMCU2(&tx_data,1000); break;
-		case SCPI_NUM_MAX: snprintf(tx_data, SPI4_BUFFER, "SOUR:VOLT:OFFS %f\r\n", +10); SPI4_SendDataToMCU2(&tx_data,1000); break;
+		case SCPI_NUM_MIN: snprintf(tx_data, SPI4_BUFFER, "SOUR:VOLT:OFFS %f\r\n", -10); SPI4_Transmit(&tx_data,1000); break;
+		case SCPI_NUM_MAX: snprintf(tx_data, SPI4_BUFFER, "SOUR:VOLT:OFFS %f\r\n", +10); SPI4_Transmit(&tx_data,1000); break;
 		default: SCPI_ErrorPush(context, SCPI_ERROR_ILLEGAL_PARAMETER_VALUE); return SCPI_RES_ERR;
 		}
 	}
@@ -240,14 +240,14 @@ scpi_result_t SCPI_SourceVoltageLevelImmediateOffset(scpi_t * context)
 			else
 			{
 				snprintf(tx_data, SPI4_BUFFER, "SOUR:VOLT:OFFS %f\r\n", paramOFFS.content.value);
-				SPI4_SendDataToMCU2(&tx_data,1000);
+				SPI4_Transmit(&tx_data,1000);
 				return SCPI_RES_OK;
 			}
 		}
 		else if (SCPI_UNIT_VOLT == paramOFFS.unit)
 		{
 			snprintf(tx_data, SPI4_BUFFER, "SOUR:VOLT:OFFS %f\r\n", paramOFFS.content.value);
-			SPI4_SendDataToMCU2(&tx_data,1000);
+			SPI4_Transmit(&tx_data,1000);
 			return SCPI_RES_OK;
 		}
 		else
@@ -277,9 +277,9 @@ scpi_result_t SCPI_SourceVoltageLevelImmediateOffsetQ(scpi_t * context)
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 
 	snprintf(tx_data, SPI4_BUFFER, "SOUR:VOLT:OFFS?\r\n");
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SPI4_Receive(&rx_data, 1000);
 	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
 
 	return SCPI_RES_OK;
@@ -311,7 +311,7 @@ scpi_result_t SCPI_SourceVoltageLevelImmediateState(scpi_t * context)
 	}
 
 	snprintf(tx_data, SPI4_BUFFER, "SOUR:VOLT:STAT %d\r\n", paramSTATE.tag);
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
 	return SCPI_RES_OK;
 }
@@ -333,9 +333,9 @@ scpi_result_t SCPI_SourceVoltageLevelImmediateStateQ(scpi_t * context)
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 
 	snprintf(tx_data, SPI4_BUFFER, "SOUR:VOLT:STAT?\r\n");
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SPI4_Receive(&rx_data, 1000);
 	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
 
 	return SCPI_RES_OK;

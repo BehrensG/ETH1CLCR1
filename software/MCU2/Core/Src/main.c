@@ -25,7 +25,7 @@
 /* USER CODE BEGIN Includes */
 #include <relay.h>
 #include <ADC.h>
-#include <scpi_def.h>
+#include "scpi_def.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -541,13 +541,21 @@ static void MX_SPI4_Init(void)
   PE5   ------> SPI4_MISO
   PE6   ------> SPI4_MOSI 
   */
-  GPIO_InitStruct.Pin = MCU3_SCLK_Pin|MCU3_MISO_Pin|MCU3_MISOE6_Pin;
+  GPIO_InitStruct.Pin = MCU3_SCLK_Pin|MCU3_MISOE6_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
-  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
   GPIO_InitStruct.Alternate = LL_GPIO_AF_5;
   LL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+
+  GPIO_InitStruct.Pin = MCU3_MISO_Pin;
+  GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
+  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+  GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
+  GPIO_InitStruct.Alternate = LL_GPIO_AF_5;
+  LL_GPIO_Init(MCU3_MISO_GPIO_Port, &GPIO_InitStruct);
 
   /* USER CODE BEGIN SPI4_Init 1 */
 
@@ -555,11 +563,11 @@ static void MX_SPI4_Init(void)
   /* SPI4 parameter configuration*/
   SPI_InitStruct.TransferDirection = LL_SPI_FULL_DUPLEX;
   SPI_InitStruct.Mode = LL_SPI_MODE_MASTER;
-  SPI_InitStruct.DataWidth = LL_SPI_DATAWIDTH_4BIT;
+  SPI_InitStruct.DataWidth = LL_SPI_DATAWIDTH_8BIT;
   SPI_InitStruct.ClockPolarity = LL_SPI_POLARITY_LOW;
   SPI_InitStruct.ClockPhase = LL_SPI_PHASE_1EDGE;
   SPI_InitStruct.NSS = LL_SPI_NSS_SOFT;
-  SPI_InitStruct.BaudRate = LL_SPI_BAUDRATEPRESCALER_DIV2;
+  SPI_InitStruct.BaudRate = LL_SPI_BAUDRATEPRESCALER_DIV8;
   SPI_InitStruct.BitOrder = LL_SPI_MSB_FIRST;
   SPI_InitStruct.CRCCalculation = LL_SPI_CRCCALCULATION_DISABLE;
   SPI_InitStruct.CRCPoly = 0x0;
@@ -769,12 +777,14 @@ static void MX_GPIO_Init(void)
                           |PA_50MV_Pin);
 
   /**/
-  GPIO_InitStruct.Pin = MCU3_nSS_Pin;
+  GPIO_InitStruct.Pin = MCU3_nSS_Pin|CXN_REL4_Pin|CXN_REL3_Pin|CXN_REL2_Pin 
+                          |CXN_REL1_Pin|SR_10KCTR_Pin|SR_100CTR_Pin|SR_1KCTR_Pin 
+                          |SR_10CTR_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-  LL_GPIO_Init(MCU3_nSS_GPIO_Port, &GPIO_InitStruct);
+  LL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
   /**/
   GPIO_InitStruct.Pin = DAC_nLDAC_Pin|DAC_nCLR_Pin|MCU2_STATUS_Pin|EEPROM_WP_Pin;
@@ -814,15 +824,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
   LL_GPIO_Init(GPIOG, &GPIO_InitStruct);
-
-  /**/
-  GPIO_InitStruct.Pin = CXN_REL4_Pin|CXN_REL3_Pin|CXN_REL2_Pin|CXN_REL1_Pin 
-                          |SR_10KCTR_Pin|SR_100CTR_Pin|SR_1KCTR_Pin|SR_10CTR_Pin;
-  GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
-  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-  LL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
   /**/
   GPIO_InitStruct.Pin = FB_CAP_Pin;

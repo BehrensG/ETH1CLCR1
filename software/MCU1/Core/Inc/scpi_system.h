@@ -19,6 +19,26 @@
 #define NET_STR_OK 0
 #define ETH_PORT_MAX_VAL 65535
 
+enum e_mcu
+{
+	MCU1 = 1,
+	MCU2,
+	MCU3
+};
+
+enum e_temp_units
+{
+	CELSIUS = 1,
+	FAHRENHEIT,
+	KELVIN
+};
+
+enum e_eeprom_states
+{
+	EEPROM_RESET = 1,
+	EEPROM_DEFAULT,
+};
+
 scpi_result_t SCPI_SystemCommunicateLANDHCP(scpi_t * context);
 scpi_result_t SCPI_SystemCommunicateLANDHCPQ(scpi_t * context);
 scpi_result_t SCPI_SystemCommunicateLANIPAddress(scpi_t * context);

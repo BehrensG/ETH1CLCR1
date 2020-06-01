@@ -8,7 +8,7 @@
 #ifndef INC_SCPI_DEF_H_
 #define INC_SCPI_DEF_H_
 
-#include <scpi/scpi.h>
+#include "scpi/scpi.h"
 
 #define SCPI_INPUT_BUFFER_LENGTH 128
 #define SCPI_ERROR_QUEUE_SIZE 24

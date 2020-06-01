@@ -6,7 +6,7 @@
  */
 
 #include <scpi_sense.h>
-
+#include "board.h"
 
  /*
   * [SENSe:]AVERage:COUNt <numeric_value>
@@ -24,6 +24,14 @@
 
 scpi_result_t SCPI_SenseAverageCount(scpi_t * context)
 {
+	uint32_t count;
+
+	if(!SCPI_ParamUInt32(context, &count, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	board.scpi.sense.average.count = count;
 
     return SCPI_RES_OK;
 }
@@ -38,6 +46,8 @@ scpi_result_t SCPI_SenseAverageCount(scpi_t * context)
 
 scpi_result_t SCPI_SenseAverageCountQ(scpi_t * context)
 {
+
+	SCPI_ResultUInt32(context, board.scpi.sense.average.count);
 
 	return SCPI_RES_OK;
 }

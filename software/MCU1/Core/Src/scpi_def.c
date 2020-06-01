@@ -82,12 +82,12 @@ static scpi_result_t TEST_TSQ(scpi_t * context)
 
 	if(!enable)
 	{
-		SPI4_SendDataToMCU2("*IDN?",1000);
+		SPI4_Transmit("*IDN?",1000);
 
 	}
 	else
 	{
-		SPI4_ReadDataFromMCU2(&rx_data, 1000);
+		SPI4_Receive(&rx_data, 1000);
 		SCPI_ResultCharacters(context, rx_data, 64);
 	}
 
@@ -254,6 +254,7 @@ const scpi_command_t scpi_commands[] = {
 	{.pattern = "TRIGger:OUTPut", .callback = SCPI_TriggerOutput,},
 	{.pattern = "TRIGger:OUTPut:SLOPe", .callback = SCPI_TriggerOutputSlope,},
 	{.pattern = "TRIGger:OUTPut:SLOPe?", .callback = SCPI_TriggerOutputSlopeQ,},
+	{.pattern = "*TRG", .callback = SCPI_TRG,},
 
 	SCPI_CMD_LIST_END
 };

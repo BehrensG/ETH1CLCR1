@@ -204,43 +204,6 @@ scpi_result_t SCPI_CalculateLimitLowerStateQ(scpi_t * context)
     return SCPI_RES_OK;
 }
 
-/*
- * CALCulate:LIMit:STATe {1|2} {ON|OFF|1|0}
- *
- * @INFO:
- * Set lower limit value of the selected parameter.
- *
- * @PARAMETERS:
- * 				1 :			select calculate option 1
- * 				2 :			select calculate option 2
- *				OFF or 0 :	sets the comparator function OFF
- *				ON or 1 :	sets the comparator function ON
- *
- */
-
-scpi_result_t SCPI_CalculateLimitState(scpi_t * context)
-{
-
-    return SCPI_RES_OK;
-}
-
-/*
- * CALCulate:LIMit:STATe? {1|2}
- *
- * @INFO:
- * Query lower limit value of the selected parameter. Return value can be 0 (disabled) or 1 (enabled).
- *
- * @PARAMETERS:
- * 				1 :			select calculate option 1
- * 				2 :			select calculate option 2
- *
- */
-
-scpi_result_t SCPI_CalculateLimitStateQ(scpi_t * context)
-{
-
-    return SCPI_RES_OK;
-}
 
 /*
  * CALCulate:LIMit:UPPer[:DATA] {1|2} <numeric_value>

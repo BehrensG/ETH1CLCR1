@@ -12,7 +12,7 @@
 
 #include <board.h>
 #include <main.h>
-#include <scpi_def.h>
+#include "scpi_def.h"
 
 #include <scpi_calculate.h>
 #include <scpi_calibration.h>
@@ -142,8 +142,6 @@ const scpi_command_t scpi_commands[] = {
 	{.pattern = "CALCulate:LIMit:LOWer[:DATA]?", .callback = SCPI_CalculateLimitLowerDataQ,},
 	{.pattern = "CALCulate:LIMit:LOWer:STATe", .callback = SCPI_CalculateLimitLowerState,},
 	{.pattern = "CALCulate:LIMit:LOWer:STATe?", .callback = SCPI_CalculateLimitLowerStateQ,},
-	{.pattern = "CALCulate:LIMit:STATe", .callback = SCPI_CalculateLimitState,},
-	{.pattern = "CALCulate:LIMit:STATe?", .callback = SCPI_CalculateLimitStateQ,},
 	{.pattern = "CALCulate:LIMit:UPPer[:DATA]", .callback = SCPI_CalculateLimitUpperData,},
 	{.pattern = "CALCulate:LIMit:UPPer[:DATA]?", .callback = SCPI_CalculateLimitUpperDataQ,},
 	{.pattern = "CALCulate:LIMit:UPPer:STATe", .callback = SCPI_CalculateLimitUpperState,},

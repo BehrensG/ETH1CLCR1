@@ -46,7 +46,7 @@ scpi_result_t SCPI_FormatData(scpi_t * context)
 	}
 
 	snprintf(tx_data, SPI4_BUFFER, "FORM:DATA %d\r\n", paramFORMAT.tag);
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
 	return SCPI_RES_OK;
 }
@@ -65,9 +65,9 @@ scpi_result_t SCPI_FormatDataQ(scpi_t * context)
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 
 	snprintf(tx_data, SPI4_BUFFER, "FORM:DATA?\r\n");
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SPI4_Receive(&rx_data, 1000);
 	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
 
 	return SCPI_RES_OK;

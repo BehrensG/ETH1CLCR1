@@ -10,6 +10,8 @@
 #include "main.h"
 #include "eeprom.h"
 #include "types.h"
+#include "scpi_system.h"
+#include "scpi_trigger.h"
 
 void BOARD_CreateDefaultData()
 {
@@ -39,15 +41,14 @@ void BOARD_CreateDefaultData()
 
 	default_board.structure.system.ip4_current.port = default_board.structure.system.ip4_static.port = TCPIP_DEFAULT_PORT;
 
-	default_board.structure.source.ampltidue = 0;
-	default_board.structure.source.frequency = 0;
-	default_board.structure.source.offset.value = 0;
-	default_board.structure.source.offset.status = 0;
+	default_board.structure.trigger.delay = 0;
+	default_board.structure.trigger.slope = SLOPE_POS;
+	default_board.structure.trigger.source = TRIG_IMM;
 
 	default_board.structure.system.security.status = 1;
 	strcpy(default_board.structure.system.security.password,PASSWORD);
 
-	default_board.structure.system.temperature.unit = 0;
+	default_board.structure.system.temperature.unit = CELSIUS;
 
 	strcpy(default_board.structure.system.ip4_current.hostname, HOSTNAME);
 	strcpy(default_board.structure.system.ip4_static.hostname, HOSTNAME);

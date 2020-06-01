@@ -73,8 +73,8 @@ scpi_result_t SCPI_SenseAverageCount(scpi_t * context)
 	{
 		switch(paramAVER.content.tag)
 		{
-		case SCPI_NUM_MIN: snprintf(tx_data, SPI4_BUFFER, "SENS:AVER:COUN %d\r\n", 1); SPI4_SendDataToMCU2(&tx_data,1000); break;
-		case SCPI_NUM_MAX: snprintf(tx_data, SPI4_BUFFER, "SENS:AVER:COUN %d\r\n", 256); SPI4_SendDataToMCU2(&tx_data,1000); break;
+		case SCPI_NUM_MIN: snprintf(tx_data, SPI4_BUFFER, "SENS:AVER:COUN %d\r\n", 1); SPI4_Transmit(&tx_data,1000); break;
+		case SCPI_NUM_MAX: snprintf(tx_data, SPI4_BUFFER, "SENS:AVER:COUN %d\r\n", 256); SPI4_Transmit(&tx_data,1000); break;
 		default: SCPI_ErrorPush(context, SCPI_ERROR_ILLEGAL_PARAMETER_VALUE); return SCPI_RES_ERR;
 		}
 	}
@@ -90,7 +90,7 @@ scpi_result_t SCPI_SenseAverageCount(scpi_t * context)
 			else
 			{
 				snprintf(tx_data, SPI4_BUFFER, "SENS:AVER:COUN %d\r\n", paramAVER.content.value);
-				SPI4_SendDataToMCU2(&tx_data,1000);
+				SPI4_Transmit(&tx_data,1000);
 				return SCPI_RES_OK;
 			}
 		}
@@ -113,9 +113,9 @@ scpi_result_t SCPI_SenseAverageCountQ(scpi_t * context)
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 
 	snprintf(tx_data, SPI4_BUFFER, "SENS:AVER:COUNt?\r\n");
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SPI4_Receive(&rx_data, 1000);
 	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
 
 	return SCPI_RES_OK;
@@ -144,7 +144,7 @@ scpi_result_t SCPI_SenseAverageState(scpi_t * context)
 	}
 
 	snprintf(tx_data, SPI4_BUFFER, "SENS:AVER:STAT %d\r\n", paramBOOL.tag);
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
 	return SCPI_RES_OK;
 }
@@ -163,9 +163,9 @@ scpi_result_t SCPI_SenseAverageStateQ(scpi_t * context)
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 
 	snprintf(tx_data, SPI4_BUFFER, "SENS:AVER:STAT?\r\n");
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SPI4_Receive(&rx_data, 1000);
 	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
 
 	return SCPI_RES_OK;
@@ -215,7 +215,7 @@ scpi_result_t SCPI_SenseCorrectionCkitStandard(scpi_t * context)
 	}
 
 	snprintf(tx_data, SPI4_BUFFER, "SENS:CORR:CKIT:STAN %d %f %f\r\n", paramSTAN.tag, paramR, paramX);
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
 	return SCPI_RES_OK;
 }
@@ -248,9 +248,9 @@ scpi_result_t SCPI_SenseCorrectionCkitStandardQ(scpi_t * context)
 	}
 
 	snprintf(tx_data, SPI4_BUFFER, "SENS:CORR:CKIT:STANd? %d\r\n", paramSTAN.tag);
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SPI4_Receive(&rx_data, 1000);
 	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
 
 	return SCPI_RES_OK;
@@ -280,7 +280,7 @@ scpi_result_t SCPI_SenseCorrectionCollectAquire(scpi_t * context)
 	}
 
 	snprintf(tx_data, SPI4_BUFFER, "SENS:CORR:COLL:ACQ %d\r\n", paramSTAN.tag);
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
 	return SCPI_RES_OK;
 }
@@ -308,7 +308,7 @@ scpi_result_t SCPI_SenseCorrectionCollectMethod(scpi_t * context)
 	}
 
 	snprintf(tx_data, SPI4_BUFFER, "SENS:CORR:COLL:METH %d\r\n", paramREFL.tag);
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
 	return SCPI_RES_OK;
 }
@@ -333,9 +333,9 @@ scpi_result_t SCPI_SenseCorrectionCollectMethodQ(scpi_t * context)
 	}
 
 	snprintf(tx_data, SPI4_BUFFER, "SENS:CORR:COLL:METH? %d\r\n", paramREFL.tag);
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SPI4_Receive(&rx_data, 1000);
 	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
 
 	return SCPI_RES_OK;
@@ -355,9 +355,9 @@ scpi_result_t SCPI_SenseCorrectionDataQ(scpi_t * context)
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 
 	snprintf(tx_data, SPI4_BUFFER, "SENS:CORR:DATA?\r\n");
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SPI4_Receive(&rx_data, 1000);
 	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
 
 	return SCPI_RES_OK;
@@ -386,7 +386,7 @@ scpi_result_t SCPI_SenseCorrectionState(scpi_t * context)
 	}
 
 	snprintf(tx_data, SPI4_BUFFER, "SENS:CORR:STAT %d\r\n", paramBOOL.tag);
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
 	return SCPI_RES_OK;
 }
@@ -405,9 +405,9 @@ scpi_result_t SCPI_SenseCorrectionStateQ(scpi_t * context)
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 
 	snprintf(tx_data, SPI4_BUFFER, "SENS:CORR:STAT?\r\n");
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SPI4_Receive(&rx_data, 1000);
 	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
 
 	return SCPI_RES_OK;
@@ -445,9 +445,9 @@ scpi_result_t SCPI_SenseFimpedanceApertureQ(scpi_t * context)
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 
 	snprintf(tx_data, SPI4_BUFFER, "SENS:FIMP:APER?\r\n");
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SPI4_Receive(&rx_data, 1000);
 	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
 
 	return SCPI_RES_OK;
@@ -476,7 +476,7 @@ scpi_result_t SCPI_SenseFimpedanceContactVerify(scpi_t * context)
 	}
 
 	snprintf(tx_data, SPI4_BUFFER, "SENS:FIMP:CONT:VER %d\r\n", paramBOOL.tag);
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
 	return SCPI_RES_OK;
 }
@@ -495,9 +495,9 @@ scpi_result_t SCPI_SenseFimpedanceContactVerifyQ(scpi_t * context)
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 
 	snprintf(tx_data, SPI4_BUFFER, "SENS:FIMP:CONT:VER?\r\n");
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SPI4_Receive(&rx_data, 1000);
 	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
 
 	return SCPI_RES_OK;
@@ -525,7 +525,7 @@ scpi_result_t SCPI_SenseFimpedanceRangeAuto(scpi_t * context)
 	}
 
 	snprintf(tx_data, SPI4_BUFFER, "SENS:FIMP:RANG:AUTO %d\r\n", paramBOOL.tag);
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
 	return SCPI_RES_OK;
 }
@@ -544,9 +544,9 @@ scpi_result_t SCPI_SenseFimpedanceRangeAutoQ(scpi_t * context)
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 
 	snprintf(tx_data, SPI4_BUFFER, "SENS:FIMP:RANG:AUTO?\r\n");
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SPI4_Receive(&rx_data, 1000);
 	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
 
 	return SCPI_RES_OK;
@@ -578,8 +578,8 @@ scpi_result_t SCPI_SenseFimpedanceRange(scpi_t * context)
 	{
 		switch(paramRANG.content.tag)
 		{
-		case SCPI_NUM_MIN: snprintf(tx_data, SPI4_BUFFER, "SENS:FIMP:RANG %d\r\n", 10); SPI4_SendDataToMCU2(&tx_data,1000); break;
-		case SCPI_NUM_MAX: snprintf(tx_data, SPI4_BUFFER, "SENS:FIMP:RANG %d\r\n", 100000); SPI4_SendDataToMCU2(&tx_data,1000); break;
+		case SCPI_NUM_MIN: snprintf(tx_data, SPI4_BUFFER, "SENS:FIMP:RANG %d\r\n", 10); SPI4_Transmit(&tx_data,1000); break;
+		case SCPI_NUM_MAX: snprintf(tx_data, SPI4_BUFFER, "SENS:FIMP:RANG %d\r\n", 100000); SPI4_Transmit(&tx_data,1000); break;
 		default: SCPI_ErrorPush(context, SCPI_ERROR_ILLEGAL_PARAMETER_VALUE); return SCPI_RES_ERR;
 		}
 	}
@@ -595,7 +595,7 @@ scpi_result_t SCPI_SenseFimpedanceRange(scpi_t * context)
 			else
 			{
 				snprintf(tx_data, SPI4_BUFFER, "SENS:FIMP:RANG %d\r\n", paramRANG.content.value);
-				SPI4_SendDataToMCU2(&tx_data,1000);
+				SPI4_Transmit(&tx_data,1000);
 				return SCPI_RES_OK;
 			}
 		}
@@ -609,7 +609,7 @@ scpi_result_t SCPI_SenseFimpedanceRange(scpi_t * context)
 			else
 			{
 				snprintf(tx_data, SPI4_BUFFER, "SENS:FIMP:RANG %d\r\n", paramRANG.content.value);
-				SPI4_SendDataToMCU2(&tx_data,1000);
+				SPI4_Transmit(&tx_data,1000);
 				return SCPI_RES_OK;
 			}
 
@@ -637,9 +637,9 @@ scpi_result_t SCPI_SenseFimpedanceRangeQ(scpi_t * context)
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 
 	snprintf(tx_data, SPI4_BUFFER, "SENS:FIMP:RANG?\r\n");
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SPI4_Receive(&rx_data, 1000);
 	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
 
 	return SCPI_RES_OK;
@@ -669,7 +669,7 @@ scpi_result_t SCPI_SenseFunctionOn(scpi_t * context)
 	}
 
 	snprintf(tx_data, SPI4_BUFFER, "SENS:FUNC:ON %d\r\n", paramBOOL.tag);
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 	return SCPI_RES_OK;
 }
 
@@ -687,9 +687,9 @@ scpi_result_t SCPI_SenseFunctionOnQ(scpi_t * context)
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 
 	snprintf(tx_data, SPI4_BUFFER, "SENS:FUNC:ON?\r\n");
-	SPI4_SendDataToMCU2(&tx_data,1000);
+	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_ReadDataFromMCU2(&rx_data, 1000);
+	SPI4_Receive(&rx_data, 1000);
 	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
 
 	return SCPI_RES_OK;

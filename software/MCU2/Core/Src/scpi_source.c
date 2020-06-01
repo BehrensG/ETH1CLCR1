@@ -6,7 +6,7 @@
  */
 
 #include <scpi_source.h>
-
+#include <board.h>
 
 /*
  * SOURce:FREQuency[:CW] <numeric_value>[HZ|KHZ]
@@ -24,6 +24,13 @@
 
 scpi_result_t SCPI_SourceFrequencyCW(scpi_t * context)
 {
+	double frequency;
+	if(!SCPI_ParamDouble(context, &frequency, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	board.scpi.source.frequency = frequency;
 
 	return SCPI_RES_OK;
 }
@@ -38,6 +45,7 @@ scpi_result_t SCPI_SourceFrequencyCW(scpi_t * context)
 
 scpi_result_t SCPI_SourceFrequencyCWQ(scpi_t * context)
 {
+	SCPI_ResultDouble(context, board.scpi.source.frequency);
 
 	return SCPI_RES_OK;
 }
@@ -58,7 +66,13 @@ scpi_result_t SCPI_SourceFrequencyCWQ(scpi_t * context)
 
 scpi_result_t SCPI_SourceVoltageLevelImmediateAmplitude(scpi_t * context)
 {
+	double amplitude;
+	if(!SCPI_ParamDouble(context, &amplitude, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
 
+	board.scpi.source.amplitude = amplitude;
 	return SCPI_RES_OK;
 }
 
@@ -73,6 +87,7 @@ scpi_result_t SCPI_SourceVoltageLevelImmediateAmplitude(scpi_t * context)
 scpi_result_t SCPI_SourceVoltageLevelImmediateAmplitudeQ(scpi_t * context)
 {
 
+	SCPI_ResultDouble(context, board.scpi.source.amplitude);
 	return SCPI_RES_OK;
 }
 
@@ -95,6 +110,17 @@ scpi_result_t SCPI_SourceVoltageLevelImmediateAmplitudeQ(scpi_t * context)
 
 scpi_result_t SCPI_SourceVoltageLevelImmediateOffset(scpi_t * context)
 {
+	double offset;
+	if(!SCPI_ParamDouble(context, &offset, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	if(board.scpi.source.offset.state)
+	{
+		board.scpi.source.offset.value = offset;
+
+	}
 
 	return SCPI_RES_OK;
 }
@@ -112,8 +138,9 @@ scpi_result_t SCPI_SourceVoltageLevelImmediateOffset(scpi_t * context)
 
 scpi_result_t SCPI_SourceVoltageLevelImmediateOffsetQ(scpi_t * context)
 {
-
+	SCPI_ResultDouble(context, board.scpi.source.offset.value);
 	return SCPI_RES_OK;
+
 }
 
 /*
@@ -133,6 +160,13 @@ scpi_result_t SCPI_SourceVoltageLevelImmediateOffsetQ(scpi_t * context)
 
 scpi_result_t SCPI_SourceVoltageLevelImmediateState(scpi_t * context)
 {
+	scpi_bool_t offset_state;
+	if(!SCPI_ParamBool(context, &offset_state, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	board.scpi.source.offset.state = offset_state;
 
 	return SCPI_RES_OK;
 }
@@ -150,6 +184,7 @@ scpi_result_t SCPI_SourceVoltageLevelImmediateState(scpi_t * context)
 
 scpi_result_t SCPI_SourceVoltageLevelImmediateStateQ(scpi_t * context)
 {
+	SCPI_ResultBool(context, board.scpi.source.offset.state);
 
 	return SCPI_RES_OK;
 }

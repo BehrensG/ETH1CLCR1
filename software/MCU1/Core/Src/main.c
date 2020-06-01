@@ -26,6 +26,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "board.h"
+#include "scpi_trigger.h"
+#include "spi4.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -56,6 +58,20 @@ const osThreadAttr_t defaultTask_attributes = {
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
+/* Definitions for BlinkTask */
+osThreadId_t BlinkTaskHandle;
+const osThreadAttr_t BlinkTask_attributes = {
+  .name = "BlinkTask",
+  .priority = (osPriority_t) osPriorityLow,
+  .stack_size = 128 * 4
+};
+/* Definitions for TriggerTask */
+osThreadId_t TriggerTaskHandle;
+const osThreadAttr_t TriggerTask_attributes = {
+  .name = "TriggerTask",
+  .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 128 * 4
+};
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -67,6 +83,8 @@ static void MX_I2C2_Init(void);
 static void MX_I2C4_Init(void);
 static void MX_SPI4_Init(void);
 void StartDefaultTask(void *argument);
+void StartBlinkTask(void *argument);
+void StartTriggerTask(void *argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -142,7 +160,13 @@ int main(void)
 
   /* Create the thread(s) */
   /* creation of defaultTask */
- //defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+  //defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+
+  /* creation of BlinkTask */
+  BlinkTaskHandle = osThreadNew(StartBlinkTask, NULL, &BlinkTask_attributes);
+
+  /* creation of TriggerTask */
+  TriggerTaskHandle = osThreadNew(StartTriggerTask, NULL, &TriggerTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   scpi_server_init();
@@ -458,6 +482,54 @@ void StartDefaultTask(void *argument)
 	   // osThreadTerminate(NULL);
   }
   /* USER CODE END 5 */ 
+}
+
+/* USER CODE BEGIN Header_StartBlinkTask */
+/**
+* @brief Function implementing the BlinkTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartBlinkTask */
+void StartBlinkTask(void *argument)
+{
+  /* USER CODE BEGIN StartBlinkTask */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(500);
+    HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
+  }
+  /* USER CODE END StartBlinkTask */
+}
+
+/* USER CODE BEGIN Header_StartTriggerTask */
+/**
+* @brief Function implementing the TriggerTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartTriggerTask */
+void StartTriggerTask(void *argument)
+{
+  /* USER CODE BEGIN StartTriggerTask */
+  /* Infinite loop */
+
+  int8_t tx_data[SPI4_BUFFER] = {[0 ... SPI4_BUFFER - 1] = '\0'};
+
+  for(;;)
+  {
+	  if(TRIG_EXT == board.structure.trigger.source)
+	  {
+		  if(HAL_GPIO_ReadPin(TRIG_IN_GPIO_Port, TRIG_IN_Pin))
+		  {
+			  osDelay(board.structure.trigger.delay*1000);
+			  snprintf(tx_data, SPI4_BUFFER, "IMM\r\n");
+			  SPI4_Transmit(&tx_data,1000);
+		  }
+	  }
+  }
+  /* USER CODE END StartTriggerTask */
 }
 
  /**

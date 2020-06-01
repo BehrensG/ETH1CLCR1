@@ -24,7 +24,7 @@ static void remove_chars(int8_t* str, int8_t c, uint32_t size) {
     *pw = '\0';
 }
 
-BRD_StatusTypeDef SPI4_SendDataToMCU2(const int8_t str[], uint32_t timeout)
+BRD_StatusTypeDef SPI4_Transmit(const int8_t str[], uint32_t timeout)
 {
 	BRD_StatusTypeDef status;
 	int8_t tx_data[SPI4_BUFFER]= {[0 ... SPI4_BUFFER-1] = '\0'};
@@ -50,7 +50,7 @@ BRD_StatusTypeDef SPI4_SendDataToMCU2(const int8_t str[], uint32_t timeout)
 
 }
 
-BRD_StatusTypeDef SPI4_ReadDataFromMCU2(int8_t* str, uint32_t timeout)
+BRD_StatusTypeDef SPI4_Receive(int8_t* str, uint32_t timeout)
 {
 	BRD_StatusTypeDef status;
 	int8_t rx_data[SPI4_BUFFER]= {[0 ... SPI4_BUFFER-1] = '\0'};
