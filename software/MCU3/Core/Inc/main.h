@@ -32,6 +32,12 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+typedef enum
+{
+	SPI3_MODE_NONE = 0U,
+	SPI3_MODE_TX = 1U,
+	SPI3_MODE_RX = 2U
+}SPI3_Status;
 
 /* USER CODE END Includes */
 
