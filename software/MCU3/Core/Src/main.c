@@ -54,8 +54,8 @@ SPI_HandleTypeDef hspi5;
 /* USER CODE BEGIN PV */
 
 /* Buffer used for reception */
-uint8_t aRxBuffer[BUFFERSIZE];
-
+int8_t SPI3_RxBuffer[BUFFERSIZE] = {[0 .. BUFFERSIZE - 1] = '\0'};
+volatile uint8_t flg_newRxData = 0;
 
 /* USER CODE END PV */
 
@@ -73,7 +73,25 @@ static void MX_SPI5_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+static SPI3_Status SPI3_CheckMode()
+{
+	if(0 == SPI6_ReceiveIndex)
+	{
+		return SPI3_MODE_NONE;
+	}
+	else if (SPI3_ReceiveIndex > 0)
+	{
+		if('\0'!=aRxBuffer)
+		{
+			return SPI6_MODE_TX;
+		}
+		else if ('\0'!=aRxBuffer)
+		{
+			return SPI6_MODE_RX;
+		}
 
+	}
+}
 /* USER CODE END 0 */
 
 /**
@@ -114,7 +132,7 @@ int main(void)
   AD9835_Init();
   AD5689_Init();
 
-  AD9835_Test();
+  //AD9835_Test();
   AD5453_SetVoltage(0.3);
   DG419_Switch(ON);
 
@@ -137,22 +155,16 @@ int main(void)
 	  /*##-2- Start the Full Duplex Communication process ########################*/
 	    /* While the SPI in TransmitReceive process, user can transmit data through
 	       "aTxBuffer" buffer & receive data through "aRxBuffer" */
-	    if(HAL_SPI_Receive_IT(&hspi3, (uint8_t *)aRxBuffer, BUFFERSIZE) != HAL_OK)
+	    if(HAL_OK == HAL_SPI_Receive_IT(&hspi3, (uint8_t *)SPI3_RxBuffer, BUFFERSIZE))
 	    {
-	      /* Transfer error in transmission process */
-	      Error_Handler();
+	    	if(newRxData)
+	    	{
+	    		SCPI_Input(&scpi_context, SPI3_RxBuffer, BUFFERSIZE);
+	    		flg_newRxData = 0;
+	    	}
 	    }
 
-	    /*##-3- Wait for the end of the transfer ###################################*/
-	    /*  Before starting a new communication transfer, you need to check the current
-	        state of the peripheral; if it's busy you need to wait for the end of current
-	        transfer before starting a new one.
-	        For simplicity reasons, this example is just waiting till the end of the
-	        transfer, but application may perform other tasks while transfer operation
-	        is ongoing. */
-	    while (HAL_SPI_GetState(&hspi3) != HAL_SPI_STATE_READY)
-	    {
-	    }
+
   }
   /* USER CODE END 3 */
 }
