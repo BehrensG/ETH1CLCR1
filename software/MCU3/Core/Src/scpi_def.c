@@ -12,7 +12,16 @@
 
 #include <main.h>
 #include <scpi_def.h>
+#include <scpi_source.h>
 
+scpi_choice_def_t boolean_select[] =
+{
+    {"OFF", 0},
+    {"ON", 1},
+	{"0", 0},
+	{"1", 1},
+    SCPI_CHOICE_LIST_END
+};
 
 size_t SCPI_Write(scpi_t * context, const char * data, size_t len) {
     (void) context;
@@ -29,7 +38,6 @@ scpi_result_t SCPI_Reset(scpi_t * context) {
 
 static scpi_result_t TEST_TSQ(scpi_t * context)
 {
-
 	return SCPI_RES_OK;
 }
 
@@ -74,6 +82,7 @@ const scpi_command_t scpi_commands[] = {
 	{.pattern = "SOURce:VOLTage[:LEVel][:IMMediate][:AMPLitude]", .callback = SCPI_SourceVoltageLevelImmediateAmplitude,},
 	{.pattern = "SOURce:VOLTage[:LEVel][:IMMediate]:OFFSet", .callback = SCPI_SourceVoltageLevelImmediateOffset,},
 	{.pattern = "SOURce:VOLTage[:LEVel][:IMMediate]:STATe", .callback = SCPI_SourceVoltageLevelImmediateState,},
+	{.pattern = "SOURce:OUTput[:ON]", .callback = SCPI_SourceOutputOn,},
 
 	SCPI_CMD_LIST_END
 };

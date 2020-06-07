@@ -11,8 +11,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <scpi_misc.h>
-#include <spi4.h>
+#include "scpi_misc.h"
+#include "spi4.h"
 
 scpi_choice_def_t format_data_select[] =
 {

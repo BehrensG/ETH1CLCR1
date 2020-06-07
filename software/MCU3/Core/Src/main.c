@@ -23,10 +23,10 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <DG419.h>
-#include <AD9835.h>
-#include <AD5453.h>
-#include <scpi_def.h>
+#include "DG419.h"
+#include "AD9835.h"
+#include "AD5453.h"
+#include "scpi_def.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -54,8 +54,8 @@ SPI_HandleTypeDef hspi5;
 /* USER CODE BEGIN PV */
 
 /* Buffer used for reception */
-int8_t SPI3_RxBuffer[BUFFERSIZE] = {[0 .. BUFFERSIZE - 1] = '\0'};
-volatile uint8_t flg_newRxData = 0;
+int8_t SPI3_RxBuffer[SPI3_BUFFERSIZE] = {[0 ... SPI3_BUFFERSIZE - 1] = '\0'};
+volatile uint8_t SPI3_ReceiveIndex  = 0;
 
 /* USER CODE END PV */
 
@@ -73,25 +73,7 @@ static void MX_SPI5_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-static SPI3_Status SPI3_CheckMode()
-{
-	if(0 == SPI6_ReceiveIndex)
-	{
-		return SPI3_MODE_NONE;
-	}
-	else if (SPI3_ReceiveIndex > 0)
-	{
-		if('\0'!=aRxBuffer)
-		{
-			return SPI6_MODE_TX;
-		}
-		else if ('\0'!=aRxBuffer)
-		{
-			return SPI6_MODE_RX;
-		}
 
-	}
-}
 /* USER CODE END 0 */
 
 /**
@@ -132,10 +114,6 @@ int main(void)
   AD9835_Init();
   AD5689_Init();
 
-  //AD9835_Test();
-  AD5453_SetVoltage(0.3);
-  DG419_Switch(ON);
-
   SCPI_Init(&scpi_context,
           scpi_commands,
           &scpi_interface,
@@ -143,6 +121,7 @@ int main(void)
           SCPI_IDN1, SCPI_IDN2, SCPI_IDN3, SCPI_IDN4,
           scpi_input_buffer, SCPI_INPUT_BUFFER_LENGTH,
           scpi_error_queue_data, SCPI_ERROR_QUEUE_SIZE);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -152,19 +131,15 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  /*##-2- Start the Full Duplex Communication process ########################*/
-	    /* While the SPI in TransmitReceive process, user can transmit data through
-	       "aTxBuffer" buffer & receive data through "aRxBuffer" */
-	    if(HAL_OK == HAL_SPI_Receive_IT(&hspi3, (uint8_t *)SPI3_RxBuffer, BUFFERSIZE))
+
+	    if(HAL_OK == HAL_SPI_Receive_IT(&hspi3, (uint8_t *)SPI3_RxBuffer, SPI3_BUFFERSIZE))
 	    {
-	    	if(newRxData)
+	    	if(SPI3_BUFFERSIZE == SPI3_ReceiveIndex)
 	    	{
-	    		SCPI_Input(&scpi_context, SPI3_RxBuffer, BUFFERSIZE);
-	    		flg_newRxData = 0;
+	    		SCPI_Input(&scpi_context, SPI3_RxBuffer, SPI3_ReceiveIndex);
+	    		SPI3_ReceiveIndex = 0;
 	    	}
 	    }
-
-
   }
   /* USER CODE END 3 */
 }

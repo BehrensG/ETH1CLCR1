@@ -21,6 +21,9 @@
 
 #define COTO9012_REL_COUNT	4
 
+#define RELAY_ON			1
+#define RELAY_OFF			0
+
 #define SR_10CTR			0x01
 #define SR_100CTR			0x02
 #define SR_1KCTR			0x04

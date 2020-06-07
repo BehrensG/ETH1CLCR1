@@ -127,7 +127,7 @@ void Error_Handler(void);
 /* USER CODE BEGIN Private defines */
 
 /* Size of buffer */
-#define BUFFERSIZE	64U
+#define SPI3_BUFFERSIZE	64U
 
 
 /* USER CODE END Private defines */

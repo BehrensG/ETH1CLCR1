@@ -1,7 +1,7 @@
 #ifndef __SCPI_DEF_H_
 #define __SCPI_DEF_H_
 
-#include <scpi/scpi.h>
+#include "scpi/scpi.h"
 
 #define SCPI_INPUT_BUFFER_LENGTH 512
 #define SCPI_ERROR_QUEUE_SIZE 17

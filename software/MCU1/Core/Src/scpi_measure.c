@@ -6,13 +6,14 @@
  */
 
 
-#include <scpi_def.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include <scpi_measure.h>
-#include <spi4.h>
+#include "scpi_def.h"
+#include "scpi_measure.h"
+#include "spi4.h"
 /*
  * FETCh?
  *

@@ -23,14 +23,13 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <relay.h>
-#include <ADC.h>
-#include "scpi_def.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+#include "relay.h"
+#include "ADC.h"
+#include "scpi_def.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -177,6 +176,7 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   LL_GPIO_ResetOutputPin(MCU2_STATUS_GPIO_Port, MCU2_STATUS_Pin);
+
   while (1)
   {
 

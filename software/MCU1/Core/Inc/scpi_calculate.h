@@ -8,7 +8,7 @@
 #ifndef INC_SCPI_CALCULATE_H_
 #define INC_SCPI_CALCULATE_H_
 
-#include <scpi/scpi.h>
+#include "scpi/scpi.h"
 
 scpi_result_t SCPI_CalculateFormat(scpi_t * context);
 scpi_result_t SCPI_CalculateFormatQ(scpi_t * context);

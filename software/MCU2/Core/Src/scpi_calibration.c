@@ -6,7 +6,7 @@
  */
 
 
-#include <scpi_calibration.h>
+#include "scpi_calibration.h"
 
 scpi_result_t SCPI_CalibrationADCQ(scpi_t * context)
 {

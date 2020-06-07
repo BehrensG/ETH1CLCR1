@@ -10,19 +10,28 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <board.h>
-#include <main.h>
+#include "board.h"
+#include "main.h"
 #include "scpi_def.h"
 
-#include <scpi_calculate.h>
-#include <scpi_calibration.h>
-#include <scpi_measure.h>
-#include <scpi_misc.h>
-#include <scpi_sense.h>
-#include <scpi_source.h>
+#include "scpi_calculate.h"
+#include "scpi_calibration.h"
+#include "scpi_measure.h"
+#include "scpi_misc.h"
+#include "scpi_sense.h"
+#include "scpi_source.h"
 
 extern uint32_t SPI6_TransmitSize;
 extern __IO uint8_t SPI6_TxBuffer[];
+
+scpi_choice_def_t boolean_select[] =
+{
+    {"OFF", 0},
+    {"ON", 1},
+	{"0", 0},
+	{"1", 1},
+    SCPI_CHOICE_LIST_END
+};
 
 size_t SCPI_Write(scpi_t * context, const char * data, size_t len) {
     (void) context;
@@ -104,6 +113,8 @@ const scpi_command_t scpi_commands[] = {
 	{.pattern = "SOURce:VOLTage[:LEVel][:IMMediate]:OFFSet?", .callback = SCPI_SourceVoltageLevelImmediateOffsetQ,},
 	{.pattern = "SOURce:VOLTage[:LEVel][:IMMediate]:STATe", .callback = SCPI_SourceVoltageLevelImmediateState,},
 	{.pattern = "SOURce:VOLTage[:LEVel][:IMMediate]:STATe?", .callback = SCPI_SourceVoltageLevelImmediateStateQ,},
+	{.pattern = "SOURce:OUTput[:ON]", .callback = SCPI_SourceOutputOn,},
+	{.pattern = "SOURce:OUTput[:ON]?", .callback = SCPI_SourceOutputOnQ,},
 
 	{.pattern = "FETCh?", .callback = SCPI_FetchQ,},
 
@@ -133,6 +144,10 @@ const scpi_command_t scpi_commands[] = {
 	{.pattern = "[SENSe:]FIMPedance:RANGe?", .callback = SCPI_SenseFimpedanceRangeQ,},
 	{.pattern = "[SENSe:]FUNCtion[:ON]", .callback = SCPI_SenseFunctionOn,},
 	{.pattern = "[SENSe:]FUNCtion[:ON]?", .callback = SCPI_SenseFunctionOnQ,},
+	{.pattern = "[SENSe:]OUTput[:ON]", .callback = SCPI_SenseOutputOn,},
+	{.pattern = "[SENSe:]OUTput[:ON]?", .callback = SCPI_SenseOutputOnQ,},
+	{.pattern = "[SENSe:]GUARD[:ON]", .callback = SCPI_SenseGuardOn,},
+	{.pattern = "[SENSe:]GUARD[:ON]?", .callback = SCPI_SenseGuardOnQ,},
 
 	{.pattern = "CALCulate:FORMat", .callback = SCPI_CalculateFormat,},
 	{.pattern = "CALCulate:FORMat?", .callback = SCPI_CalculateFormatQ,},

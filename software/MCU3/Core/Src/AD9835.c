@@ -6,6 +6,7 @@
  *      Software based on :  IC datasheet, AN-621 and AN-1108
  */
 
+#include <math.h>
 #include "AD9835.h"
 
 extern SPI_HandleTypeDef hspi1;
@@ -42,7 +43,6 @@ void AD9835_Test()
 
 BRD_StatusTypeDef AD9835_Output(uint8_t state)
 {
-	uint8_t tx_data[2];
 	BRD_StatusTypeDef spi_status;
 
 	HAL_SPI_Init(&hspi1);

@@ -8,7 +8,7 @@
 #ifndef INC_SCPI_MISC_H_
 #define INC_SCPI_MISC_H_
 
-#include <scpi/scpi.h>
+#include "scpi/scpi.h"
 
 scpi_result_t SCPI_FormatData(scpi_t * context);
 scpi_result_t SCPI_FormatDataQ(scpi_t * context);

@@ -8,7 +8,7 @@
 #ifndef INC_SCPI_MEASURE_H_
 #define INC_SCPI_MEASURE_H_
 
-#include <scpi/scpi.h>
+#include "scpi/scpi.h"
 
 scpi_result_t SCPI_FetchQ(scpi_t * context);
 scpi_result_t SCPI_InitiateImmediate(scpi_t * context);

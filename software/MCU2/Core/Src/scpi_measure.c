@@ -5,7 +5,7 @@
  *      Author: grzegorz
  */
 
-#include <scpi_measure.h>
+#include "scpi_measure.h"
 
 /*
  * FETCh?

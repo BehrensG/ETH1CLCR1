@@ -8,7 +8,7 @@
 #ifndef INC_SCPI_SENSE_H_
 #define INC_SCPI_SENSE_H_
 
-#include <scpi/scpi.h>
+#include "scpi/scpi.h"
 
 #define DUT_OPEN 1
 #define DUT_SHORT 2
@@ -37,5 +37,10 @@ scpi_result_t SCPI_SenseFimpedanceRange(scpi_t * context);
 scpi_result_t SCPI_SenseFimpedanceRangeQ(scpi_t * context);
 scpi_result_t SCPI_SenseFunctionOn(scpi_t * context);
 scpi_result_t SCPI_SenseFunctionOnQ(scpi_t * context);
-
+scpi_result_t SCPI_SCPI_SenseOutputOn(scpi_t * context);
+scpi_result_t SCPI_SCPI_SenseOutputOnQ(scpi_t * context);
+scpi_result_t SCPI_SenseOutputOn(scpi_t * context);
+scpi_result_t SCPI_SenseOutputOnQ(scpi_t * context);
+scpi_result_t SCPI_SenseGuardOn(scpi_t * context);
+scpi_result_t SCPI_SenseGuardOnQ(scpi_t * context);
 #endif /* INC_SCPI_SENSE_H_ */
