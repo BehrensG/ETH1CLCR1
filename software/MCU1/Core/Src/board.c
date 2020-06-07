@@ -6,6 +6,7 @@
  */
 
 #include <scpi_def.h>
+
 #include "board.h"
 #include "main.h"
 #include "eeprom.h"

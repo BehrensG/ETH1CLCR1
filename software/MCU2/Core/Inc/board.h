@@ -12,7 +12,8 @@
 #include "ADC.h"
 #include "scpi/scpi.h"
 
-
+#define OUTPUT_ON 1
+#define OUTPUT_OFF 0
 
 enum e_scpi_calculate_format
 {
@@ -89,8 +90,8 @@ struct _scpi_sense_fimp
 {
 	double aperture;
 	uint8_t contact_verify;
-	uint8_t auto_range;
-	uint16_t range_value;
+	scpi_bool_t auto_range;
+	uint16_t range;
 };
 
 typedef struct _scpi_sense_fimp scpi_sense_fimp_t;
@@ -101,6 +102,8 @@ struct _scpi_sense
 	scpi_sense_average_t average;
 	scpi_sense_fimp_t fimp;
 	uint8_t function;
+	scpi_bool_t guard;
+	scpi_bool_t output;
 };
 
 typedef struct _scpi_sense scpi_sense_t;
@@ -121,6 +124,7 @@ struct _scpi_source
 	double frequency;
 	double amplitude;
 	scpi_source_offset_t offset;
+	scpi_bool_t output;
 };
 
 typedef struct _scpi_source scpi_source_t;

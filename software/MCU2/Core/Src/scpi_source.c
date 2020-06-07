@@ -5,8 +5,11 @@
  *      Author: grzegorz
  */
 
-#include <scpi_source.h>
-#include <board.h>
+#include "scpi_source.h"
+#include "board.h"
+#include "spi4.h"
+
+extern scpi_choice_def_t boolean_select[];
 
 /*
  * SOURce:FREQuency[:CW] <numeric_value>[HZ|KHZ]
@@ -24,13 +27,18 @@
 
 scpi_result_t SCPI_SourceFrequencyCW(scpi_t * context)
 {
-	double frequency;
-	if(!SCPI_ParamDouble(context, &frequency, TRUE))
+	int8_t tx_data[SPI4_BUFFER] = {[0 ... SPI4_BUFFER - 1] = '\0'};
+	double paramFREQ;
+
+	if(!SCPI_ParamDouble(context, &paramFREQ, TRUE))
 	{
 		return SCPI_RES_ERR;
 	}
 
-	board.scpi.source.frequency = frequency;
+	board.scpi.source.frequency = paramFREQ;
+
+	snprintf(tx_data, SPI4_BUFFER, "SOUR:FREQ:CW %d\r\n", paramFREQ);
+	SPI4_Transmit(tx_data, SPI4_BUFFER, 1000);
 
 	return SCPI_RES_OK;
 }
@@ -46,7 +54,6 @@ scpi_result_t SCPI_SourceFrequencyCW(scpi_t * context)
 scpi_result_t SCPI_SourceFrequencyCWQ(scpi_t * context)
 {
 	SCPI_ResultDouble(context, board.scpi.source.frequency);
-
 	return SCPI_RES_OK;
 }
 
@@ -66,13 +73,19 @@ scpi_result_t SCPI_SourceFrequencyCWQ(scpi_t * context)
 
 scpi_result_t SCPI_SourceVoltageLevelImmediateAmplitude(scpi_t * context)
 {
-	double amplitude;
-	if(!SCPI_ParamDouble(context, &amplitude, TRUE))
+	int8_t tx_data[SPI4_BUFFER] = {[0 ... SPI4_BUFFER - 1] = '\0'};
+	double paramAMPL;
+
+	if(!SCPI_ParamDouble(context, &paramAMPL, TRUE))
 	{
 		return SCPI_RES_ERR;
 	}
 
-	board.scpi.source.amplitude = amplitude;
+	board.scpi.source.amplitude = paramAMPL;
+
+	snprintf(tx_data, SPI4_BUFFER, "SOUR:VOLT %f\r\n", paramAMPL);
+	SPI4_Transmit(tx_data, SPI4_BUFFER, 1000);
+
 	return SCPI_RES_OK;
 }
 
@@ -86,7 +99,6 @@ scpi_result_t SCPI_SourceVoltageLevelImmediateAmplitude(scpi_t * context)
 
 scpi_result_t SCPI_SourceVoltageLevelImmediateAmplitudeQ(scpi_t * context)
 {
-
 	SCPI_ResultDouble(context, board.scpi.source.amplitude);
 	return SCPI_RES_OK;
 }
@@ -110,16 +122,20 @@ scpi_result_t SCPI_SourceVoltageLevelImmediateAmplitudeQ(scpi_t * context)
 
 scpi_result_t SCPI_SourceVoltageLevelImmediateOffset(scpi_t * context)
 {
-	double offset;
-	if(!SCPI_ParamDouble(context, &offset, TRUE))
+	int8_t tx_data[SPI4_BUFFER] = {[0 ... SPI4_BUFFER - 1] = '\0'};
+	double paramOFFS;
+
+	if(!SCPI_ParamDouble(context, &paramOFFS, TRUE))
 	{
 		return SCPI_RES_ERR;
 	}
 
 	if(board.scpi.source.offset.state)
 	{
-		board.scpi.source.offset.value = offset;
+		board.scpi.source.offset.value = paramOFFS;
 
+		snprintf(tx_data, SPI4_BUFFER, "SOUR:VOLT:OFFS %f\r\n", paramOFFS);
+		SPI4_Transmit(tx_data, SPI4_BUFFER, 1000);
 	}
 
 	return SCPI_RES_OK;
@@ -140,7 +156,6 @@ scpi_result_t SCPI_SourceVoltageLevelImmediateOffsetQ(scpi_t * context)
 {
 	SCPI_ResultDouble(context, board.scpi.source.offset.value);
 	return SCPI_RES_OK;
-
 }
 
 /*
@@ -160,13 +175,18 @@ scpi_result_t SCPI_SourceVoltageLevelImmediateOffsetQ(scpi_t * context)
 
 scpi_result_t SCPI_SourceVoltageLevelImmediateState(scpi_t * context)
 {
-	scpi_bool_t offset_state;
-	if(!SCPI_ParamBool(context, &offset_state, TRUE))
+	int8_t tx_data[SPI4_BUFFER] = {[0 ... SPI4_BUFFER - 1] = '\0'};
+	scpi_bool_t paramBOOL;
+
+	if(!SCPI_ParamBool(context, &paramBOOL, TRUE))
 	{
 		return SCPI_RES_ERR;
 	}
 
-	board.scpi.source.offset.state = offset_state;
+	board.scpi.source.offset.state = paramBOOL;
+
+	snprintf(tx_data, SPI4_BUFFER, "SOUR:VOLT:STAT %d\r\n", paramBOOL);
+	SPI4_Transmit(tx_data, SPI4_BUFFER, 1000);
 
 	return SCPI_RES_OK;
 }
@@ -189,3 +209,47 @@ scpi_result_t SCPI_SourceVoltageLevelImmediateStateQ(scpi_t * context)
 	return SCPI_RES_OK;
 }
 
+/*
+ * SOURce:OUTput[:ON]{ON|OFF|1|0}
+ *
+ * @INFO:
+ * Enable/disable stimulus output relay.
+ *
+ * @PARAMETERS:
+ * 				OFF or 0 :		Disable stimulus output relay
+ * 				ON or 1	:		Enable stimulus output relay
+ *
+ */
+
+scpi_result_t SCPI_SourceOutputOn(scpi_t * context)
+{
+	int8_t tx_data[SPI4_BUFFER] = {[0 ... SPI4_BUFFER - 1] = '\0'};
+	scpi_bool_t paramBOOL;
+
+	if(!SCPI_ParamBool(context, &paramBOOL, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	board.scpi.source.output = paramBOOL;
+
+	snprintf(tx_data, SPI4_BUFFER, "SOUR:OUT %d\r\n", paramBOOL);
+	SPI4_Transmit(tx_data, SPI4_BUFFER, 1000);
+
+	return SCPI_RES_OK;
+}
+
+/*
+ * SOURce:OUTput[:ON]?
+ *
+ * @INFO:
+ * Query stimulus output relay status. Returns 0 or 1.
+ *
+ */
+
+
+scpi_result_t SCPI_SourceOutputOnQ(scpi_t * context)
+{
+	SCPI_ResultBool(context, board.scpi.source.output);
+	return SCPI_RES_OK;
+}

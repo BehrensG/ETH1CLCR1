@@ -57,7 +57,7 @@
 
 /* External variables --------------------------------------------------------*/
 extern SPI_HandleTypeDef hspi3;
-extern volatile uint8_t flg_newRxData;
+volatile uint8_t SPI3_ReceiveIndex;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -207,7 +207,7 @@ void SPI3_IRQHandler(void)
 
   /* USER CODE END SPI3_IRQn 0 */
   HAL_SPI_IRQHandler(&hspi3);
-  flg_newRxData = 1;
+  SPI3_ReceiveIndex++;
   /* USER CODE BEGIN SPI3_IRQn 1 */
 
   /* USER CODE END SPI3_IRQn 1 */

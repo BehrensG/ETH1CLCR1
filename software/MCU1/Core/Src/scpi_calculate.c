@@ -5,7 +5,7 @@
  *      Author: grzegorz
  */
 
-#include <scpi_calculate.h>
+#include "scpi_calculate.h"
 #include "spi4.h"
 
 extern scpi_choice_def_t boolean_select[];

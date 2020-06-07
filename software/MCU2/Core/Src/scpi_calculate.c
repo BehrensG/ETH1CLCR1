@@ -5,7 +5,7 @@
  *      Author: grzegorz
  */
 
-#include <scpi_calculate.h>
+#include "scpi_calculate.h"
 
 
 /*

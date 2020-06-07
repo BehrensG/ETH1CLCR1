@@ -6,8 +6,9 @@
  */
 
 #include <stdio.h>
-#include <scpi_source.h>
-#include <spi4.h>
+
+#include "scpi_source.h"
+#include "spi4.h"
 
 extern scpi_choice_def_t boolean_select[];
 
@@ -333,6 +334,57 @@ scpi_result_t SCPI_SourceVoltageLevelImmediateStateQ(scpi_t * context)
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 
 	snprintf(tx_data, SPI4_BUFFER, "SOUR:VOLT:STAT?\r\n");
+	SPI4_Transmit(&tx_data,1000);
+
+	SPI4_Receive(&rx_data, 1000);
+	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+
+	return SCPI_RES_OK;
+}
+
+/*
+ * SOURce:OUTput[:ON]{ON|OFF|1|0}
+ *
+ * @INFO:
+ * Enable/disable stimulus output relay.
+ *
+ * @PARAMETERS:
+ * 				OFF or 0 :		Disable stimulus output relay
+ * 				ON or 1	:		Enable stimulus output relay
+ *
+ */
+
+scpi_result_t SCPI_SourceOutputOn(scpi_t * context)
+{
+	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	scpi_choice_def_t paramSTATE;
+
+	if(!SCPI_ParamChoice(context, boolean_select, &paramSTATE, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	snprintf(tx_data, SPI4_BUFFER, "SOUR:OUT:ON %d\r\n", paramSTATE.tag);
+	SPI4_Transmit(&tx_data,1000);
+
+	return SCPI_RES_OK;
+}
+
+/*
+ * SOURce:OUTput[:ON]?
+ *
+ * @INFO:
+ * Query stimulus output relay status. Returns 0 or 1.
+ *
+ */
+
+
+scpi_result_t SCPI_SourceOutputOnQ(scpi_t * context)
+{
+	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+
+	snprintf(tx_data, SPI4_BUFFER, "SOUR:OUT:ON?\r\n");
 	SPI4_Transmit(&tx_data,1000);
 
 	SPI4_Receive(&rx_data, 1000);

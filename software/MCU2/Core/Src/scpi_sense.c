@@ -5,8 +5,9 @@
  *      Author: grzegorz
  */
 
-#include <scpi_sense.h>
+#include "scpi_sense.h"
 #include "board.h"
+#include "relay.h"
 
  /*
   * [SENSe:]AVERage:COUNt <numeric_value>
@@ -328,6 +329,35 @@ scpi_result_t SCPI_SenseFimpedanceRangeAutoQ(scpi_t * context)
 
 scpi_result_t SCPI_SenseFimpedanceRange(scpi_t * context)
 {
+	int32_t paramRANG;
+
+	if(!SCPI_ParamInt32(context, &paramRANG, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	board.scpi.sense.fimp.range = paramRANG;
+
+	RELAY_9012_Control(SR_10CTR | SR_100CTR | SR_1KCTR | SR_10KCTR, RELAY_OFF);
+	RELAY_AQY212_Control(RR_10CTR | RR_100CTR | RR_1KCTR | RR_10KCTR | RR_100KCTR, RELAY_OFF);
+
+	switch(paramRANG)
+	{
+		case 10: 	RELAY_AQY212_Control(RR_10CTR, RELAY_ON);
+					RELAY_9012_Control(SR_10CTR, RELAY_ON); break;
+
+		case 100: 	RELAY_AQY212_Control(RR_100CTR, RELAY_ON);
+					RELAY_9012_Control(SR_100CTR, RELAY_ON); break;
+
+		case 1000:  RELAY_AQY212_Control(RR_1KCTR, RELAY_ON);
+					RELAY_9012_Control(SR_1KCTR, RELAY_ON); break;
+
+		case 10000: RELAY_AQY212_Control(RR_10KCTR, RELAY_ON);
+					RELAY_9012_Control(SR_10KCTR, RELAY_ON); break;
+
+		case 100000:RELAY_AQY212_Control(RR_100KCTR, RELAY_ON); break;
+	}
+
 	return SCPI_RES_OK;
 
 }
@@ -342,7 +372,7 @@ scpi_result_t SCPI_SenseFimpedanceRange(scpi_t * context)
 
 scpi_result_t SCPI_SenseFimpedanceRangeQ(scpi_t * context)
 {
-
+	SCPI_ResultInt32(context, board.scpi.sense.fimp.range);
 	return SCPI_RES_OK;
 }
 
@@ -376,5 +406,87 @@ scpi_result_t SCPI_SenseFunctionOn(scpi_t * context)
 scpi_result_t SCPI_SenseFunctionOnQ(scpi_t * context)
 {
 
+	return SCPI_RES_OK;
+}
+
+/*
+ * [SENSe:]OUTput[:ON] {ON|OFF|1|0}
+ *
+ * @INFO:
+ * Enable/disable device output relay.
+ *
+ * @PARAMETERS:
+ * 				OFF or 0 :	Disables output relay
+ * 				ON or 1 :	Enables output relay
+ *
+ */
+
+scpi_result_t SCPI_SCPI_SenseOutputOn(scpi_t * context)
+{
+	scpi_bool_t paramBOOL;
+
+	if(!SCPI_ParamBool(context, &paramBOOL, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	board.scpi.sense.output = paramBOOL;
+	RELAY_HE3621_Control(CXN_REL1 | CXN_REL2 | CXN_REL5 | CXN_REL6, paramBOOL);
+
+	return SCPI_RES_OK;
+}
+
+/*
+ * [SENSe:]OUTput[:ON]?
+ *
+ * @INFO:
+ * Query device output relay status. Returns 0 or 1.
+ *
+ */
+
+scpi_result_t SCPI_SCPI_SenseOutputOnQ(scpi_t * context)
+{
+	SCPI_ResultBool(context, board.scpi.sense.output);
+	return SCPI_RES_OK;
+}
+
+/*
+ * [SENSe:]GUARD[:ON] {ON|OFF|1|0}
+ *
+ * @INFO:
+ * Enable/disable device guard relay.
+ *
+ * @PARAMETERS:
+ * 				OFF or 0 :	Disables guard relay
+ * 				ON or 1 :	Enables guard relay
+ *
+ */
+
+scpi_result_t SCPI_SenseGuardOn(scpi_t * context)
+{
+	scpi_bool_t paramBOOL;
+
+	if(!SCPI_ParamBool(context, &paramBOOL, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+
+	board.scpi.sense.guard = paramBOOL;
+	RELAY_HE3621_Control(CXN_REL3 | CXN_REL4, paramBOOL);
+
+	return SCPI_RES_OK;
+}
+
+/*
+ * [SENSe:]GUARD[:ON]?
+ *
+ * @INFO:
+ * Query device guard relay. Returns 0 or 1.
+ *
+ */
+
+scpi_result_t SCPI_SenseGuardOnQ(scpi_t * context)
+{
+	SCPI_ResultBool(context, board.scpi.sense.guard);
 	return SCPI_RES_OK;
 }

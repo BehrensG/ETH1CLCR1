@@ -6,7 +6,7 @@
  */
 
 
-#include <scpi_misc.h>
+#include "scpi_misc.h"
 
 
 /*

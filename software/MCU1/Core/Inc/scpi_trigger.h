@@ -8,7 +8,7 @@
 #ifndef INC_SCPI_TRIGGER_H_
 #define INC_SCPI_TRIGGER_H_
 
-#include <scpi/scpi.h>
+#include "scpi/scpi.h"
 
 #define SLOPE_POS 1
 #define SLOPE_NEG 2

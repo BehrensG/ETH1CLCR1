@@ -8,7 +8,7 @@
 #ifndef INC_SCPI_SYSTEM_H_
 #define INC_SCPI_SYSTEM_H_
 
-#include <scpi/scpi.h>
+#include "scpi/scpi.h"
 
 #define SECURITY_ON 1
 #define SECURITY_OFF 0

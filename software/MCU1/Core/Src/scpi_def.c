@@ -34,22 +34,22 @@
  *
  */
 
-#include <scpi_calculate.h>
-#include <scpi_calibration.h>
-#include <scpi_def.h>
-#include <scpi_measure.h>
-#include <scpi_misc.h>
-#include <scpi_sense.h>
-#include <scpi_source.h>
-#include <scpi_system.h>
-#include <scpi_trigger.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "scpi_calculate.h"
+#include "scpi_calibration.h"
+#include "scpi_def.h"
+#include "scpi_measure.h"
+#include "scpi_misc.h"
+#include "scpi_sense.h"
+#include "scpi_source.h"
+#include "scpi_system.h"
+#include "scpi_trigger.h"
 #include "scpi/scpi.h"
 #include "board.h"
 #include "main.h"
-
 #include "spi4.h"
 #include "eeprom.h"
 
@@ -196,6 +196,8 @@ const scpi_command_t scpi_commands[] = {
 	{.pattern = "SOURce:VOLTage[:LEVel][:IMMediate]:OFFSet?", .callback = SCPI_SourceVoltageLevelImmediateOffsetQ,},
 	{.pattern = "SOURce:VOLTage[:LEVel][:IMMediate]:STATe", .callback = SCPI_SourceVoltageLevelImmediateState,},
 	{.pattern = "SOURce:VOLTage[:LEVel][:IMMediate]:STATe?", .callback = SCPI_SourceVoltageLevelImmediateStateQ,},
+	{.pattern = "SOURce:OUTput[:ON]", .callback = SCPI_SourceOutputOn,},
+	{.pattern = "SOURce:OUTput[:ON]?", .callback = SCPI_SourceOutputOnQ,},
 
 	{.pattern = "FETCh?", .callback = SCPI_FetchQ,},
 
@@ -203,28 +205,33 @@ const scpi_command_t scpi_commands[] = {
 	{.pattern = "INITiate:CONTinuous", .callback = SCPI_InitiateContinuous,},
 	{.pattern = "INITiate:CONTinuous?", .callback = SCPI_InitiateContinuousQ,},
 
-	{.pattern = "[SENSe:]AVERage:COUNt", .callback = SCPI_SenseAverageCount,}, // <numeric value> MIN 1 MAX 256, set the averaging rate
-	{.pattern = "[SENSe:]AVERage:COUNt?", .callback = SCPI_SenseAverageCountQ,}, // Read the averaging rate
-	{.pattern = "[SENSe:]AVERage[:STATe]", .callback = SCPI_SenseAverageState,}, // {ON|OFF|1|0}, enable averaging
-	{.pattern = "[SENSe:]AVERage[:STATe]?", .callback = SCPI_SenseAverageStateQ,}, // Read averaging state, return 1 or 0
-	{.pattern = "[SENSe:]CORRection:CKIT:STANdard", .callback = SCPI_SenseCorrectionCkitStandard,}, //{STAN3}{<numeric_value>,<numeric_value>}, Enters the reference value for the LOAD correction.
-	{.pattern = "[SENSe:]CORRection:CKIT:STANdard?", .callback = SCPI_SenseCorrectionCkitStandardQ,}, //{STAN3}
-	{.pattern = "[SENSe:]CORRection:COLLect[:ACQuire]", .callback = SCPI_SenseCorrectionCollectAquire,}, //{STAN1|STAN2|STAN3}
-	{.pattern = "[SENSe:]CORRection:COLLect:METHod", .callback = SCPI_SenseCorrectionCollectMethod,}, //{REFL2|REFL3}, Sets the measurement error correction method.
+	{.pattern = "[SENSe:]AVERage:COUNt", .callback = SCPI_SenseAverageCount,},
+	{.pattern = "[SENSe:]AVERage:COUNt?", .callback = SCPI_SenseAverageCountQ,},
+	{.pattern = "[SENSe:]AVERage[:STATe]", .callback = SCPI_SenseAverageState,},
+	{.pattern = "[SENSe:]AVERage[:STATe]?", .callback = SCPI_SenseAverageStateQ,},
+	{.pattern = "[SENSe:]CORRection:CKIT:STANdard", .callback = SCPI_SenseCorrectionCkitStandard,},
+	{.pattern = "[SENSe:]CORRection:CKIT:STANdard?", .callback = SCPI_SenseCorrectionCkitStandardQ,},
+	{.pattern = "[SENSe:]CORRection:COLLect[:ACQuire]", .callback = SCPI_SenseCorrectionCollectAquire,},
+	{.pattern = "[SENSe:]CORRection:COLLect:METHod", .callback = SCPI_SenseCorrectionCollectMethod,},
 	{.pattern = "[SENSe:]CORRection:COLLect:METHod?", .callback = SCPI_SenseCorrectionCollectMethodQ,},
-	{.pattern = "[SENSe:]CORRection:DATA?", .callback = SCPI_SenseCorrectionDataQ,}, //{STAN1|STAN2|STAN3}
-	{.pattern = "[SENSe:]CORRection:STATe", .callback = SCPI_SenseCorrectionState,}, //{ON|OFF|1|0}, Set the measurement error correction.
-	{.pattern = "[SENSe:]CORRection:STATe?", .callback = SCPI_SenseCorrectionStateQ,}, // Queries the measurement error correction status.
-	{.pattern = "[SENSe:]FIMPedance:APERture", .callback = SCPI_SenseFimpedanceAperture,}, // <numeric_value> {[MS|S]}
-	{.pattern = "[SENSe:]FIMPedance:APERture?", .callback = SCPI_SenseFimpedanceApertureQ,}, // <numeric_value> {[MS|S]}
-	{.pattern = "[SENSe:]FIMPedance:CONTact:VERify", .callback = SCPI_SenseFimpedanceContactVerify,}, //{ON|OFF|1|0}
+	{.pattern = "[SENSe:]CORRection:DATA?", .callback = SCPI_SenseCorrectionDataQ,},
+	{.pattern = "[SENSe:]CORRection:STATe", .callback = SCPI_SenseCorrectionState,},
+	{.pattern = "[SENSe:]CORRection:STATe?", .callback = SCPI_SenseCorrectionStateQ,},
+	{.pattern = "[SENSe:]FIMPedance:APERture", .callback = SCPI_SenseFimpedanceAperture,},
+	{.pattern = "[SENSe:]FIMPedance:APERture?", .callback = SCPI_SenseFimpedanceApertureQ,},
+	{.pattern = "[SENSe:]FIMPedance:CONTact:VERify", .callback = SCPI_SenseFimpedanceContactVerify,},
 	{.pattern = "[SENSe:]FIMPedance:CONTact:VERify?", .callback = SCPI_SenseFimpedanceContactVerifyQ,},
-	{.pattern = "[SENSe:]FIMPedance:RANGe:AUTO", .callback = SCPI_SenseFimpedanceRangeAuto,}, //{ON|OFF|1|0}
+	{.pattern = "[SENSe:]FIMPedance:RANGe:AUTO", .callback = SCPI_SenseFimpedanceRangeAuto,},
 	{.pattern = "[SENSe:]FIMPedance:RANGe:AUTO?", .callback = SCPI_SenseFimpedanceRangeAutoQ,},
-	{.pattern = "[SENSe:]FIMPedance:RANGe", .callback = SCPI_SenseFimpedanceRange,}, // {<numeric_value> (valid: 10, 100, 1000, 10000, 100000)}{[OHM|KOHM]}
+	{.pattern = "[SENSe:]FIMPedance:RANGe", .callback = SCPI_SenseFimpedanceRange,},
 	{.pattern = "[SENSe:]FIMPedance:RANGe?", .callback = SCPI_SenseFimpedanceRangeQ,},
-	{.pattern = "[SENSe:]FUNCtion[:ON]", .callback = SCPI_SenseFunctionOn,}, // {FIMPedance|FADMittance}
+	{.pattern = "[SENSe:]FUNCtion[:ON]", .callback = SCPI_SenseFunctionOn,},
 	{.pattern = "[SENSe:]FUNCtion[:ON]?", .callback = SCPI_SenseFunctionOnQ,},
+	{.pattern = "[SENSe:]OUTput[:ON]", .callback = SCPI_SenseOutputOn,},
+	{.pattern = "[SENSe:]OUTput[:ON]?", .callback = SCPI_SenseOutputOnQ,},
+	{.pattern = "[SENSe:]GUARD[:ON]", .callback = SCPI_SenseGuardOn,},
+	{.pattern = "[SENSe:]GUARD[:ON]?", .callback = SCPI_SenseGuardOnQ,},
+
 
 	{.pattern = "CALCulate:FORMat", .callback = SCPI_CalculateFormat,},
 	{.pattern = "CALCulate:FORMat?", .callback = SCPI_CalculateFormatQ,},

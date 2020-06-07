@@ -5,6 +5,7 @@
  *      Author: grzegorz
  */
 
+#include <math.h>
 #include "AD5453.h"
 
 extern SPI_HandleTypeDef hspi2;
@@ -38,7 +39,6 @@ static BRD_StatusTypeDef AD5453_WriteToRegister(uint16_t value)
 
 BRD_StatusTypeDef AD5453_SetVoltage(double amplitude)
 {
-	BRD_StatusTypeDef spi_status;
 	uint16_t amplitude_reg = AD5453_ConvertAmplitudeToRegister(amplitude);
 	return AD5453_WriteToRegister( AD5453_LOAD_AND_UPDATE | amplitude_reg);
 }

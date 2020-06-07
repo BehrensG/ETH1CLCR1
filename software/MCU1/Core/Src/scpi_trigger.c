@@ -6,11 +6,13 @@
  */
 
 
-#include <scpi_trigger.h>
+
 #include <stdio.h>
+
 #include "main.h"
 #include "board.h"
 #include "spi4.h"
+#include "scpi_trigger.h"
 
 extern scpi_choice_def_t boolean_select[];
 

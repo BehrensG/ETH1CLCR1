@@ -7,8 +7,8 @@
 
 
 #include <string.h>
-#include "hdc1080.h"
 
+#include "hdc1080.h"
 
 static HAL_StatusTypeDef HDC1080_read_reg(I2C_HandleTypeDef *hi2c, uint16_t delay, uint8_t reg, uint16_t *val)
 {
