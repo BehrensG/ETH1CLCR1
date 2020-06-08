@@ -56,6 +56,7 @@
 #include "lwip/inet.h"
 #include "lwip/api.h"
 #include "queue.h"
+#include "spi4.h"
 
 #define DEVICE_PORT 2000
 #define CONTROL_PORT 2001
@@ -154,8 +155,15 @@ scpi_result_t SCPI_Control(scpi_t * context, scpi_ctrl_name_t ctrl, scpi_reg_val
 }
 
 scpi_result_t SCPI_Reset(scpi_t * context) {
+
     (void) context;
-    iprintf("**Reset\r\n");
+	int8_t tx_data[SPI4_BUFFER] = {[0 ... SPI4_BUFFER - 1] = '\0'};
+
+	// Send reset command to MCU2
+	snprintf(tx_data, SPI4_BUFFER, "*RST\r\n");
+	SPI4_Transmit(&tx_data,1000);
+	osDelay(100);
+	NVIC_SystemReset();
     return SCPI_RES_OK;
 }
 
