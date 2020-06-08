@@ -12,7 +12,7 @@
 extern SPI_HandleTypeDef hspi5;
 
 static BRD_StatusTypeDef AD5689_WriteToRegister(uint32_t value)
-{	uint8_t tx_data[2];
+{
 	uint8_t tx_data[] = {0x00, 0x00, 0x00};
 	BRD_StatusTypeDef spi_status;
 

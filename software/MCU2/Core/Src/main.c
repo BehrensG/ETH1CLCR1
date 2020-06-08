@@ -601,13 +601,14 @@ static void MX_SPI5_Init(void)
   
   LL_AHB4_GRP1_EnableClock(LL_AHB4_GRP1_PERIPH_GPIOF);
   /**SPI5 GPIO Configuration  
+  PF6   ------> SPI5_NSS
   PF7   ------> SPI5_SCK
   PF8   ------> SPI5_MISO
   PF9   ------> SPI5_MOSI 
   */
-  GPIO_InitStruct.Pin = DAC_SCLK_Pin|DAC_NOT_USED_Pin|DAC_DIN_Pin;
+  GPIO_InitStruct.Pin = DAC_nSYNC_Pin|DAC_SCLK_Pin|DAC_NOT_USED_Pin|DAC_DIN_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
-  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
   GPIO_InitStruct.Alternate = LL_GPIO_AF_5;
@@ -619,11 +620,11 @@ static void MX_SPI5_Init(void)
   /* SPI5 parameter configuration*/
   SPI_InitStruct.TransferDirection = LL_SPI_FULL_DUPLEX;
   SPI_InitStruct.Mode = LL_SPI_MODE_MASTER;
-  SPI_InitStruct.DataWidth = LL_SPI_DATAWIDTH_4BIT;
+  SPI_InitStruct.DataWidth = LL_SPI_DATAWIDTH_8BIT;
   SPI_InitStruct.ClockPolarity = LL_SPI_POLARITY_LOW;
   SPI_InitStruct.ClockPhase = LL_SPI_PHASE_1EDGE;
-  SPI_InitStruct.NSS = LL_SPI_NSS_SOFT;
-  SPI_InitStruct.BaudRate = LL_SPI_BAUDRATEPRESCALER_DIV2;
+  SPI_InitStruct.NSS = LL_SPI_NSS_HARD_OUTPUT;
+  SPI_InitStruct.BaudRate = LL_SPI_BAUDRATEPRESCALER_DIV4;
   SPI_InitStruct.BitOrder = LL_SPI_MSB_FIRST;
   SPI_InitStruct.CRCCalculation = LL_SPI_CRCCALCULATION_DISABLE;
   SPI_InitStruct.CRCPoly = 0x0;
@@ -736,7 +737,7 @@ static void MX_GPIO_Init(void)
   LL_GPIO_SetOutputPin(MCU3_nSS_GPIO_Port, MCU3_nSS_Pin);
 
   /**/
-  LL_GPIO_SetOutputPin(GPIOF, DAC_nCLR_Pin|DAC_nSYNC_Pin);
+  LL_GPIO_SetOutputPin(DAC_nCLR_GPIO_Port, DAC_nCLR_Pin);
 
   /**/
   LL_GPIO_SetOutputPin(FB_nCS_GPIO_Port, FB_nCS_Pin);
@@ -793,14 +794,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
   LL_GPIO_Init(GPIOF, &GPIO_InitStruct);
-
-  /**/
-  GPIO_InitStruct.Pin = DAC_nSYNC_Pin;
-  GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
-  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-  LL_GPIO_Init(DAC_nSYNC_GPIO_Port, &GPIO_InitStruct);
 
   /**/
   GPIO_InitStruct.Pin = MCU1_TX_DATA_Pin|MCU1_RX_DATA_Pin;

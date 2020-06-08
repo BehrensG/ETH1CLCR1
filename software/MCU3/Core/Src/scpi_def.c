@@ -31,8 +31,10 @@ size_t SCPI_Write(scpi_t * context, const char * data, size_t len) {
 
 
 scpi_result_t SCPI_Reset(scpi_t * context) {
-    (void) context;
 
+	(void) context;
+
+	NVIC_SystemReset();
     return SCPI_RES_OK;
 }
 

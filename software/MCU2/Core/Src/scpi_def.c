@@ -20,6 +20,7 @@
 #include "scpi_misc.h"
 #include "scpi_sense.h"
 #include "scpi_source.h"
+#include "spi4.h"
 
 extern uint32_t SPI6_TransmitSize;
 extern __IO uint8_t SPI6_TxBuffer[];
@@ -44,7 +45,14 @@ size_t SCPI_Write(scpi_t * context, const char * data, size_t len) {
 
 
 scpi_result_t SCPI_Reset(scpi_t * context) {
-    (void) context;
+
+	(void) context;
+    int8_t tx_data[SPI4_BUFFER] = {[0 ... SPI4_BUFFER - 1] = '\0'};
+
+	snprintf(tx_data, SPI4_BUFFER, "*RST\r\n");
+	SPI4_Transmit(tx_data, SPI4_BUFFER, 1000);
+	HAL_Delay(10);
+	NVIC_SystemReset();
 
     return SCPI_RES_OK;
 }
