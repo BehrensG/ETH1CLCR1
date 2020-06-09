@@ -57,7 +57,7 @@
 
 /* External variables --------------------------------------------------------*/
 extern SPI_HandleTypeDef hspi3;
-volatile uint8_t SPI3_ReceiveIndex;
+extern __IO uint8_t SPI3_ReceiveIndex;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */

@@ -55,7 +55,7 @@ SPI_HandleTypeDef hspi5;
 
 /* Buffer used for reception */
 int8_t SPI3_RxBuffer[SPI3_BUFFERSIZE] = {[0 ... SPI3_BUFFERSIZE - 1] = '\0'};
-volatile uint8_t SPI3_ReceiveIndex  = 0;
+__IO uint8_t SPI3_ReceiveIndex  = 0;
 
 /* USER CODE END PV */
 
@@ -134,7 +134,7 @@ int main(void)
 
 	    if(HAL_OK == HAL_SPI_Receive_IT(&hspi3, (uint8_t *)SPI3_RxBuffer, SPI3_BUFFERSIZE))
 	    {
-	    	if(SPI3_BUFFERSIZE == SPI3_ReceiveIndex)
+	    	if(SPI3_BUFFERSIZE <= SPI3_ReceiveIndex)
 	    	{
 	    		SCPI_Input(&scpi_context, SPI3_RxBuffer, SPI3_ReceiveIndex);
 	    		SPI3_ReceiveIndex = 0;

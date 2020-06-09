@@ -29,10 +29,9 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32h7xx_hal.h"
-#include "stm32h7xx.h"
-#include "stm32h7xx_ll_i2c.h"
 #include "stm32h7xx_ll_rcc.h"
 #include "stm32h7xx_ll_spi.h"
+#include "stm32h7xx.h"
 #include "stm32h7xx_ll_system.h"
 #include "stm32h7xx_ll_gpio.h"
 #include "stm32h7xx_ll_exti.h"

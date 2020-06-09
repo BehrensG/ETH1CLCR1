@@ -48,6 +48,8 @@
 
 /* Private variables ---------------------------------------------------------*/
 
+I2C_HandleTypeDef hi2c4;
+
 /* USER CODE BEGIN PV */
 __IO uint8_t SPI6_TxBuffer[SPI6_BUFFOR_SIZE] = {[0 ... SPI6_BUFFOR_SIZE -1] = '\0'};
 uint32_t SPI6_NbDataToTransmit = SPI6_BUFFOR_SIZE;
@@ -279,44 +281,34 @@ static void MX_I2C4_Init(void)
 
   /* USER CODE END I2C4_Init 0 */
 
-  LL_I2C_InitTypeDef I2C_InitStruct = {0};
-
-  LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
-
-  LL_AHB4_GRP1_EnableClock(LL_AHB4_GRP1_PERIPH_GPIOF);
-  /**I2C4 GPIO Configuration  
-  PF14   ------> I2C4_SCL
-  PF15   ------> I2C4_SDA 
-  */
-  GPIO_InitStruct.Pin = EEPROM_SCL_Pin|EEPROM_SDA_Pin;
-  GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
-  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
-  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_OPENDRAIN;
-  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-  GPIO_InitStruct.Alternate = LL_GPIO_AF_4;
-  LL_GPIO_Init(GPIOF, &GPIO_InitStruct);
-
-  /* Peripheral clock enable */
-  LL_APB4_GRP1_EnableClock(LL_APB4_GRP1_PERIPH_I2C4);
-
   /* USER CODE BEGIN I2C4_Init 1 */
 
   /* USER CODE END I2C4_Init 1 */
-  /** I2C Initialization 
+  hi2c4.Instance = I2C4;
+  hi2c4.Init.Timing = 0x307075B1;
+  hi2c4.Init.OwnAddress1 = 0;
+  hi2c4.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  hi2c4.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  hi2c4.Init.OwnAddress2 = 0;
+  hi2c4.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
+  hi2c4.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  hi2c4.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  if (HAL_I2C_Init(&hi2c4) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure Analogue filter 
   */
-  LL_I2C_EnableAutoEndMode(I2C4);
-  LL_I2C_SetOwnAddress2(I2C4, 0, LL_I2C_OWNADDRESS2_NOMASK);
-  LL_I2C_DisableOwnAddress2(I2C4);
-  LL_I2C_DisableGeneralCall(I2C4);
-  LL_I2C_EnableClockStretching(I2C4);
-  I2C_InitStruct.PeripheralMode = LL_I2C_MODE_I2C;
-  I2C_InitStruct.Timing = 0x307075B1;
-  I2C_InitStruct.AnalogFilter = LL_I2C_ANALOGFILTER_ENABLE;
-  I2C_InitStruct.DigitalFilter = 0;
-  I2C_InitStruct.OwnAddress1 = 0;
-  I2C_InitStruct.TypeAcknowledge = LL_I2C_ACK;
-  I2C_InitStruct.OwnAddrSize = LL_I2C_OWNADDRESS1_7BIT;
-  LL_I2C_Init(I2C4, &I2C_InitStruct);
+  if (HAL_I2CEx_ConfigAnalogFilter(&hi2c4, I2C_ANALOGFILTER_ENABLE) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure Digital filter 
+  */
+  if (HAL_I2CEx_ConfigDigitalFilter(&hi2c4, 0) != HAL_OK)
+  {
+    Error_Handler();
+  }
   /* USER CODE BEGIN I2C4_Init 2 */
 
   /* USER CODE END I2C4_Init 2 */
@@ -601,12 +593,11 @@ static void MX_SPI5_Init(void)
   
   LL_AHB4_GRP1_EnableClock(LL_AHB4_GRP1_PERIPH_GPIOF);
   /**SPI5 GPIO Configuration  
-  PF6   ------> SPI5_NSS
   PF7   ------> SPI5_SCK
   PF8   ------> SPI5_MISO
   PF9   ------> SPI5_MOSI 
   */
-  GPIO_InitStruct.Pin = DAC_nSYNC_Pin|DAC_SCLK_Pin|DAC_NOT_USED_Pin|DAC_DIN_Pin;
+  GPIO_InitStruct.Pin = DAC_SCLK_Pin|DAC_NOT_USED_Pin|DAC_DIN_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
   GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
@@ -623,7 +614,7 @@ static void MX_SPI5_Init(void)
   SPI_InitStruct.DataWidth = LL_SPI_DATAWIDTH_8BIT;
   SPI_InitStruct.ClockPolarity = LL_SPI_POLARITY_LOW;
   SPI_InitStruct.ClockPhase = LL_SPI_PHASE_1EDGE;
-  SPI_InitStruct.NSS = LL_SPI_NSS_HARD_OUTPUT;
+  SPI_InitStruct.NSS = LL_SPI_NSS_SOFT;
   SPI_InitStruct.BaudRate = LL_SPI_BAUDRATEPRESCALER_DIV4;
   SPI_InitStruct.BitOrder = LL_SPI_MSB_FIRST;
   SPI_InitStruct.CRCCalculation = LL_SPI_CRCCALCULATION_DISABLE;
@@ -737,7 +728,7 @@ static void MX_GPIO_Init(void)
   LL_GPIO_SetOutputPin(MCU3_nSS_GPIO_Port, MCU3_nSS_Pin);
 
   /**/
-  LL_GPIO_SetOutputPin(DAC_nCLR_GPIO_Port, DAC_nCLR_Pin);
+  LL_GPIO_SetOutputPin(GPIOF, DAC_nCLR_Pin|DAC_nSYNC_Pin);
 
   /**/
   LL_GPIO_SetOutputPin(FB_nCS_GPIO_Port, FB_nCS_Pin);
@@ -788,7 +779,8 @@ static void MX_GPIO_Init(void)
   LL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
   /**/
-  GPIO_InitStruct.Pin = DAC_nLDAC_Pin|DAC_nCLR_Pin|MCU2_STATUS_Pin|EEPROM_WP_Pin;
+  GPIO_InitStruct.Pin = DAC_nLDAC_Pin|DAC_nCLR_Pin|DAC_nSYNC_Pin|MCU2_STATUS_Pin 
+                          |EEPROM_WP_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
   GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;

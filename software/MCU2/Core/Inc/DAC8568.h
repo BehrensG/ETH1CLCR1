@@ -19,7 +19,7 @@
 #define DAC_CH_ALL			(15<<20)U
 
 #define DAC_UPDATE_SINGLE	(1<<24)U
-#define DAC_WR_UPD_SINGLE	(5<<24)U
+#define DAC_WR_UPD_SINGLE	(3<<24)U
 #define DAC_WR_UPD_ALL		(1<<25)U
 
 #define DAC_CLEAR_ZERO 		(5<<24)U
