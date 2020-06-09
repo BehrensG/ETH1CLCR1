@@ -21,6 +21,7 @@
 #include "scpi_sense.h"
 #include "scpi_source.h"
 #include "spi4.h"
+#include "DAC8568.h"
 
 extern uint32_t SPI6_TransmitSize;
 extern __IO uint8_t SPI6_TxBuffer[];
@@ -59,6 +60,7 @@ scpi_result_t SCPI_Reset(scpi_t * context) {
 
 static scpi_result_t TEST_TSQ(scpi_t * context)
 {
+	DAC8568_SetVoltage(DAC_CH_A | DAC_WR_UPD_SINGLE, 1.0);
 
 	return SCPI_RES_OK;
 }
@@ -174,6 +176,9 @@ const scpi_command_t scpi_commands[] = {
 	{.pattern = "CALCulate:MATH:EXPRession:NAME?", .callback = SCPI_CalculateMathExpressionNameQ,},
 	{.pattern = "CALCulate:MATH:STATe", .callback = SCPI_CalculateMathState,},
 	{.pattern = "CALCulate:MATH:STATe?", .callback = SCPI_CalculateMathStateQ,},
+
+	{.pattern = "TS?", .callback = TEST_TSQ,},
+
 
 	SCPI_CMD_LIST_END
 };

@@ -340,22 +340,27 @@ scpi_result_t SCPI_SenseFimpedanceRange(scpi_t * context)
 
 	RELAY_9012_Control(SR_10CTR | SR_100CTR | SR_1KCTR | SR_10KCTR, RELAY_OFF);
 	RELAY_AQY212_Control(RR_10CTR | RR_100CTR | RR_1KCTR | RR_10KCTR | RR_100KCTR, RELAY_OFF);
+	RELAY_TQ2SA_Control(RELAY_OFF);
 
 	switch(paramRANG)
 	{
-		case 10: 	RELAY_AQY212_Control(RR_10CTR, RELAY_ON);
-					RELAY_9012_Control(SR_10CTR, RELAY_ON); break;
+		case 10: 		RELAY_AQY212_Control(RR_10CTR, RELAY_ON);
+						RELAY_9012_Control(SR_10CTR, RELAY_ON);
+						RELAY_TQ2SA_Control(RELAY_ON); break;
 
-		case 100: 	RELAY_AQY212_Control(RR_100CTR, RELAY_ON);
-					RELAY_9012_Control(SR_100CTR, RELAY_ON); break;
+		case 100: 		RELAY_AQY212_Control(RR_100CTR, RELAY_ON);
+						RELAY_9012_Control(SR_100CTR, RELAY_ON);
+						RELAY_TQ2SA_Control(RELAY_ON); break;
 
-		case 1000:  RELAY_AQY212_Control(RR_1KCTR, RELAY_ON);
-					RELAY_9012_Control(SR_1KCTR, RELAY_ON); break;
+		case 1000:  	RELAY_AQY212_Control(RR_1KCTR, RELAY_ON);
+						RELAY_9012_Control(SR_1KCTR, RELAY_ON);
+						RELAY_TQ2SA_Control(RELAY_ON); break;
 
-		case 10000: RELAY_AQY212_Control(RR_10KCTR, RELAY_ON);
-					RELAY_9012_Control(SR_10KCTR, RELAY_ON); break;
+		case 10000: 	RELAY_AQY212_Control(RR_10KCTR, RELAY_ON);
+						RELAY_9012_Control(SR_10KCTR, RELAY_ON);
+						RELAY_TQ2SA_Control(RELAY_ON); break;
 
-		case 100000:RELAY_AQY212_Control(RR_100KCTR, RELAY_ON); break;
+		case 100000:	RELAY_AQY212_Control(RR_100KCTR, RELAY_ON); RELAY_TQ2SA_Control(RELAY_ON); break;
 	}
 
 	return SCPI_RES_OK;

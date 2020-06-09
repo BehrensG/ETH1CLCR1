@@ -245,7 +245,7 @@ BRD_StatusTypeDef ADC_AD738x_ReferenceSelect(ad738x_ref_sel ref_sel, uint32_t ti
 
 }
 
-BRD_StatusTypeDef ADC_AD7380_Init()
+BRD_StatusTypeDef ADC_AD7380_Init(void)
 {
 	BRD_StatusTypeDef spi_status;
 	ad738x_init_param ad7380_init;
@@ -270,3 +270,7 @@ BRD_StatusTypeDef ADC_AD7380_Init()
 	return BRD_OK;
 }
 
+BRD_StatusTypeDef ADC_OffsetCalibration(void)
+{
+	return BRD_OK;
+}
