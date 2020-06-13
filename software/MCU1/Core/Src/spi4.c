@@ -43,7 +43,7 @@ BRD_StatusTypeDef SPI4_Transmit(const int8_t str[], uint32_t timeout)
 	}
 
 	HAL_GPIO_WritePin(MCU1_TX_DATA_GPIO_Port, MCU1_TX_DATA_Pin, 1);
-	status = HAL_SPI_Transmit(&hspi4, tx_data, sizeof(tx_data)/sizeof(int8_t), 10000);
+	status = HAL_SPI_Transmit(&hspi4, tx_data, SPI4_BUFFER, 10000);
 	HAL_GPIO_WritePin(MCU1_TX_DATA_GPIO_Port, MCU1_TX_DATA_Pin, 0);
 
 	return status;

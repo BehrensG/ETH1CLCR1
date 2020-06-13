@@ -259,7 +259,7 @@ static int processIoListen(user_data_t * user_data) {
             netconn_delete(newconn);
         } else {
             // connection established
-            iprintf("***Connection established %s\r\n", inet_ntoa(newconn->pcb.ip->remote_ip));
+          //  iprintf("***Connection established %s\r\n", inet_ntoa(newconn->pcb.ip->remote_ip));
             user_data->io = newconn;
         }
     }
@@ -276,7 +276,7 @@ static int processSrqIoListen(user_data_t * user_data) {
             netconn_delete(newconn);
         } else {
             // control connection established
-            iprintf("***Control Connection established %s\r\n", inet_ntoa(newconn->pcb.ip->remote_ip));
+          //  iprintf("***Control Connection established %s\r\n", inet_ntoa(newconn->pcb.ip->remote_ip));
             user_data->control_io = newconn;
         }
     }
@@ -418,12 +418,12 @@ static void scpi_server_thread(void *arg) {
         if (evt.cmd == SCPI_MSG_SET_ERROR) {
             setError(evt.param2);
         }
-
+        osDelay(pdMS_TO_TICKS(5));
     }
 
     vTaskDelete(NULL);
 }
 
 void scpi_server_init(void) {
-    sys_thread_new("SCPI", scpi_server_thread, NULL, 2 * DEFAULT_THREAD_STACKSIZE, SCPI_THREAD_PRIO);
+    sys_thread_new("SCPI", scpi_server_thread, NULL, 4 * DEFAULT_THREAD_STACKSIZE, osPriorityHigh);
 }

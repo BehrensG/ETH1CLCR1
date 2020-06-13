@@ -82,6 +82,16 @@ static void MX_SPI6_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+static void SPI6_ClearTXBuffer()
+{
+	for(int32_t x = 0; x < SPI6_BUFFOR_SIZE/2; x++)
+	{
+		SPI6_TxBuffer[x] = '\0';
+	}
+
+}
+
+
 static SPI6_Status SPI6_CheckMode()
 {
 	if(0 == SPI6_ReceiveIndex)
@@ -94,7 +104,7 @@ static SPI6_Status SPI6_CheckMode()
 		{
 			return SPI6_MODE_TX;
 		}
-		else if ('\0'!=SPI6_RxBuffer)
+		else if ((NULL!=strchr(SPI6_RxBuffer, '\r')) && (NULL!=strchr(SPI6_RxBuffer, '\n')))
 		{
 			return SPI6_MODE_RX;
 		}
@@ -108,6 +118,7 @@ static void SPI6_DataHandler()
 	  {
 		  LL_GPIO_ResetOutputPin(MCU2_RX_STATUS_GPIO_Port, MCU2_RX_STATUS_Pin);
 		  LL_GPIO_SetOutputPin(MCU2_STATUS_GPIO_Port, MCU2_STATUS_Pin);
+		  SPI6_ClearTXBuffer();
 		  SCPI_Input(&scpi_context, SPI6_RxBuffer, SPI6_ReceiveIndex);
 		  SPI6_ReceiveIndex = 0;
 		  LL_GPIO_ResetOutputPin(MCU2_STATUS_GPIO_Port, MCU2_STATUS_Pin);
@@ -115,9 +126,15 @@ static void SPI6_DataHandler()
 	  }
 	  else if(LL_GPIO_IsInputPinSet(MCU1_RX_DATA_GPIO_Port, MCU1_RX_DATA_Pin))
 	  {
-		  SPI6_TransmitIndex = 0;
-		  SPI6_ReceiveIndex = 0;
-		  LL_GPIO_SetOutputPin(MCU2_RX_STATUS_GPIO_Port, MCU2_RX_STATUS_Pin);
+		  if(!LL_SPI_IsActiveFlag_TXP(SPI6))
+		  {
+			  SPI6_TransmitIndex = 0;
+			  SPI6_ReceiveIndex = 0;
+			  SPI6_TransmitSize = 0;
+			// SPI6_ClearTXBuffer();
+			  LL_GPIO_SetOutputPin(MCU2_RX_STATUS_GPIO_Port, MCU2_RX_STATUS_Pin);
+		  }
+
 	  }
 }
 

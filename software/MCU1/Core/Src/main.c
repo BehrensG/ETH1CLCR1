@@ -58,10 +58,10 @@ const osThreadAttr_t defaultTask_attributes = {
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 };
-/* Definitions for BlinkTask */
-osThreadId_t BlinkTaskHandle;
-const osThreadAttr_t BlinkTask_attributes = {
-  .name = "BlinkTask",
+/* Definitions for LEDTask */
+osThreadId_t LEDTaskHandle;
+const osThreadAttr_t LEDTask_attributes = {
+  .name = "LEDTask",
   .priority = (osPriority_t) osPriorityLow,
   .stack_size = 128 * 4
 };
@@ -83,7 +83,7 @@ static void MX_I2C2_Init(void);
 static void MX_I2C4_Init(void);
 static void MX_SPI4_Init(void);
 void StartDefaultTask(void *argument);
-void StartBlinkTask(void *argument);
+void StartLEDTask(void *argument);
 void StartTriggerTask(void *argument);
 
 /* USER CODE BEGIN PFP */
@@ -160,10 +160,10 @@ int main(void)
 
   /* Create the thread(s) */
   /* creation of defaultTask */
-  //defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+//  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
 
-  /* creation of BlinkTask */
-  BlinkTaskHandle = osThreadNew(StartBlinkTask, NULL, &BlinkTask_attributes);
+  /* creation of LEDTask */
+  LEDTaskHandle = osThreadNew(StartLEDTask, NULL, &LEDTask_attributes);
 
   /* creation of TriggerTask */
   TriggerTaskHandle = osThreadNew(StartTriggerTask, NULL, &TriggerTask_attributes);
@@ -458,7 +458,7 @@ void  BlinkTask(void* argument)
 	for(;;)
 	{
 		HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
-		osDelay(500);
+		osDelay(pdMS_TO_TICKS(500));
 	}
 }
 /* USER CODE END 4 */
@@ -484,23 +484,22 @@ void StartDefaultTask(void *argument)
   /* USER CODE END 5 */ 
 }
 
-/* USER CODE BEGIN Header_StartBlinkTask */
+/* USER CODE BEGIN Header_StartLEDTask */
 /**
-* @brief Function implementing the BlinkTask thread.
+* @brief Function implementing the LEDTask thread.
 * @param argument: Not used
 * @retval None
 */
-/* USER CODE END Header_StartBlinkTask */
-void StartBlinkTask(void *argument)
+/* USER CODE END Header_StartLEDTask */
+void StartLEDTask(void *argument)
 {
-  /* USER CODE BEGIN StartBlinkTask */
+  /* USER CODE BEGIN StartLEDTask */
   /* Infinite loop */
   for(;;)
   {
-    osDelay(500);
-    HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
+    osDelay(1);
   }
-  /* USER CODE END StartBlinkTask */
+  /* USER CODE END StartLEDTask */
 }
 
 /* USER CODE BEGIN Header_StartTriggerTask */
@@ -528,6 +527,7 @@ void StartTriggerTask(void *argument)
 			  SPI4_Transmit(&tx_data,1000);
 		  }
 	  }
+	  osDelay(pdMS_TO_TICKS(10));
   }
   /* USER CODE END StartTriggerTask */
 }

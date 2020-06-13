@@ -426,7 +426,7 @@ scpi_result_t SCPI_SenseFunctionOnQ(scpi_t * context)
  *
  */
 
-scpi_result_t SCPI_SCPI_SenseOutputOn(scpi_t * context)
+scpi_result_t SCPI_SenseOutputOn(scpi_t * context)
 {
 	scpi_bool_t paramBOOL;
 
@@ -449,7 +449,7 @@ scpi_result_t SCPI_SCPI_SenseOutputOn(scpi_t * context)
  *
  */
 
-scpi_result_t SCPI_SCPI_SenseOutputOnQ(scpi_t * context)
+scpi_result_t SCPI_SenseOutputOnQ(scpi_t * context)
 {
 	SCPI_ResultBool(context, board.scpi.sense.output);
 	return SCPI_RES_OK;
