@@ -37,7 +37,7 @@ scpi_result_t SCPI_SourceFrequencyCW(scpi_t * context)
 
 	board.scpi.source.frequency = paramFREQ;
 
-	snprintf(tx_data, SPI4_BUFFER, "SOUR:FREQ:CW %d\r\n", paramFREQ);
+	snprintf(tx_data, SPI4_BUFFER, "SOUR:FREQ:CW %d\r\n", (int32_t)paramFREQ);
 	SPI4_Transmit(tx_data, SPI4_BUFFER, 1000);
 
 	return SCPI_RES_OK;

@@ -45,7 +45,7 @@ scpi_result_t SCPI_FormatData(scpi_t * context)
 		return SCPI_RES_ERR;
 	}
 
-	snprintf(tx_data, SPI4_BUFFER, "FORM:DATA %d\r\n", paramFORMAT.tag);
+	snprintf(tx_data, SPI4_BUFFER, "FORM:DATA %d", paramFORMAT.tag);
 	SPI4_Transmit(&tx_data,1000);
 
 	return SCPI_RES_OK;
@@ -64,7 +64,7 @@ scpi_result_t SCPI_FormatDataQ(scpi_t * context)
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 
-	snprintf(tx_data, SPI4_BUFFER, "FORM:DATA?\r\n");
+	snprintf(tx_data, SPI4_BUFFER, "FORM:DATA?");
 	SPI4_Transmit(&tx_data,1000);
 
 	SPI4_Receive(&rx_data, 1000);

@@ -67,29 +67,19 @@ scpi_choice_def_t boolean_select[] =
 };
 
 
+
 static scpi_result_t TEST_TSQ(scpi_t * context)
 {
-	scpi_bool_t  enable = FALSE;
-	if (!SCPI_ParamBool(context, &enable, TRUE))
-	{
-		return SCPI_RES_ERR;
-	}
+	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 
-	BRD_StatusTypeDef status;
-	uint8_t tx_data[]="*IDN?\n\r";
-	uint8_t tx_dummy[64] ={[0 ... 63] = '\0'};
-	uint8_t rx_data[64] ={[0 ... 63] = '\0'};
 
-	if(!enable)
-	{
-		SPI4_Transmit("*IDN?",1000);
+	snprintf(tx_data, SPI4_BUFFER, "*IDN?");
 
-	}
-	else
-	{
-		SPI4_Receive(&rx_data, 1000);
-		SCPI_ResultCharacters(context, rx_data, 64);
-	}
+	SPI4_Transmit(&tx_data,1000);
+	HAL_Delay(5);
+	SPI4_Receive(&rx_data,1000);
+	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
 
 
 	return SCPI_RES_OK;

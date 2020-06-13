@@ -124,7 +124,7 @@ scpi_result_t SCPI_TriggerImmediate(scpi_t* context)
 
 	if(TRIG_OUT != board.structure.trigger.source)
 	{
-			snprintf(tx_data, SPI4_BUFFER, "IMM\r\n");
+			snprintf(tx_data, SPI4_BUFFER, "IMM");
 			SPI4_Transmit(&tx_data,1000);
 	}
 	else
@@ -289,6 +289,6 @@ scpi_result_t SCPI_TRG(scpi_t* context)
 		return SCPI_RES_ERR;
 	}
 
-	snprintf(tx_data, SPI4_BUFFER, "IMM\r\n");
+	snprintf(tx_data, SPI4_BUFFER, "IMM");
 	SPI4_Transmit(&tx_data,1000);
 }

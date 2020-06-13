@@ -35,7 +35,6 @@ BRD_StatusTypeDef DAC8568_SetVoltage(uint32_t param, double voltage)
 
 	    while (!LL_SPI_IsActiveFlag_TXC(SPI5)){};
 
-	    start_time = HAL_GetTick();
 		LL_SPI_TransmitData32(SPI5, tx_data.word32);
 
 		LL_GPIO_SetOutputPin(DAC_nSYNC_GPIO_Port, DAC_nSYNC_Pin);

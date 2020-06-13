@@ -818,7 +818,7 @@ scpi_result_t SCPI_SystemServiceEEPROM(scpi_t * context)
 	}
 	else
 	{
-		snprintf(tx_data, SPI4_BUFFER, "SYST:SERV:EEPROM %s %s\r\n", paramMCU.name, paramEEPROM.name);
+		snprintf(tx_data, SPI4_BUFFER, "SYST:SERV:EEPROM %s %s", paramMCU.name, paramEEPROM.name);
 		SPI4_Transmit(&tx_data,1000);
 	}
 
