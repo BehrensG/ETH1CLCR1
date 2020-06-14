@@ -14,7 +14,8 @@
 
 extern SPI_HandleTypeDef hspi4;
 
-static void remove_chars(int8_t* str, int8_t c, uint32_t size) {
+static void remove_chars(int8_t* str, int8_t c, uint32_t size)
+{
     int8_t *pr = str, *pw = str;
     for (uint32_t x = 0; x < size; x++)
     {
@@ -24,7 +25,8 @@ static void remove_chars(int8_t* str, int8_t c, uint32_t size) {
     *pw = '\0';
 }
 
-static int32_t find_chars(int8_t* str, int8_t c, uint32_t size) {
+static int32_t find_chars(int8_t* str, int8_t c, uint32_t size)
+{
 
     int8_t *pw = str;
     int32_t index = 0;
@@ -52,7 +54,7 @@ BRD_StatusTypeDef SPI4_Transmit(const int8_t str[], uint32_t timeout)
 
 	HAL_GPIO_WritePin(MCU1_RX_DATA_GPIO_Port, MCU1_RX_DATA_Pin, 0);
 	start_time = HAL_GetTick();
-	while(HAL_GPIO_ReadPin(MCU2_RX_STATUS_GPIO_Port, MCU2_RX_STATUS_Pin))
+	while(0 /*HAL_GPIO_ReadPin(MCU2_RX_STATUS_GPIO_Port, MCU2_RX_STATUS_Pin)*/)
 	{
 		current_time = HAL_GetTick() - start_time;
 		if(current_time > timeout)
@@ -97,9 +99,14 @@ BRD_StatusTypeDef SPI4_Receive(int8_t* str, int32_t* readout_size, uint32_t time
 	if(BRD_OK == status)
 	{
 		remove_chars(&rx_data,'\0', SPI4_BUFFER);
-		index = find_chars(&rx_data,'\n', SPI4_BUFFER);
-		rx_data[index+1] = '\0';
-		strncpy(str, rx_data, index+1);
+		index = find_chars(&rx_data,'\r', SPI4_BUFFER);
+
+		remove_chars(&rx_data,'\r', SPI4_BUFFER);
+		remove_chars(&rx_data,'\n', SPI4_BUFFER);
+		remove_chars(&rx_data,'\0', SPI4_BUFFER);
+
+		rx_data[index] = '\0';
+		strncpy(str, rx_data, index);
 		*readout_size = index;
 
 	}
