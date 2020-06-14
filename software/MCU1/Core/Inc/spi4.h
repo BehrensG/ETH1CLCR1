@@ -16,6 +16,7 @@
 #define SPI4_BUFFER 64
 
 BRD_StatusTypeDef SPI4_Transmit(const int8_t* str, uint32_t timeout);
-BRD_StatusTypeDef SPI4_Receive(int8_t* str, uint32_t timeout);
+//BRD_StatusTypeDef SPI4_Receive(int8_t* str, uint32_t timeout);
+BRD_StatusTypeDef SPI4_Receive(int8_t* str, int32_t* readout_size, uint32_t timeout);
 
 #endif /* INC_SPI4_H_ */

@@ -155,6 +155,7 @@ scpi_result_t SCPI_CalculateFormatQ(scpi_t * context)
 	int32_t paramSEL;
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int32_t readout_size = 0;
 
 	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
 	{
@@ -170,8 +171,8 @@ scpi_result_t SCPI_CalculateFormatQ(scpi_t * context)
 	snprintf(tx_data, SPI4_BUFFER, "CALC:FORM? %d", paramSEL);
 	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_Receive(&rx_data, 1000);
-	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+	SPI4_Receive(&rx_data, &readout_size, 1000);
+	SCPI_ResultCharacters(context, rx_data, readout_size);
 
     return SCPI_RES_OK;
 }
@@ -230,6 +231,7 @@ scpi_result_t SCPI_CalculateLimitFailQ(scpi_t * context)
 	int32_t paramSEL;
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int32_t readout_size = 0;
 
 	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
 	{
@@ -245,8 +247,8 @@ scpi_result_t SCPI_CalculateLimitFailQ(scpi_t * context)
 	snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:FAIL? %d", paramSEL);
 	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_Receive(&rx_data, 1000);
-	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+	SPI4_Receive(&rx_data, &readout_size, 1000);
+	SCPI_ResultCharacters(context, rx_data, readout_size);
 
     return SCPI_RES_OK;
 }
@@ -337,6 +339,7 @@ scpi_result_t SCPI_CalculateLimitLowerDataQ(scpi_t * context)
 	int32_t paramSEL;
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int32_t readout_size = 0;
 
 	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
 	{
@@ -352,8 +355,8 @@ scpi_result_t SCPI_CalculateLimitLowerDataQ(scpi_t * context)
 	snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:LOW:DATA? %d", paramSEL);
 	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_Receive(&rx_data, 1000);
-	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+	SPI4_Receive(&rx_data, &readout_size, 1000);
+	SCPI_ResultCharacters(context, rx_data, readout_size);
 
     return SCPI_RES_OK;
 }
@@ -417,6 +420,7 @@ scpi_result_t SCPI_CalculateLimitLowerStateQ(scpi_t * context)
 	int32_t paramSEL;
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int32_t readout_size = 0;
 
 	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
 	{
@@ -432,8 +436,8 @@ scpi_result_t SCPI_CalculateLimitLowerStateQ(scpi_t * context)
 	snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:LOW:STAT? %d", paramSEL);
 	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_Receive(&rx_data, 1000);
-	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+	SPI4_Receive(&rx_data, &readout_size, 1000);
+	SCPI_ResultCharacters(context, rx_data, readout_size);
 
     return SCPI_RES_OK;
 }
@@ -497,6 +501,7 @@ scpi_result_t SCPI_CalculateLimitStateQ(scpi_t * context)
 	int32_t paramSEL;
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int32_t readout_size = 0;
 
 	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
 	{
@@ -512,8 +517,8 @@ scpi_result_t SCPI_CalculateLimitStateQ(scpi_t * context)
 	snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:STAT? %d", paramSEL);
 	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_Receive(&rx_data, 1000);
-	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+	SPI4_Receive(&rx_data, &readout_size, 1000);
+	SCPI_ResultCharacters(context, rx_data, readout_size);
 
     return SCPI_RES_OK;
 }
@@ -604,6 +609,7 @@ scpi_result_t SCPI_CalculateLimitUpperDataQ(scpi_t * context)
 	int32_t paramSEL;
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int32_t readout_size = 0;
 
 	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
 	{
@@ -619,8 +625,8 @@ scpi_result_t SCPI_CalculateLimitUpperDataQ(scpi_t * context)
 	snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:UPP:DATA? %d", paramSEL);
 	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_Receive(&rx_data, 1000);
-	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+	SPI4_Receive(&rx_data, &readout_size, 1000);
+	SCPI_ResultCharacters(context, rx_data, readout_size);
 
     return SCPI_RES_OK;
 }
@@ -685,6 +691,7 @@ scpi_result_t SCPI_CalculateLimitUpperStateQ(scpi_t * context)
 	int32_t paramSEL;
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int32_t readout_size = 0;
 
 	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
 	{
@@ -700,8 +707,8 @@ scpi_result_t SCPI_CalculateLimitUpperStateQ(scpi_t * context)
 	snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:UPP:STAT? %d", paramSEL);
 	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_Receive(&rx_data, 1000);
-	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+	SPI4_Receive(&rx_data, &readout_size, 1000);
+	SCPI_ResultCharacters(context, rx_data, readout_size);
 
     return SCPI_RES_OK;
 }
@@ -784,6 +791,7 @@ scpi_result_t SCPI_CalculateMathExpressionNameQ(scpi_t * context)
 	int32_t paramSEL;
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int32_t readout_size = 0;
 
 	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
 	{
@@ -799,8 +807,8 @@ scpi_result_t SCPI_CalculateMathExpressionNameQ(scpi_t * context)
 	snprintf(tx_data, SPI4_BUFFER, "CALC:MATH:EXPR:NAME? %d", paramSEL);
 	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_Receive(&rx_data, 1000);
-	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+	SPI4_Receive(&rx_data, &readout_size, 1000);
+	SCPI_ResultCharacters(context, rx_data, readout_size);
 
     return SCPI_RES_OK;
 }
@@ -864,6 +872,7 @@ scpi_result_t SCPI_CalculateMathStateQ(scpi_t * context)
 	int32_t paramSEL;
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int32_t readout_size = 0;
 
 	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
 	{
@@ -879,8 +888,8 @@ scpi_result_t SCPI_CalculateMathStateQ(scpi_t * context)
 	snprintf(tx_data, SPI4_BUFFER, "CALC:MATH:STAT? %d", paramSEL);
 	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_Receive(&rx_data, 1000);
-	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+	SPI4_Receive(&rx_data, &readout_size, 1000);
+	SCPI_ResultCharacters(context, rx_data, readout_size);
 
     return SCPI_RES_OK;
 }
