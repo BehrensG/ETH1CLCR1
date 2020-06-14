@@ -9,6 +9,7 @@
 
 #include "scpi_source.h"
 #include "spi4.h"
+#include "main.h"
 
 extern scpi_choice_def_t boolean_select[];
 
@@ -72,6 +73,7 @@ scpi_result_t SCPI_SourceFrequencyCW(scpi_t * context)
 		{
 			snprintf(tx_data, SPI4_BUFFER, "SOUR:FREQ:CW %d", (int32_t)paramFREQ.content.value);
 			SPI4_Transmit(&tx_data,1000);
+
 			return SCPI_RES_OK;
 		}
 		else
