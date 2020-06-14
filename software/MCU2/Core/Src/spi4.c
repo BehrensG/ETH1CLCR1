@@ -10,7 +10,6 @@
 
 BRD_StatusTypeDef SPI4_Transmit(uint8_t *pData, uint16_t size, uint32_t timeout)
 {
-	BRD_StatusTypeDef spi_status;
 	uint32_t start_time = 0, current_time = 0;
 
 
@@ -19,7 +18,8 @@ BRD_StatusTypeDef SPI4_Transmit(uint8_t *pData, uint16_t size, uint32_t timeout)
     start_time = HAL_GetTick();
     for(uint16_t x = 0; x < size; x++)
     {
-    	while (!LL_SPI_IsActiveFlag_TXC(SPI4))
+
+    	while(!LL_SPI_IsActiveFlag_TXC(SPI4))
     	{
             current_time = HAL_GetTick() - start_time;
             if (current_time > timeout)
@@ -27,16 +27,12 @@ BRD_StatusTypeDef SPI4_Transmit(uint8_t *pData, uint16_t size, uint32_t timeout)
             	LL_GPIO_SetOutputPin(MCU3_nSS_GPIO_Port, MCU3_nSS_Pin);
             	return BRD_TIMEOUT;
             }
-    	};
-
+    	}
     	LL_SPI_TransmitData8(SPI4, *pData++);
-
     }
 
 	LL_GPIO_SetOutputPin(MCU3_nSS_GPIO_Port, MCU3_nSS_Pin);
 
+
 	return BRD_OK;
-
-
-
 }

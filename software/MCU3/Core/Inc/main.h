@@ -110,14 +110,6 @@ void Error_Handler(void);
 #define DDS_DAC_SDIN_GPIO_Port GPIOA
 #define DDS_DAC_SDO_Pin GPIO_PIN_12
 #define DDS_DAC_SDO_GPIO_Port GPIOA
-#define MCU3_NSS_Pin GPIO_PIN_15
-#define MCU3_NSS_GPIO_Port GPIOA
-#define MCU3_SCLK_Pin GPIO_PIN_10
-#define MCU3_SCLK_GPIO_Port GPIOC
-#define MCU3_MISO_Pin GPIO_PIN_11
-#define MCU3_MISO_GPIO_Port GPIOC
-#define MCU3_MOSI_Pin GPIO_PIN_12
-#define MCU3_MOSI_GPIO_Port GPIOC
 #define EEPROM_WP_Pin GPIO_PIN_4
 #define EEPROM_WP_GPIO_Port GPIOB
 #define EEPROM_SCL_Pin GPIO_PIN_6

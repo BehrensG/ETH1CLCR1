@@ -17,17 +17,17 @@ void ADC_PGA103_Gain(uint8_t channel, uint8_t gain)
 		switch(gain)
 		{
 			case 1:{
-				LL_GPIO_ResetOutputPin(G1A0_CTR_GPIO_Port, G1A0_CTR_Pin);
-				LL_GPIO_ResetOutputPin(G1A1_CTR_GPIO_Port, G1A1_CTR_Pin);
-			}; break;
+						LL_GPIO_ResetOutputPin(G1A0_CTR_GPIO_Port, G1A0_CTR_Pin);
+						LL_GPIO_ResetOutputPin(G1A1_CTR_GPIO_Port, G1A1_CTR_Pin);
+					}; break;
 			case 10:{
-				LL_GPIO_ResetOutputPin(G1A1_CTR_GPIO_Port, G1A1_CTR_Pin);
-				LL_GPIO_SetOutputPin(G1A0_CTR_GPIO_Port, G1A0_CTR_Pin);
-			}; break;
+						LL_GPIO_ResetOutputPin(G1A1_CTR_GPIO_Port, G1A1_CTR_Pin);
+						LL_GPIO_SetOutputPin(G1A0_CTR_GPIO_Port, G1A0_CTR_Pin);
+					}; break;
 			case 100:{
-				LL_GPIO_ResetOutputPin(G1A0_CTR_GPIO_Port, G1A0_CTR_Pin);
-				LL_GPIO_SetOutputPin(G1A1_CTR_GPIO_Port, G1A1_CTR_Pin);
-			}; break;
+						LL_GPIO_ResetOutputPin(G1A0_CTR_GPIO_Port, G1A0_CTR_Pin);
+						LL_GPIO_SetOutputPin(G1A1_CTR_GPIO_Port, G1A1_CTR_Pin);
+					}; break;
 		}
 	}
 	else if(channel & AINA)
@@ -35,17 +35,17 @@ void ADC_PGA103_Gain(uint8_t channel, uint8_t gain)
 		switch(gain)
 		{
 			case 1:{
-				LL_GPIO_ResetOutputPin(G2A0_CTR_GPIO_Port, G2A0_CTR_Pin);
-				LL_GPIO_ResetOutputPin(G2A1_CTR_GPIO_Port, G2A1_CTR_Pin);
-			}; break;
+						LL_GPIO_ResetOutputPin(G2A0_CTR_GPIO_Port, G2A0_CTR_Pin);
+						LL_GPIO_ResetOutputPin(G2A1_CTR_GPIO_Port, G2A1_CTR_Pin);
+					}; break;
 			case 10:{
-				LL_GPIO_ResetOutputPin(G2A1_CTR_GPIO_Port, G2A1_CTR_Pin);
-				LL_GPIO_SetOutputPin(G2A0_CTR_GPIO_Port, G2A0_CTR_Pin);
-			}; break;
+						LL_GPIO_ResetOutputPin(G2A1_CTR_GPIO_Port, G2A1_CTR_Pin);
+						LL_GPIO_SetOutputPin(G2A0_CTR_GPIO_Port, G2A0_CTR_Pin);
+					}; break;
 			case 100:{
-				LL_GPIO_ResetOutputPin(G2A0_CTR_GPIO_Port, G2A0_CTR_Pin);
-				LL_GPIO_SetOutputPin(G2A1_CTR_GPIO_Port, G2A1_CTR_Pin);
-			}; break;
+						LL_GPIO_ResetOutputPin(G2A0_CTR_GPIO_Port, G2A0_CTR_Pin);
+						LL_GPIO_SetOutputPin(G2A1_CTR_GPIO_Port, G2A1_CTR_Pin);
+					}; break;
 		}
 	}
 }
@@ -67,10 +67,10 @@ void ADC_ADG419_Switch(uint8_t channel, uint8_t state)
 
  BRD_StatusTypeDef ADC_AD738x_RegisterRead(uint8_t reg_addr, uint16_t *rx_data, uint32_t timeout)
 {
-	BRD_StatusTypeDef spi_status;
 	uint32_t start_time = 0, current_time = 0;
 	AD783x_reg_data tx_data;
 	uint16_t tx_dummy = 0x0000;
+	BRD_StatusTypeDef spi_status;
 
 	tx_data.bytes[1] = AD738X_REG_READ(reg_addr);
 	tx_data.bytes[0] = 0x00;
@@ -109,7 +109,6 @@ void ADC_ADG419_Switch(uint8_t channel, uint8_t state)
 
  static BRD_StatusTypeDef ADC_AD738x_RegisterWrite(uint8_t reg_addr, uint16_t reg_data, uint32_t timeout)
 {
-	BRD_StatusTypeDef spi_status;
 	uint32_t start_time = 0, current_time = 0;
 	AD783x_reg_data tx_data;
 	uint16_t dummy_read;
@@ -191,7 +190,6 @@ BRD_StatusTypeDef ADC_AD738x_ConversionMode(ad738x_conv_mode mode, uint32_t time
 
 BRD_StatusTypeDef ADC_AD738x_Reset(ad738x_reset_type reset, uint32_t timeout)
 {
-	BRD_StatusTypeDef spi_status;
 	uint16_t val = ((reset == HARD_RESET)? 0xFF : 0x3C);
 
 	return ADC_AD738x_RegisterWriteMask(AD738X_REG_CONFIG2, AD738X_CONFIG2_RESET_MSK, AD738X_CONFIG2_RESET(val), timeout);
@@ -239,10 +237,7 @@ BRD_StatusTypeDef ADC_AD738x_OversamplingConfig(ad738x_os_mode os_mode, ad738x_o
 
 BRD_StatusTypeDef ADC_AD738x_ReferenceSelect(ad738x_ref_sel ref_sel, uint32_t timeout)
 {
-	BRD_StatusTypeDef spi_status;
-
-	return ADC_AD738x_RegisterWriteMask(AD738X_REG_CONFIG1, AD738X_CONFIG1_REFSEL_MSK, D738X_CONFIG1_REFSEL(ref_sel), timeout);
-
+	return ADC_AD738x_RegisterWriteMask(AD738X_REG_CONFIG1, AD738X_CONFIG1_REFSEL_MSK, AD738X_CONFIG1_REFSEL(ref_sel), timeout);
 }
 
 BRD_StatusTypeDef ADC_AD7380_Init(void)
@@ -252,16 +247,14 @@ BRD_StatusTypeDef ADC_AD7380_Init(void)
 	ad7380_init.conv_mode = ONE_WIRE_MODE;
 	ad7380_init.ref_sel = EXT_REF;
 
-	uint32_t timeout = AD738X_TIMEOUT_MAX;
-
-	spi_status = ADC_AD738x_ConversionMode(ad7380_init.conv_mode, timeout);
+	spi_status = ADC_AD738x_ConversionMode(ad7380_init.conv_mode, AD738X_TIMEOUT_MAX);
 
 	if(BRD_OK != spi_status)
 	{
 		return BRD_TIMEOUT;
 	}
 
-	spi_status = ADC_AD738x_ReferenceSelect(ad7380_init.ref_sel, timeout);
+	spi_status = ADC_AD738x_ReferenceSelect(ad7380_init.ref_sel, AD738X_TIMEOUT_MAX);
 
 	if(BRD_OK != spi_status)
 	{

@@ -108,27 +108,8 @@ static SPI6_Status SPI6_CheckMode()
 
 static void SPI6_DataHandler()
 {
-	  if(SPI6_MODE_RX == SPI6_CheckMode())
-	  {
-		  LL_GPIO_SetOutputPin(MCU2_STATUS_GPIO_Port, MCU2_STATUS_Pin);
-		 // SPI6_ClearTXBuffer();
-		  SCPI_Input(&scpi_context, SPI6_RxBuffer, SPI6_ReceiveIndex);
-		  SPI6_TransmitIndex = 0;
-		  SPI6_ReceiveIndex = 0;
-		  //LL_GPIO_ResetOutputPin(MCU2_STATUS_GPIO_Port, MCU2_STATUS_Pin);
-		  LL_GPIO_SetOutputPin(MCU2_RX_STATUS_GPIO_Port, MCU2_RX_STATUS_Pin);
-	  }
-	  else if(SPI6_MODE_TX == SPI6_CheckMode())
-	  {
-			  SPI6_TransmitIndex = 0;
-			  SPI6_ReceiveIndex = 0;
-			  SPI6_TransmitSize = 0;
-			  SPI6_ClearTXBuffer();
-			  LL_GPIO_ResetOutputPin(MCU2_RX_STATUS_GPIO_Port, MCU2_RX_STATUS_Pin);
-			  LL_GPIO_ResetOutputPin(MCU2_STATUS_GPIO_Port, MCU2_STATUS_Pin);
-	  }
-}
 
+}
 
 /* USER CODE END 0 */
 
@@ -171,8 +152,11 @@ int main(void)
   MX_SPI6_Init();
   /* USER CODE BEGIN 2 */
   RELAY_Init();
+
   LL_SPI_Enable(SPI3);
   LL_SPI_StartMasterTransfer(SPI3);
+  LL_SPI_Enable(SPI4);
+  LL_SPI_StartMasterTransfer(SPI4);
 
   SCPI_Init(&scpi_context,
           scpi_commands,
@@ -181,6 +165,8 @@ int main(void)
           SCPI_IDN1, SCPI_IDN2, SCPI_IDN3, SCPI_IDN4,
           scpi_input_buffer, SCPI_INPUT_BUFFER_LENGTH,
           scpi_error_queue_data, SCPI_ERROR_QUEUE_SIZE);
+
+//  ADC_AD7380_Init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -206,7 +192,6 @@ int main(void)
 	  }
 	  else if(SPI6_MODE_TX == SPI6_CheckMode())
 	  {
-
 		  SPI6_TransmitIndex = 0;
 		  SPI6_ReceiveIndex = 0;
 		  SPI6_TransmitSize = 0;
@@ -558,7 +543,7 @@ static void MX_SPI4_Init(void)
   PE5   ------> SPI4_MISO
   PE6   ------> SPI4_MOSI 
   */
-  GPIO_InitStruct.Pin = MCU3_SCLK_Pin|MCU3_MISOE6_Pin;
+  GPIO_InitStruct.Pin = MCU3_SCLK_Pin|MCU3_MOSI_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
   GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
@@ -584,7 +569,7 @@ static void MX_SPI4_Init(void)
   SPI_InitStruct.ClockPolarity = LL_SPI_POLARITY_LOW;
   SPI_InitStruct.ClockPhase = LL_SPI_PHASE_1EDGE;
   SPI_InitStruct.NSS = LL_SPI_NSS_SOFT;
-  SPI_InitStruct.BaudRate = LL_SPI_BAUDRATEPRESCALER_DIV8;
+  SPI_InitStruct.BaudRate = LL_SPI_BAUDRATEPRESCALER_DIV16;
   SPI_InitStruct.BitOrder = LL_SPI_MSB_FIRST;
   SPI_InitStruct.CRCCalculation = LL_SPI_CRCCALCULATION_DISABLE;
   SPI_InitStruct.CRCPoly = 0x0;
