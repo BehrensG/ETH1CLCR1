@@ -29,6 +29,8 @@ scpi_result_t SCPI_SourceFrequencyCW(scpi_t * context)
 {
 	int8_t tx_data[SPI4_BUFFER] = {[0 ... SPI4_BUFFER - 1] = '\0'};
 	double paramFREQ;
+	BRD_StatusTypeDef status;
+
 
 	if(!SCPI_ParamDouble(context, &paramFREQ, TRUE))
 	{
@@ -37,8 +39,9 @@ scpi_result_t SCPI_SourceFrequencyCW(scpi_t * context)
 
 	board.scpi.source.frequency = paramFREQ;
 
-	snprintf(tx_data, SPI4_BUFFER, "SOUR:FREQ:CW %d\r\n", (int32_t)paramFREQ);
-	SPI4_Transmit(tx_data, SPI4_BUFFER, 1000);
+
+	snprintf(tx_data, SPI4_BUFFER, "SOUR:FREQ %f\r\n", (int32_t)paramFREQ);
+	//SPI4_Transmit(tx_data, SPI4_BUFFER, 1000);
 
 	return SCPI_RES_OK;
 }

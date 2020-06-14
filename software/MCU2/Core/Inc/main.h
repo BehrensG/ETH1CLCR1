@@ -75,8 +75,8 @@ void Error_Handler(void);
 #define MCU3_nSS_GPIO_Port GPIOE
 #define MCU3_MISO_Pin LL_GPIO_PIN_5
 #define MCU3_MISO_GPIO_Port GPIOE
-#define MCU3_MISOE6_Pin LL_GPIO_PIN_6
-#define MCU3_MISOE6_GPIO_Port GPIOE
+#define MCU3_MOSI_Pin LL_GPIO_PIN_6
+#define MCU3_MOSI_GPIO_Port GPIOE
 #define DAC_nLDAC_Pin LL_GPIO_PIN_4
 #define DAC_nLDAC_GPIO_Port GPIOF
 #define DAC_nCLR_Pin LL_GPIO_PIN_5
