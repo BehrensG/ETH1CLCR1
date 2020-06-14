@@ -111,12 +111,13 @@ scpi_result_t SCPI_SenseAverageCountQ(scpi_t * context)
 {
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int32_t readout_size = 0;
 
 	snprintf(tx_data, SPI4_BUFFER, "SENS:AVER:COUNt?");
 	SPI4_Transmit(&tx_data,1000);
 
-	SPI4_Receive(&rx_data, 1000);
-	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+	SPI4_Receive(&rx_data, &readout_size, 1000);
+	SCPI_ResultCharacters(context, rx_data, readout_size);
 
 	return SCPI_RES_OK;
 }
@@ -161,12 +162,13 @@ scpi_result_t SCPI_SenseAverageStateQ(scpi_t * context)
 {
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int32_t readout_size = 0;
 
 	snprintf(tx_data, SPI4_BUFFER, "SENS:AVER:STAT?");
 	SPI4_Transmit(&tx_data,1000);
 	HAL_Delay(2);
-	SPI4_Receive(&rx_data, 1000);
-	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+	SPI4_Receive(&rx_data, &readout_size, 1000);
+	SCPI_ResultCharacters(context, rx_data, readout_size);
 
 	return SCPI_RES_OK;
 }
@@ -236,6 +238,7 @@ scpi_result_t SCPI_SenseCorrectionCkitStandardQ(scpi_t * context)
 	scpi_choice_def_t paramSTAN;
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int32_t readout_size = 0;
 
 	if(!SCPI_ParamChoice(context, sense_standard_select, &paramSTAN, TRUE))
 	{
@@ -250,8 +253,8 @@ scpi_result_t SCPI_SenseCorrectionCkitStandardQ(scpi_t * context)
 	snprintf(tx_data, SPI4_BUFFER, "SENS:CORR:CKIT:STANd? %d", paramSTAN.tag);
 	SPI4_Transmit(&tx_data,1000);
 	HAL_Delay(2);
-	SPI4_Receive(&rx_data, 1000);
-	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+	SPI4_Receive(&rx_data, &readout_size, 1000);
+	SCPI_ResultCharacters(context, rx_data, readout_size);
 
 	return SCPI_RES_OK;
 }
@@ -326,6 +329,7 @@ scpi_result_t SCPI_SenseCorrectionCollectMethodQ(scpi_t * context)
 	scpi_choice_def_t paramREFL;
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int32_t readout_size = 0;
 
 	if(!SCPI_ParamChoice(context, sense_refl_select, &paramREFL, TRUE))
 	{
@@ -335,8 +339,8 @@ scpi_result_t SCPI_SenseCorrectionCollectMethodQ(scpi_t * context)
 	snprintf(tx_data, SPI4_BUFFER, "SENS:CORR:COLL:METH? %d", paramREFL.tag);
 	SPI4_Transmit(&tx_data,1000);
 	HAL_Delay(2);
-	SPI4_Receive(&rx_data, 1000);
-	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+	SPI4_Receive(&rx_data, &readout_size, 1000);
+	SCPI_ResultCharacters(context, rx_data, readout_size);
 
 	return SCPI_RES_OK;
 }
@@ -353,12 +357,13 @@ scpi_result_t SCPI_SenseCorrectionDataQ(scpi_t * context)
 {
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int32_t readout_size = 0;
 
 	snprintf(tx_data, SPI4_BUFFER, "SENS:CORR:DATA?");
 	SPI4_Transmit(&tx_data,1000);
 	HAL_Delay(2);
-	SPI4_Receive(&rx_data, 1000);
-	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+	SPI4_Receive(&rx_data, &readout_size, 1000);
+	SCPI_ResultCharacters(context, rx_data, readout_size);
 
 	return SCPI_RES_OK;
 }
@@ -403,12 +408,13 @@ scpi_result_t SCPI_SenseCorrectionStateQ(scpi_t * context)
 {
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int32_t readout_size = 0;
 
 	snprintf(tx_data, SPI4_BUFFER, "SENS:CORR:STAT?");
 	SPI4_Transmit(&tx_data,1000);
 	HAL_Delay(2);
-	SPI4_Receive(&rx_data, 1000);
-	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+	SPI4_Receive(&rx_data, &readout_size, 1000);
+	SCPI_ResultCharacters(context, rx_data, readout_size);
 
 	return SCPI_RES_OK;
 }
@@ -443,12 +449,13 @@ scpi_result_t SCPI_SenseFimpedanceApertureQ(scpi_t * context)
 {
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int32_t readout_size = 0;
 
 	snprintf(tx_data, SPI4_BUFFER, "SENS:FIMP:APER?");
 	SPI4_Transmit(&tx_data,1000);
 	HAL_Delay(2);
-	SPI4_Receive(&rx_data, 1000);
-	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+	SPI4_Receive(&rx_data, &readout_size, 1000);
+	SCPI_ResultCharacters(context, rx_data, readout_size);
 
 	return SCPI_RES_OK;
 }
@@ -493,12 +500,13 @@ scpi_result_t SCPI_SenseFimpedanceContactVerifyQ(scpi_t * context)
 {
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int32_t readout_size = 0;
 
 	snprintf(tx_data, SPI4_BUFFER, "SENS:FIMP:CONT:VER?");
 	SPI4_Transmit(&tx_data,1000);
 	HAL_Delay(2);
-	SPI4_Receive(&rx_data, 1000);
-	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+	SPI4_Receive(&rx_data, &readout_size, 1000);
+	SCPI_ResultCharacters(context, rx_data, readout_size);
 
 	return SCPI_RES_OK;
 }
@@ -542,12 +550,13 @@ scpi_result_t SCPI_SenseFimpedanceRangeAutoQ(scpi_t * context)
 {
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int32_t readout_size = 0;
 
 	snprintf(tx_data, SPI4_BUFFER, "SENS:FIMP:RANG:AUTO?");
 	SPI4_Transmit(&tx_data,1000);
 	HAL_Delay(2);
-	SPI4_Receive(&rx_data, 1000);
-	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+	SPI4_Receive(&rx_data, &readout_size, 1000);
+	SCPI_ResultCharacters(context, rx_data, readout_size);
 
 	return SCPI_RES_OK;
 }
@@ -635,12 +644,13 @@ scpi_result_t SCPI_SenseFimpedanceRangeQ(scpi_t * context)
 {
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int32_t readout_size = 0;
 
 	snprintf(tx_data, SPI4_BUFFER, "SENS:FIMP:RANG?");
 	SPI4_Transmit(&tx_data,1000);
 	HAL_Delay(2);
-	SPI4_Receive(&rx_data, 1000);
-	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+	SPI4_Receive(&rx_data, &readout_size, 1000);
+	SCPI_ResultCharacters(context, rx_data, readout_size);
 
 	return SCPI_RES_OK;
 }
@@ -685,12 +695,13 @@ scpi_result_t SCPI_SenseFunctionOnQ(scpi_t * context)
 {
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int32_t readout_size = 0;
 
 	snprintf(tx_data, SPI4_BUFFER, "SENS:FUNC:ON?");
 	SPI4_Transmit(&tx_data,1000);
 	HAL_Delay(2);
-	SPI4_Receive(&rx_data, 1000);
-	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+	SPI4_Receive(&rx_data, &readout_size, 1000);
+	SCPI_ResultCharacters(context, rx_data, readout_size);
 
 	return SCPI_RES_OK;
 }
@@ -735,12 +746,13 @@ scpi_result_t SCPI_SenseOutputOnQ(scpi_t * context)
 {
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int32_t readout_size = 0;
 
 	snprintf(tx_data, SPI4_BUFFER, "SENS:OUT:ON?");
 	SPI4_Transmit(&tx_data,1000);
 	HAL_Delay(2);
-	SPI4_Receive(&rx_data, 1000);
-	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+	SPI4_Receive(&rx_data, &readout_size, 1000);
+	SCPI_ResultCharacters(context, rx_data, readout_size);
 
 	return SCPI_RES_OK;
 }
@@ -787,12 +799,13 @@ scpi_result_t SCPI_SenseGuardOnQ(scpi_t * context)
 
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	int32_t readout_size = 0;
 
 	snprintf(tx_data, SPI4_BUFFER, "SENS:GUARD:ON?");
 	SPI4_Transmit(&tx_data,1000);
 	HAL_Delay(2);
-	SPI4_Receive(&rx_data, 1000);
-	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+	SPI4_Receive(&rx_data, &readout_size, 1000);
+	SCPI_ResultCharacters(context, rx_data, readout_size);
 
 	return SCPI_RES_OK;
 }

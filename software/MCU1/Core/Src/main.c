@@ -160,7 +160,7 @@ int main(void)
 
   /* Create the thread(s) */
   /* creation of defaultTask */
-//  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+  //defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
 
   /* creation of LEDTask */
   LEDTaskHandle = osThreadNew(StartLEDTask, NULL, &LEDTask_attributes);
@@ -359,7 +359,7 @@ static void MX_SPI4_Init(void)
   hspi4.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi4.Init.CLKPhase = SPI_PHASE_1EDGE;
   hspi4.Init.NSS = SPI_NSS_HARD_OUTPUT;
-  hspi4.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_8;
+  hspi4.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_16;
   hspi4.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi4.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi4.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
@@ -403,8 +403,8 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, LED_RED_Pin|LED_GREEN_Pin|LED_BLUE_Pin, GPIO_PIN_SET);
 
-  /*Configure GPIO pins : TRIG_IN_Pin MCU2_STATUS_Pin MCU2_RX_STATUS_Pin */
-  GPIO_InitStruct.Pin = TRIG_IN_Pin|MCU2_STATUS_Pin|MCU2_RX_STATUS_Pin;
+  /*Configure GPIO pins : TRIG_IN_Pin MCU2_STATUS_Pin */
+  GPIO_InitStruct.Pin = TRIG_IN_Pin|MCU2_STATUS_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
@@ -429,6 +429,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(I2C4_WP_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : MCU2_RX_STATUS_Pin */
+  GPIO_InitStruct.Pin = MCU2_RX_STATUS_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(MCU2_RX_STATUS_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : MCU1_RX_DATA_Pin MCU1_TX_DATA_Pin */
   GPIO_InitStruct.Pin = MCU1_RX_DATA_Pin|MCU1_TX_DATA_Pin;

@@ -72,14 +72,27 @@ static scpi_result_t TEST_TSQ(scpi_t * context)
 {
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
+	BRD_StatusTypeDef status;
+	int32_t readout_size = 0;
 
 
 	snprintf(tx_data, SPI4_BUFFER, "*IDN?");
 
-	SPI4_Transmit(&tx_data,1000);
+	status = SPI4_Transmit(&tx_data,1000);
+	if (status != BRD_OK)
+	{
+		SCPI_ResultBool(context, 1);
+		return SCPI_RES_OK;
+	}
 	HAL_Delay(5);
-	SPI4_Receive(&rx_data,1000);
-	SCPI_ResultCharacters(context, rx_data, SPI4_BUFFER);
+	status = SPI4_Receive(&rx_data, &readout_size, 1000);
+	if(status != BRD_OK)
+	{
+		SCPI_ResultInt64(context, 2);
+		return SCPI_RES_OK;
+	}
+
+	SCPI_ResultCharacters(context, rx_data, readout_size);
 
 
 	return SCPI_RES_OK;
