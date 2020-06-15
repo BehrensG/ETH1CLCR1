@@ -54,8 +54,8 @@ SPI_HandleTypeDef hspi5;
 /* USER CODE BEGIN PV */
 
 /* Buffer used for reception */
-int8_t SPI3_RxBuffer[SPI3_BUFFERSIZE] = {[0 ... SPI3_BUFFERSIZE - 1] = '\0'};
-__IO uint8_t SPI3_ReceiveIndex  = 0;
+uint8_t SPI3_RxBuffer[SPI3_BUFFERSIZE] = {[0 ... SPI3_BUFFERSIZE - 1] = '\0'};
+__IO uint32_t SPI3_ReceiveIndex  = 0;
 
 /* USER CODE END PV */
 
@@ -83,7 +83,7 @@ static void MX_SPI5_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+	HAL_StatusTypeDef error;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -132,14 +132,14 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-	    if(HAL_OK == HAL_SPI_Receive_IT(&hspi3, (uint8_t *)SPI3_RxBuffer, SPI3_BUFFERSIZE))
-	    {
-	    	if(SPI3_BUFFERSIZE <= SPI3_ReceiveIndex)
+	  if(HAL_OK == HAL_SPI_Receive_IT(&hspi3, &SPI3_RxBuffer, SPI3_BUFFERSIZE-1))
+	  {
+		  if(SPI3_ReceiveIndex == (SPI3_BUFFERSIZE-1))
 	    	{
 	    		SCPI_Input(&scpi_context, SPI3_RxBuffer, SPI3_ReceiveIndex);
 	    		SPI3_ReceiveIndex = 0;
 	    	}
-	    }
+	  }
   }
   /* USER CODE END 3 */
 }
