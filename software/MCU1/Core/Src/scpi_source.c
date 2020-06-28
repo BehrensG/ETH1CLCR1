@@ -13,12 +13,12 @@
 
 extern scpi_choice_def_t boolean_select[];
 
- scpi_choice_def_t freq_unit_select[] =
- {
+scpi_choice_def_t freq_unit_select[] =
+{
  		{"HZ", 1},
  		{"KHZ", 2},
- 		SCPI_CHOICE_LIST_END
- };
+		SCPI_CHOICE_LIST_END
+};
 
 /*
  * SOURce:FREQuency[:CW] <numeric_value>[HZ|KHZ]
@@ -310,14 +310,14 @@ scpi_result_t SCPI_SourceVoltageLevelImmediateOffsetQ(scpi_t * context)
 scpi_result_t SCPI_SourceVoltageLevelImmediateState(scpi_t * context)
 {
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
-	scpi_choice_def_t paramSTATE;
+	int32_t paramSTATE;
 
 	if(!SCPI_ParamChoice(context, boolean_select, &paramSTATE, TRUE))
 	{
 		return SCPI_RES_ERR;
 	}
 
-	snprintf(tx_data, SPI4_BUFFER, "SOUR:VOLT:STAT %d", paramSTATE.tag);
+	snprintf(tx_data, SPI4_BUFFER, "SOUR:VOLT:STAT %d", paramSTATE);
 	SPI4_Transmit(&tx_data,1000);
 
 	return SCPI_RES_OK;
@@ -364,14 +364,14 @@ scpi_result_t SCPI_SourceVoltageLevelImmediateStateQ(scpi_t * context)
 scpi_result_t SCPI_SourceOutputOn(scpi_t * context)
 {
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
-	scpi_choice_def_t paramSTATE;
+	int32_t paramSTATE;
 
 	if(!SCPI_ParamChoice(context, boolean_select, &paramSTATE, TRUE))
 	{
 		return SCPI_RES_ERR;
 	}
 
-	snprintf(tx_data, SPI4_BUFFER, "SOUR:OUT:ON %d", paramSTATE.tag);
+	snprintf(tx_data, SPI4_BUFFER, "SOUR:OUT:ON %d", paramSTATE);
 	SPI4_Transmit(&tx_data,1000);
 
 	return SCPI_RES_OK;

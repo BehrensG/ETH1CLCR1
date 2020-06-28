@@ -787,8 +787,9 @@ scpi_result_t SCPI_SystemHumidityQ(scpi_t * context)
 
 scpi_result_t SCPI_SystemServiceEEPROM(scpi_t * context)
 {
-	scpi_choice_def_t paramEEPROM;
-	scpi_choice_def_t paramMCU;
+	int32_t paramEEPROM;
+	int32_t paramMCU;
+	const int8_t* nameMCU, nameEEPROM;
 
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 
@@ -808,9 +809,9 @@ scpi_result_t SCPI_SystemServiceEEPROM(scpi_t * context)
 		return SCPI_ERROR_SERVICE_MODE_SECURE;
 	}
 
-	if(MCU1 == paramMCU.tag)
+	if(MCU1 == paramMCU)
 	{
-		switch(paramEEPROM.tag)
+		switch(paramEEPROM)
 		{
 			case EEPROM_RESET:EEPROM_Reset();break;
 			case EEPROM_DEFAULT:EEPROM_WriteDefaultValues();break;
@@ -818,7 +819,10 @@ scpi_result_t SCPI_SystemServiceEEPROM(scpi_t * context)
 	}
 	else
 	{
-		snprintf(tx_data, SPI4_BUFFER, "SYST:SERV:EEPROM %s %s", paramMCU.name, paramEEPROM.name);
+		SCPI_ChoiceToName(mcu_select, paramMCU, &nameMCU);
+		SCPI_ChoiceToName(mcu_select, paramEEPROM, &nameEEPROM);
+
+		snprintf(tx_data, SPI4_BUFFER, "SYST:SERV:EEPROM %s %s", nameMCU, nameEEPROM);
 		SPI4_Transmit(&tx_data,1000);
 	}
 

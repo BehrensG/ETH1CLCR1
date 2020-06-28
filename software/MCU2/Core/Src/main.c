@@ -157,6 +157,8 @@ int main(void)
   LL_SPI_StartMasterTransfer(SPI3);
   LL_SPI_Enable(SPI4);
   LL_SPI_StartMasterTransfer(SPI4);
+  LL_SPI_Enable(SPI5);
+  LL_SPI_StartMasterTransfer(SPI5);
 
   SCPI_Init(&scpi_context,
           scpi_commands,
@@ -166,7 +168,9 @@ int main(void)
           scpi_input_buffer, SCPI_INPUT_BUFFER_LENGTH,
           scpi_error_queue_data, SCPI_ERROR_QUEUE_SIZE);
 
-//  ADC_AD7380_Init();
+  ADC_AD7380_Init();
+  ADC_PGA103_Gain(AINA, 1);
+  ADC_PGA103_Gain(AINB, 1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -479,21 +483,13 @@ static void MX_SPI3_Init(void)
   GPIO_InitStruct.Alternate = LL_GPIO_AF_6;
   LL_GPIO_Init(ADC_SCLK_GPIO_Port, &GPIO_InitStruct);
 
-  GPIO_InitStruct.Pin = ADC_SDOA_Pin;
+  GPIO_InitStruct.Pin = ADC_SDOA_Pin|ADC_SDI_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
-  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
   GPIO_InitStruct.Alternate = LL_GPIO_AF_6;
-  LL_GPIO_Init(ADC_SDOA_GPIO_Port, &GPIO_InitStruct);
-
-  GPIO_InitStruct.Pin = ADC_SDI_Pin;
-  GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
-  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
-  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-  GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-  GPIO_InitStruct.Alternate = LL_GPIO_AF_6;
-  LL_GPIO_Init(ADC_SDI_GPIO_Port, &GPIO_InitStruct);
+  LL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /* USER CODE BEGIN SPI3_Init 1 */
 
@@ -569,7 +565,7 @@ static void MX_SPI4_Init(void)
   SPI_InitStruct.ClockPolarity = LL_SPI_POLARITY_LOW;
   SPI_InitStruct.ClockPhase = LL_SPI_PHASE_1EDGE;
   SPI_InitStruct.NSS = LL_SPI_NSS_SOFT;
-  SPI_InitStruct.BaudRate = LL_SPI_BAUDRATEPRESCALER_DIV16;
+  SPI_InitStruct.BaudRate = LL_SPI_BAUDRATEPRESCALER_DIV32;
   SPI_InitStruct.BitOrder = LL_SPI_MSB_FIRST;
   SPI_InitStruct.CRCCalculation = LL_SPI_CRCCALCULATION_DISABLE;
   SPI_InitStruct.CRCPoly = 0x0;

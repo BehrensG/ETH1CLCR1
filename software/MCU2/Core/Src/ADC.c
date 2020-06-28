@@ -17,16 +17,16 @@ void ADC_PGA103_Gain(uint8_t channel, uint8_t gain)
 		switch(gain)
 		{
 			case 1:{
-						LL_GPIO_ResetOutputPin(G1A0_CTR_GPIO_Port, G1A0_CTR_Pin);
-						LL_GPIO_ResetOutputPin(G1A1_CTR_GPIO_Port, G1A1_CTR_Pin);
+						LL_GPIO_SetOutputPin(G1A0_CTR_GPIO_Port, G1A0_CTR_Pin);
+						LL_GPIO_SetOutputPin(G1A1_CTR_GPIO_Port, G1A1_CTR_Pin);
 					}; break;
 			case 10:{
-						LL_GPIO_ResetOutputPin(G1A1_CTR_GPIO_Port, G1A1_CTR_Pin);
-						LL_GPIO_SetOutputPin(G1A0_CTR_GPIO_Port, G1A0_CTR_Pin);
+						LL_GPIO_SetOutputPin(G1A1_CTR_GPIO_Port, G1A1_CTR_Pin);
+						LL_GPIO_ResetOutputPin(G1A0_CTR_GPIO_Port, G1A0_CTR_Pin);
 					}; break;
 			case 100:{
 						LL_GPIO_ResetOutputPin(G1A0_CTR_GPIO_Port, G1A0_CTR_Pin);
-						LL_GPIO_SetOutputPin(G1A1_CTR_GPIO_Port, G1A1_CTR_Pin);
+						LL_GPIO_ResetOutputPin(G1A1_CTR_GPIO_Port, G1A1_CTR_Pin);
 					}; break;
 		}
 	}
@@ -35,16 +35,16 @@ void ADC_PGA103_Gain(uint8_t channel, uint8_t gain)
 		switch(gain)
 		{
 			case 1:{
-						LL_GPIO_ResetOutputPin(G2A0_CTR_GPIO_Port, G2A0_CTR_Pin);
-						LL_GPIO_ResetOutputPin(G2A1_CTR_GPIO_Port, G2A1_CTR_Pin);
+						LL_GPIO_SetOutputPin(G2A0_CTR_GPIO_Port, G2A0_CTR_Pin);
+						LL_GPIO_SetOutputPin(G2A1_CTR_GPIO_Port, G2A1_CTR_Pin);
 					}; break;
 			case 10:{
-						LL_GPIO_ResetOutputPin(G2A1_CTR_GPIO_Port, G2A1_CTR_Pin);
-						LL_GPIO_SetOutputPin(G2A0_CTR_GPIO_Port, G2A0_CTR_Pin);
+						LL_GPIO_SetOutputPin(G2A1_CTR_GPIO_Port, G2A1_CTR_Pin);
+						LL_GPIO_ResetOutputPin(G2A0_CTR_GPIO_Port, G2A0_CTR_Pin);
 					}; break;
 			case 100:{
 						LL_GPIO_ResetOutputPin(G2A0_CTR_GPIO_Port, G2A0_CTR_Pin);
-						LL_GPIO_SetOutputPin(G2A1_CTR_GPIO_Port, G2A1_CTR_Pin);
+						LL_GPIO_ResetOutputPin(G2A1_CTR_GPIO_Port, G2A1_CTR_Pin);
 					}; break;
 		}
 	}
@@ -68,33 +68,48 @@ void ADC_ADG419_Switch(uint8_t channel, uint8_t state)
  BRD_StatusTypeDef ADC_AD738x_RegisterRead(uint8_t reg_addr, uint16_t *rx_data, uint32_t timeout)
 {
 	uint32_t start_time = 0, current_time = 0;
-	AD783x_reg_data tx_data;
-	uint16_t tx_dummy = 0x0000;
-	BRD_StatusTypeDef spi_status;
+	volatile AD783x_reg_data tx_data;
+
+	BRD_StatusTypeDef spi_status = BRD_OK;
 
 	tx_data.bytes[1] = AD738X_REG_READ(reg_addr);
 	tx_data.bytes[0] = 0x00;
 
 	LL_GPIO_ResetOutputPin(ADC_nCS_GPIO_Port, ADC_nCS_Pin);
 
-
     while (!LL_SPI_IsActiveFlag_TXC(SPI3)){};
+
+    LL_SPI_TransmitData16(SPI3, tx_data.word16);
 
     start_time = HAL_GetTick();
-	LL_SPI_TransmitData16(SPI3, tx_data.word16);
-
-	LL_GPIO_SetOutputPin(ADC_nCS_GPIO_Port, ADC_nCS_Pin);
-	LL_GPIO_ResetOutputPin(ADC_nCS_GPIO_Port, ADC_nCS_Pin);
-
-    while (!LL_SPI_IsActiveFlag_TXC(SPI3)){};
-
-	LL_SPI_TransmitData16(SPI3, tx_dummy);
-
 	while (LL_SPI_IsActiveFlag_RXWNE(SPI3))
     {
         current_time = HAL_GetTick() - start_time;
         if (current_time > timeout)
         {
+        	LL_GPIO_SetOutputPin(ADC_nCS_GPIO_Port, ADC_nCS_Pin);
+        	spi_status = BRD_TIMEOUT;
+            break;
+        }
+    }
+
+    *rx_data= LL_SPI_ReceiveData16(SPI3);
+
+	LL_GPIO_SetOutputPin(ADC_nCS_GPIO_Port, ADC_nCS_Pin);
+	LL_GPIO_ResetOutputPin(ADC_nCS_GPIO_Port, ADC_nCS_Pin);
+
+
+    while (!LL_SPI_IsActiveFlag_TXC(SPI3)){};
+
+	LL_SPI_TransmitData16(SPI3, tx_data.word16);
+
+    start_time = HAL_GetTick();
+	while (LL_SPI_IsActiveFlag_RXWNE(SPI3))
+    {
+        current_time = HAL_GetTick() - start_time;
+        if (current_time > timeout)
+        {
+        	LL_GPIO_SetOutputPin(ADC_nCS_GPIO_Port, ADC_nCS_Pin);
         	spi_status = BRD_TIMEOUT;
             break;
         }
@@ -104,25 +119,36 @@ void ADC_ADG419_Switch(uint8_t channel, uint8_t state)
 
 	LL_GPIO_SetOutputPin(ADC_nCS_GPIO_Port, ADC_nCS_Pin);
 
-	return BRD_OK;
+	return spi_status;
 }
 
- static BRD_StatusTypeDef ADC_AD738x_RegisterWrite(uint8_t reg_addr, uint16_t reg_data, uint32_t timeout)
+BRD_StatusTypeDef ADC_AD738x_RegisterWrite(uint8_t reg_addr, uint16_t reg_data, uint32_t timeout)
 {
 	uint32_t start_time = 0, current_time = 0;
 	AD783x_reg_data tx_data;
-	uint16_t dummy_read;
+	volatile uint16_t dummy_read;
 
 	tx_data.bytes[1] = AD738X_REG_WRITE(reg_addr) | ((reg_data & 0xF00) >> 8);
-	tx_data.bytes[0] = reg_data & 0xFF;
+	tx_data.bytes[0] = reg_data & 0xFFF;
 
 	LL_GPIO_ResetOutputPin(ADC_nCS_GPIO_Port, ADC_nCS_Pin);
 
-
     while (!LL_SPI_IsActiveFlag_TXC(SPI3)){};
 
-    start_time = HAL_GetTick();
 	LL_SPI_TransmitData16(SPI3, tx_data.word16);
+
+	start_time = HAL_GetTick();
+	while (LL_SPI_IsActiveFlag_RXWNE(SPI3))
+    {
+        current_time = HAL_GetTick() - start_time;
+        if (current_time > timeout)
+        {
+        	LL_GPIO_SetOutputPin(ADC_nCS_GPIO_Port, ADC_nCS_Pin);
+        	return BRD_TIMEOUT;
+        }
+    }
+
+    dummy_read = LL_SPI_ReceiveData16(SPI3);
 
 	LL_GPIO_SetOutputPin(ADC_nCS_GPIO_Port, ADC_nCS_Pin);
 	LL_GPIO_ResetOutputPin(ADC_nCS_GPIO_Port, ADC_nCS_Pin);
@@ -131,11 +157,13 @@ void ADC_ADG419_Switch(uint8_t channel, uint8_t state)
 
 	LL_SPI_TransmitData16(SPI3, tx_data.word16);
 
+	start_time = HAL_GetTick();
 	while (LL_SPI_IsActiveFlag_RXWNE(SPI3))
     {
         current_time = HAL_GetTick() - start_time;
         if (current_time > timeout)
         {
+        	LL_GPIO_SetOutputPin(ADC_nCS_GPIO_Port, ADC_nCS_Pin);
         	return BRD_TIMEOUT;
         }
     }
@@ -168,8 +196,38 @@ static BRD_StatusTypeDef ADC_AD738x_RegisterWriteMask(uint8_t reg_addr, uint16_t
 
 
 
-BRD_StatusTypeDef ADC_AD738x_SingleConversion(uint16_t *adc_data)
+BRD_StatusTypeDef ADC_AD738x_SingleConversion(uint16_t* rx_data, uint32_t timeout)
 {
+	AD783x_reg_data tx_data;
+	volatile uint16_t rx_tmp[2];
+	uint32_t start_time, current_time;
+
+	tx_data.bytes[1] = AD738X_REG_WRITE(AD738X_REG_NOP) | ((0x0000 & 0xF00) >> 8);
+	tx_data.bytes[0] = 0x00;
+
+	LL_GPIO_ResetOutputPin(ADC_nCS_GPIO_Port, ADC_nCS_Pin);
+
+	start_time = HAL_GetTick();
+
+	for (uint8_t x = 0; x < 2; x++)
+	{
+		while (!LL_SPI_IsActiveFlag_TXC(SPI3)){};
+		LL_SPI_TransmitData16(SPI3, tx_data.word16);
+
+		while (LL_SPI_IsActiveFlag_RXWNE(SPI3))
+	    {
+	        current_time = HAL_GetTick() - start_time;
+	        if (current_time > timeout)
+	        {
+	    		LL_GPIO_SetOutputPin(ADC_nCS_GPIO_Port, ADC_nCS_Pin);
+	        	return BRD_TIMEOUT;
+	        }
+	    }
+
+	    *rx_data++ = LL_SPI_ReceiveData16(SPI3);
+	}
+
+	LL_GPIO_SetOutputPin(ADC_nCS_GPIO_Port, ADC_nCS_Pin);
 	return BRD_OK;
 }
 
@@ -260,6 +318,14 @@ BRD_StatusTypeDef ADC_AD7380_Init(void)
 	{
 		return BRD_TIMEOUT;
 	}
+
+	spi_status = ADC_AD738x_OversamplingConfig(NORMAL_OS_MODE, OSR_DISABLED, RES_16_BIT, AD738X_TIMEOUT_MAX);
+
+	if(BRD_OK != spi_status)
+	{
+		return BRD_TIMEOUT;
+	}
+
 	return BRD_OK;
 }
 
