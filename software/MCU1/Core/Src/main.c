@@ -160,13 +160,13 @@ int main(void)
 
   /* Create the thread(s) */
   /* creation of defaultTask */
-  //defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+ // defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
 
   /* creation of LEDTask */
-  LEDTaskHandle = osThreadNew(StartLEDTask, NULL, &LEDTask_attributes);
+ // LEDTaskHandle = osThreadNew(StartLEDTask, NULL, &LEDTask_attributes);
 
   /* creation of TriggerTask */
-  TriggerTaskHandle = osThreadNew(StartTriggerTask, NULL, &TriggerTask_attributes);
+ // TriggerTaskHandle = osThreadNew(StartTriggerTask, NULL, &TriggerTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   scpi_server_init();

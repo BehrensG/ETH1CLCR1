@@ -49,7 +49,7 @@ typedef union
 #define AD738X_REG_ALERT_LOW_TH         0x04
 #define AD738X_REG_ALERT_HIGH_TH        0x05
 
-#define AD738X_TIMEOUT_MAX				1000
+#define AD738X_TIMEOUT_MAX				10000
 /*
  * AD738X_REG_CONFIG1
  */

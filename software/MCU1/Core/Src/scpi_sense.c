@@ -137,14 +137,14 @@ scpi_result_t SCPI_SenseAverageCountQ(scpi_t * context)
 scpi_result_t SCPI_SenseAverageState(scpi_t * context)
 {
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
-	scpi_choice_def_t paramBOOL;
+	int32_t paramBOOL;
 
 	if(!SCPI_ParamChoice(context, boolean_select, &paramBOOL, TRUE))
 	{
 		return SCPI_RES_ERR;
 	}
 
-	snprintf(tx_data, SPI4_BUFFER, "SENS:AVER:STAT %d", paramBOOL.tag);
+	snprintf(tx_data, SPI4_BUFFER, "SENS:AVER:STAT %d", paramBOOL);
 	SPI4_Transmit(&tx_data,1000);
 
 	return SCPI_RES_OK;
@@ -191,7 +191,7 @@ scpi_result_t SCPI_SenseAverageStateQ(scpi_t * context)
 
 scpi_result_t SCPI_SenseCorrectionCkitStandard(scpi_t * context)
 {
-	scpi_choice_def_t paramSTAN;
+	int32_t paramSTAN;
 	int32_t paramR;
 	int32_t paramX;
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
@@ -201,7 +201,7 @@ scpi_result_t SCPI_SenseCorrectionCkitStandard(scpi_t * context)
 		return SCPI_RES_ERR;
 	}
 
-	if(DUT_LOAD != paramSTAN.tag)
+	if(DUT_LOAD != paramSTAN)
 	{
 		return SCPI_RES_ERR;
 	}
@@ -216,7 +216,7 @@ scpi_result_t SCPI_SenseCorrectionCkitStandard(scpi_t * context)
 		return SCPI_RES_ERR;
 	}
 
-	snprintf(tx_data, SPI4_BUFFER, "SENS:CORR:CKIT:STAN %d %f %f", paramSTAN.tag, paramR, paramX);
+	snprintf(tx_data, SPI4_BUFFER, "SENS:CORR:CKIT:STAN %d %f %f", paramSTAN, paramR, paramX);
 	SPI4_Transmit(&tx_data,1000);
 
 	return SCPI_RES_OK;
@@ -235,7 +235,7 @@ scpi_result_t SCPI_SenseCorrectionCkitStandard(scpi_t * context)
 
 scpi_result_t SCPI_SenseCorrectionCkitStandardQ(scpi_t * context)
 {
-	scpi_choice_def_t paramSTAN;
+	int32_t paramSTAN;
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 	int32_t readout_size = 0;
@@ -245,12 +245,12 @@ scpi_result_t SCPI_SenseCorrectionCkitStandardQ(scpi_t * context)
 		return SCPI_RES_ERR;
 	}
 
-	if(DUT_LOAD != paramSTAN.tag)
+	if(DUT_LOAD != paramSTAN)
 	{
 		return SCPI_RES_ERR;
 	}
 
-	snprintf(tx_data, SPI4_BUFFER, "SENS:CORR:CKIT:STANd? %d", paramSTAN.tag);
+	snprintf(tx_data, SPI4_BUFFER, "SENS:CORR:CKIT:STANd? %d", paramSTAN);
 	SPI4_Transmit(&tx_data,1000);
 	HAL_Delay(2);
 	SPI4_Receive(&rx_data, &readout_size, 1000);
@@ -274,7 +274,7 @@ scpi_result_t SCPI_SenseCorrectionCkitStandardQ(scpi_t * context)
 
 scpi_result_t SCPI_SenseCorrectionCollectAquire(scpi_t * context)
 {
-	scpi_choice_def_t paramSTAN;
+	int32_t paramSTAN;
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 
 	if(!SCPI_ParamChoice(context, sense_standard_select, &paramSTAN, TRUE))
@@ -282,7 +282,7 @@ scpi_result_t SCPI_SenseCorrectionCollectAquire(scpi_t * context)
 		return SCPI_RES_ERR;
 	}
 
-	snprintf(tx_data, SPI4_BUFFER, "SENS:CORR:COLL:ACQ %d", paramSTAN.tag);
+	snprintf(tx_data, SPI4_BUFFER, "SENS:CORR:COLL:ACQ %d", paramSTAN);
 	SPI4_Transmit(&tx_data,1000);
 
 	return SCPI_RES_OK;
@@ -302,7 +302,7 @@ scpi_result_t SCPI_SenseCorrectionCollectAquire(scpi_t * context)
 
 scpi_result_t SCPI_SenseCorrectionCollectMethod(scpi_t * context)
 {
-	scpi_choice_def_t paramREFL;
+	int32_t paramREFL;
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 
 	if(!SCPI_ParamChoice(context, sense_refl_select, &paramREFL, TRUE))
@@ -310,7 +310,7 @@ scpi_result_t SCPI_SenseCorrectionCollectMethod(scpi_t * context)
 		return SCPI_RES_ERR;
 	}
 
-	snprintf(tx_data, SPI4_BUFFER, "SENS:CORR:COLL:METH %d", paramREFL.tag);
+	snprintf(tx_data, SPI4_BUFFER, "SENS:CORR:COLL:METH %d", paramREFL);
 	SPI4_Transmit(&tx_data,1000);
 
 	return SCPI_RES_OK;
@@ -326,7 +326,7 @@ scpi_result_t SCPI_SenseCorrectionCollectMethod(scpi_t * context)
 
 scpi_result_t SCPI_SenseCorrectionCollectMethodQ(scpi_t * context)
 {
-	scpi_choice_def_t paramREFL;
+	int32_t paramREFL;
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 	int32_t readout_size = 0;
@@ -336,7 +336,7 @@ scpi_result_t SCPI_SenseCorrectionCollectMethodQ(scpi_t * context)
 		return SCPI_RES_ERR;
 	}
 
-	snprintf(tx_data, SPI4_BUFFER, "SENS:CORR:COLL:METH? %d", paramREFL.tag);
+	snprintf(tx_data, SPI4_BUFFER, "SENS:CORR:COLL:METH? %d", paramREFL);
 	SPI4_Transmit(&tx_data,1000);
 	HAL_Delay(2);
 	SPI4_Receive(&rx_data, &readout_size, 1000);
@@ -383,14 +383,14 @@ scpi_result_t SCPI_SenseCorrectionDataQ(scpi_t * context)
 scpi_result_t SCPI_SenseCorrectionState(scpi_t * context)
 {
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
-	scpi_choice_def_t paramBOOL;
+	int32_t paramBOOL;
 
 	if(!SCPI_ParamChoice(context, boolean_select, &paramBOOL, TRUE))
 	{
 		return SCPI_RES_ERR;
 	}
 
-	snprintf(tx_data, SPI4_BUFFER, "SENS:CORR:STAT %d", paramBOOL.tag);
+	snprintf(tx_data, SPI4_BUFFER, "SENS:CORR:STAT %d", paramBOOL);
 	SPI4_Transmit(&tx_data,1000);
 
 	return SCPI_RES_OK;
@@ -475,14 +475,14 @@ scpi_result_t SCPI_SenseFimpedanceApertureQ(scpi_t * context)
 scpi_result_t SCPI_SenseFimpedanceContactVerify(scpi_t * context)
 {
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
-	scpi_choice_def_t paramBOOL;
+	int32_t paramBOOL;
 
 	if(!SCPI_ParamChoice(context, boolean_select, &paramBOOL, TRUE))
 	{
 		return SCPI_RES_ERR;
 	}
 
-	snprintf(tx_data, SPI4_BUFFER, "SENS:FIMP:CONT:VER %d", paramBOOL.tag);
+	snprintf(tx_data, SPI4_BUFFER, "SENS:FIMP:CONT:VER %d", paramBOOL);
 	SPI4_Transmit(&tx_data,1000);
 
 	return SCPI_RES_OK;
@@ -525,14 +525,14 @@ scpi_result_t SCPI_SenseFimpedanceContactVerifyQ(scpi_t * context)
 scpi_result_t SCPI_SenseFimpedanceRangeAuto(scpi_t * context)
 {
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
-	scpi_choice_def_t paramBOOL;
+	int32_t paramBOOL;
 
 	if(!SCPI_ParamChoice(context, boolean_select, &paramBOOL, TRUE))
 	{
 		return SCPI_RES_ERR;
 	}
 
-	snprintf(tx_data, SPI4_BUFFER, "SENS:FIMP:RANG:AUTO %d", paramBOOL.tag);
+	snprintf(tx_data, SPI4_BUFFER, "SENS:FIMP:RANG:AUTO %d", paramBOOL);
 	SPI4_Transmit(&tx_data,1000);
 
 	return SCPI_RES_OK;
@@ -671,14 +671,14 @@ scpi_result_t SCPI_SenseFimpedanceRangeQ(scpi_t * context)
 scpi_result_t SCPI_SenseFunctionOn(scpi_t * context)
 {
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
-	scpi_choice_def_t paramBOOL;
+	int32_t paramBOOL;
 
 	if(!SCPI_ParamChoice(context, boolean_select, &paramBOOL, TRUE))
 	{
 		return SCPI_RES_ERR;
 	}
 
-	snprintf(tx_data, SPI4_BUFFER, "SENS:FUNC:ON %d", paramBOOL.tag);
+	snprintf(tx_data, SPI4_BUFFER, "SENS:FUNC:ON %d", paramBOOL);
 	SPI4_Transmit(&tx_data,1000);
 	return SCPI_RES_OK;
 }
@@ -721,14 +721,14 @@ scpi_result_t SCPI_SenseFunctionOnQ(scpi_t * context)
 scpi_result_t SCPI_SenseOutputOn(scpi_t * context)
 {
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
-	scpi_choice_def_t paramBOOL;
+	int32_t paramBOOL;
 
 	if(!SCPI_ParamChoice(context, boolean_select, &paramBOOL, TRUE))
 	{
 		return SCPI_RES_ERR;
 	}
 
-	snprintf(tx_data, SPI4_BUFFER, "SENS:OUT:ON %d", paramBOOL.tag);
+	snprintf(tx_data, SPI4_BUFFER, "SENS:OUT:ON %d", paramBOOL);
 	SPI4_Transmit(&tx_data,1000);
 
 	return SCPI_RES_OK;
@@ -773,14 +773,14 @@ scpi_result_t SCPI_SenseGuardOn(scpi_t * context)
 {
 
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
-	scpi_choice_def_t paramBOOL;
+	int32_t paramBOOL;
 
 	if(!SCPI_ParamChoice(context, boolean_select, &paramBOOL, TRUE))
 	{
 		return SCPI_RES_ERR;
 	}
 
-	snprintf(tx_data, SPI4_BUFFER, "SENS:GUARD:ON %d", paramBOOL.tag);
+	snprintf(tx_data, SPI4_BUFFER, "SENS:GUARD:ON %d", paramBOOL);
 	SPI4_Transmit(&tx_data,1000);
 
 	return SCPI_RES_OK;

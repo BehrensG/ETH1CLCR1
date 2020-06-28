@@ -60,7 +60,11 @@ scpi_result_t SCPI_Reset(scpi_t * context) {
 
 static scpi_result_t TEST_TSQ(scpi_t * context)
 {
-	DAC8568_SetVoltage(DAC_CH_A | DAC_WR_UPD_SINGLE, 1.0);
+	BRD_StatusTypeDef spi_status;
+	uint16_t rx_data[2];
+
+	spi_status = ADC_AD738x_SingleConversion(&rx_data, AD738X_TIMEOUT_MAX);
+
 
 	return SCPI_RES_OK;
 }

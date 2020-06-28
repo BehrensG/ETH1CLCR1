@@ -38,14 +38,14 @@ scpi_choice_def_t format_data_select[] =
 scpi_result_t SCPI_FormatData(scpi_t * context)
 {
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
-	scpi_choice_def_t paramFORMAT;
+	int32_t paramFORMAT;
 
 	if(!SCPI_ParamChoice(context, format_data_select, &paramFORMAT, TRUE))
 	{
 		return SCPI_RES_ERR;
 	}
 
-	snprintf(tx_data, SPI4_BUFFER, "FORM:DATA %d", paramFORMAT.tag);
+	snprintf(tx_data, SPI4_BUFFER, "FORM:DATA %d", paramFORMAT);
 	SPI4_Transmit(&tx_data,1000);
 
 	return SCPI_RES_OK;

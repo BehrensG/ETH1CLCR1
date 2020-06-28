@@ -152,16 +152,16 @@ scpi_result_t SCPI_TriggerImmediate(scpi_t* context)
 
 scpi_result_t SCPI_TriggerSource(scpi_t* context)
 {
-	scpi_choice_def_t paramTRIG;
+	int32_t paramTRIG;
 
 	if(!SCPI_ParamChoice(context, trigger_source_select, &paramTRIG, TRUE))
 	{
 		return SCPI_RES_ERR;
 	}
 
-	board.structure.trigger.source = paramTRIG.tag;
+	board.structure.trigger.source = paramTRIG;
 
-	if(TRIG_OUT == paramTRIG.tag)
+	if(TRIG_OUT == paramTRIG)
 	{
 		HAL_GPIO_WritePin(TRIG_EN_GPIO_Port, TRIG_EN_Pin, 1);
 	}
@@ -233,20 +233,20 @@ scpi_result_t SCPI_TriggerOutput(scpi_t* context)
 
 scpi_result_t SCPI_TriggerOutputSlope(scpi_t* context)
 {
-	scpi_choice_def_t paramSLOPE;
+	int32_t paramSLOPE;
 
 	if(!SCPI_ParamChoice(context, trigger_slope_select, &paramSLOPE, TRUE))
 	{
 		return SCPI_RES_ERR;
 	}
 
-	switch(paramSLOPE.tag)
+	switch(paramSLOPE)
 	{
 		case SLOPE_POS: HAL_GPIO_WritePin(TRIG_OUT_GPIO_Port, TRIG_OUT_Pin, 0); break;
 		case SLOPE_NEG: HAL_GPIO_WritePin(TRIG_OUT_GPIO_Port, TRIG_OUT_Pin, 1); break;
 	}
 
-	board.structure.trigger.slope = paramSLOPE.tag;
+	board.structure.trigger.slope = paramSLOPE;
 
 	return SCPI_RES_OK;
 }

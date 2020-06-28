@@ -102,7 +102,7 @@ scpi_choice_def_t deviation_select[] =
 scpi_result_t SCPI_CalculateFormat(scpi_t * context)
 {
 	int32_t paramSEL;
-	scpi_choice_def_t paramCALC1, paramCALC2;
+	int32_t paramCALC1, paramCALC2;
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 
 
@@ -124,7 +124,7 @@ scpi_result_t SCPI_CalculateFormat(scpi_t * context)
 			return SCPI_RES_ERR;
 		}
 
-		snprintf(tx_data, SPI4_BUFFER, "CALC:FORM %d %d", paramSEL, paramCALC1.tag);
+		snprintf(tx_data, SPI4_BUFFER, "CALC:FORM %d %d", paramSEL, paramCALC1);
 		SPI4_Transmit(&tx_data,1000);
 	}
 
@@ -135,7 +135,7 @@ scpi_result_t SCPI_CalculateFormat(scpi_t * context)
 			return SCPI_RES_ERR;
 		}
 
-		snprintf(tx_data, SPI4_BUFFER, "CALC:FORM %d %d", paramSEL, paramCALC2.tag);
+		snprintf(tx_data, SPI4_BUFFER, "CALC:FORM %d %d", paramSEL, paramCALC2);
 		SPI4_Transmit(&tx_data,1000);
 	}
 
@@ -378,7 +378,7 @@ scpi_result_t SCPI_CalculateLimitLowerDataQ(scpi_t * context)
 scpi_result_t SCPI_CalculateLimitLowerState(scpi_t * context)
 {
 	int32_t paramSEL;
-	scpi_choice_def_t paramBOOL;
+	int32_t paramBOOL;
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 
 	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
@@ -397,7 +397,7 @@ scpi_result_t SCPI_CalculateLimitLowerState(scpi_t * context)
 		return SCPI_RES_ERR;
 	}
 
-	snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:LOW:STAT %d %d", paramSEL, paramBOOL.tag);
+	snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:LOW:STAT %d %d", paramSEL, paramBOOL);
 	SPI4_Transmit(&tx_data,1000);
 
     return SCPI_RES_OK;
@@ -459,7 +459,7 @@ scpi_result_t SCPI_CalculateLimitLowerStateQ(scpi_t * context)
 scpi_result_t SCPI_CalculateLimitState(scpi_t * context)
 {
 	int32_t paramSEL;
-	scpi_choice_def_t paramBOOL;
+	int32_t paramBOOL;
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 
 	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
@@ -478,7 +478,7 @@ scpi_result_t SCPI_CalculateLimitState(scpi_t * context)
 		return SCPI_RES_ERR;
 	}
 
-	snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:STAT %d %d", paramSEL, paramBOOL.tag);
+	snprintf(tx_data, SPI4_BUFFER, "CALC:LIM:STAT %d %d", paramSEL, paramBOOL);
 	SPI4_Transmit(&tx_data,1000);
 
     return SCPI_RES_OK;
@@ -649,7 +649,7 @@ scpi_result_t SCPI_CalculateLimitUpperDataQ(scpi_t * context)
 scpi_result_t SCPI_CalculateLimitUpperState(scpi_t * context)
 {
 	int32_t paramSEL;
-	scpi_choice_def_t paramBOOL;
+	int32_t paramBOOL;
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 
 	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
@@ -668,7 +668,7 @@ scpi_result_t SCPI_CalculateLimitUpperState(scpi_t * context)
 		return SCPI_RES_ERR;
 	}
 
-	snprintf(tx_data, SPI4_BUFFER, "CALC:MATH:STAT %d %d", paramSEL, paramBOOL.tag);
+	snprintf(tx_data, SPI4_BUFFER, "CALC:MATH:STAT %d %d", paramSEL, paramBOOL);
 	SPI4_Transmit(&tx_data,1000);
 
     return SCPI_RES_OK;
@@ -749,7 +749,7 @@ scpi_result_t SCPI_CalculateMathExpressionCatalogQ(scpi_t * context)
 scpi_result_t SCPI_CalculateMathExpressionName(scpi_t * context)
 {
 	int32_t paramSEL;
-	scpi_choice_def_t paramDEVI;
+	int32_t paramDEVI;
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 
 	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
@@ -768,7 +768,7 @@ scpi_result_t SCPI_CalculateMathExpressionName(scpi_t * context)
 		return SCPI_RES_ERR;
 	}
 
-	snprintf(tx_data, SPI4_BUFFER, "CALC:MATH:EXPR:NAME %d %d", paramSEL, paramDEVI.tag);
+	snprintf(tx_data, SPI4_BUFFER, "CALC:MATH:EXPR:NAME %d %d", paramSEL, paramDEVI);
 	SPI4_Transmit(&tx_data,1000);
 
     return SCPI_RES_OK;
@@ -830,7 +830,7 @@ scpi_result_t SCPI_CalculateMathExpressionNameQ(scpi_t * context)
 scpi_result_t SCPI_CalculateMathState(scpi_t * context)
 {
 	int32_t paramSEL;
-	scpi_choice_def_t paramBOOL;
+	int32_t paramBOOL;
 	int8_t tx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 
 	if(!SCPI_ParamInt32(context, &paramSEL, TRUE))
@@ -849,7 +849,7 @@ scpi_result_t SCPI_CalculateMathState(scpi_t * context)
 		return SCPI_RES_ERR;
 	}
 
-	snprintf(tx_data, SPI4_BUFFER, "CALC:MATH:STAT %d %d", paramSEL, paramBOOL.tag);
+	snprintf(tx_data, SPI4_BUFFER, "CALC:MATH:STAT %d %d", paramSEL, paramBOOL);
 	SPI4_Transmit(&tx_data,1000);
 
     return SCPI_RES_OK;
