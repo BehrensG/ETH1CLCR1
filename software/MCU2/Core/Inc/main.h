@@ -210,7 +210,7 @@ void Error_Handler(void);
 /* USER CODE BEGIN Private defines */
 
 
-#define SPI6_BUFFOR_SIZE 128
+#define SPI6_BUFFOR_SIZE 64
 #define SPI6_TX_MODE 1
 #define SPI6_RX_MODE 2
 

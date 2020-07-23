@@ -22,6 +22,7 @@
 #include "scpi_source.h"
 #include "spi4.h"
 #include "DAC8568.h"
+#include "relay.h"
 
 extern uint32_t SPI6_TransmitSize;
 extern __IO uint8_t SPI6_TxBuffer[];
@@ -62,9 +63,27 @@ static scpi_result_t TEST_TSQ(scpi_t * context)
 {
 	BRD_StatusTypeDef spi_status;
 	uint16_t rx_data[2];
-
-	spi_status = ADC_AD738x_SingleConversion(&rx_data, AD738X_TIMEOUT_MAX);
-
+	uint32_t boolParam;
+	/*RELAY_AQY212_DisableAll();
+	RELAY_HE3621_Control(CXN_REL1 | CXN_REL2 | CXN_REL3 | CXN_REL4 | CXN_REL5 | CXN_REL6, RELAY_ON);
+	HAL_Delay(10);
+	RELAY_AQY212_Control(RR_10KCTR, RELAY_ON);
+	RELAY_AQY212_Control(RR_HA3_COMP, RELAY_ON);
+	RELAY_9012_Control(SR_10KCTR, RELAY_ON);*/
+	//HAL_Delay(10);
+	//RELAY_HE3621_Control(CXN_REL1 | CXN_REL2 | CXN_REL3 | CXN_REL4 | CXN_REL5 | CXN_REL6, RELAY_ON);
+	if(!SCPI_ParamUInt32(context, &boolParam, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
+	if(boolParam)
+	{
+		LL_GPIO_SetOutputPin(MCU2_RX_STATUS_GPIO_Port, MCU2_RX_STATUS_Pin);
+	}
+	else
+	{
+		LL_GPIO_ResetOutputPin(MCU2_RX_STATUS_GPIO_Port, MCU2_RX_STATUS_Pin);
+	}
 
 	return SCPI_RES_OK;
 }

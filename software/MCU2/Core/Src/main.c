@@ -176,14 +176,14 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   LL_GPIO_ResetOutputPin(MCU2_STATUS_GPIO_Port, MCU2_STATUS_Pin);
-  LL_GPIO_ResetOutputPin(MCU2_RX_STATUS_GPIO_Port, MCU2_RX_STATUS_Pin);
+  LL_GPIO_SetOutputPin(MCU2_RX_STATUS_GPIO_Port, MCU2_RX_STATUS_Pin);
 
   while (1)
   {
 
 
     /* USER CODE END WHILE */
-
+	  HAL_Delay(5);
     /* USER CODE BEGIN 3 */
 	  if(SPI6_MODE_RX == SPI6_CheckMode())
 	  {
@@ -199,7 +199,7 @@ int main(void)
 		  SPI6_TransmitIndex = 0;
 		  SPI6_ReceiveIndex = 0;
 		  SPI6_TransmitSize = 0;
-		  LL_GPIO_ResetOutputPin(MCU2_RX_STATUS_GPIO_Port, MCU2_RX_STATUS_Pin);
+		  LL_GPIO_SetOutputPin(MCU2_RX_STATUS_GPIO_Port, MCU2_RX_STATUS_Pin);
 	  }
   }
   /* USER CODE END 3 */
