@@ -54,7 +54,7 @@ BRD_StatusTypeDef SPI4_Transmit(const int8_t str[], uint32_t timeout)
 
 	HAL_GPIO_WritePin(MCU1_RX_DATA_GPIO_Port, MCU1_RX_DATA_Pin, 0);
 	start_time = HAL_GetTick();
-	while(0 /*HAL_GPIO_ReadPin(MCU2_RX_STATUS_GPIO_Port, MCU2_RX_STATUS_Pin)*/)
+	while(!HAL_GPIO_ReadPin(MCU2_RX_STATUS_GPIO_Port, MCU2_RX_STATUS_Pin))
 	{
 		current_time = HAL_GetTick() - start_time;
 		if(current_time > timeout)

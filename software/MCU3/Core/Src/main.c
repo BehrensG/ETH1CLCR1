@@ -123,7 +123,11 @@ int main(void)
           scpi_error_queue_data, SCPI_ERROR_QUEUE_SIZE);
 
   /* USER CODE END 2 */
-
+	AD9835_FrequencyRegister(AD9835_FREQ0, 1000);
+	AD9835_FrequencyRegisterSelect(AD9835_FREQ0);
+	AD9835_Output(AD9835_ON);
+	AD5453_SetVoltage(0.125);
+	DG419_Switch(1);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)

@@ -74,11 +74,27 @@ static scpi_result_t TEST_TSQ(scpi_t * context)
 	int8_t rx_data[SPI4_BUFFER] ={[0 ... SPI4_BUFFER-1] = '\0'};
 	BRD_StatusTypeDef status;
 	int32_t readout_size = 0;
+	uint32_t param;
 
+	if(!SCPI_ParamUInt32(context, &param, TRUE))
+	{
+		return SCPI_RES_ERR;
+	}
 
-	snprintf(tx_data, SPI4_BUFFER, "TS?");
+	snprintf(tx_data, SPI4_BUFFER, "TS? %d", param);
 	status = SPI4_Transmit(&tx_data,1000);
 
+	if(HAL_GPIO_ReadPin(MCU2_RX_STATUS_GPIO_Port, MCU2_RX_STATUS_Pin))
+	{
+		HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, 0);
+		HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, 1);
+
+	}
+	else
+	{
+		HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, 1);
+		HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, 0);
+	}
 
 
 	return SCPI_RES_OK;
